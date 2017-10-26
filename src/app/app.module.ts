@@ -11,7 +11,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ExeTemplate1Page } from "../pages/exe-template1/exe-template1";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {NativeAudio} from "@ionic-native/native-audio";
+import { NativeAudio } from "@ionic-native/native-audio";
+import { IonicStorageModule } from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,12 @@ import {NativeAudio} from "@ionic-native/native-audio";
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot({
+      name: '__singledb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    })
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
