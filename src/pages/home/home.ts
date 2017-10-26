@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Categorie } from "../../models/categorie";
-import { ContactPage } from "../contact/contact";
 import { ExercicesPage } from "../exercices/exercices";
-import { AboutPage } from "../about/about";
 
 @Component({
   selector: 'page-home',
@@ -13,16 +11,13 @@ export class HomePage {
 
   categories: Array<Categorie>;
 
-  homePage = HomePage;
-  aboutPage = AboutPage;
-  contactPage = ContactPage;
   exercicePage = ExercicesPage;
 
   constructor(public navCtrl: NavController) {
     this.categories = [];
 
     this.categories.push(new Categorie(
-      this.aboutPage,
+      null,
       'Au programme',
       'easel',
       '10 exercices spécialement choisient pour vous !',
@@ -38,7 +33,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      this.aboutPage,
+      null,
       'Progression',
       'podium',
       'Les statistique sur votre progression.',
@@ -46,7 +41,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      this.aboutPage,
+      null,
       'Extra',
       'game-controller-a',
       'Des jeux à faire tout le temps !',

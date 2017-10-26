@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Exercice} from "../../models/exercice";
-import { ExeTemplate1Page } from "../exe-template1/exe-template1";
 
 /**
  * Generated class for the ExercicesPage page.
@@ -23,7 +22,7 @@ export class ExercicesPage {
     this.exercices = [];
 
     this.exercices.push(new Exercice(
-      ExeTemplate1Page,
+      null,
       'none',
       'Exercice 1',
       'Descrption sommaire lorem ipsum dolor sit amet',
