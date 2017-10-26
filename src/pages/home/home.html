@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-card *ngFor="let categorie of categories" ngClass="card-{{categorie.type}}" [navPush]="categorie.page">
+      <ion-card-header>
+        <h1>
+          {{ categorie.name }}
+          <ion-icon float-right name="{{ categorie.icon }}"></ion-icon>
+        </h1>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ categorie.description }}</p>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

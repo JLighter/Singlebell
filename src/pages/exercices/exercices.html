@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Exercices</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let exercice of exercices" ngClass="card-{{exercice.type}}" [navPush]="exercice.page">
+    <ion-card-header>
+      <h1>
+        {{ exercice.name }}
+        <ion-icon float-right name="{{ exercice.icon }}"></ion-icon>
+      </h1>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ exercice.description }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
