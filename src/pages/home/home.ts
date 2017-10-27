@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Categorie } from "../../models/categorie";
 import { ExercicesPage } from "../exercices/exercices";
+import { Storage } from "@ionic/storage";
+import { User } from "../../models/user";
+import * as Constant from "../../utilities/constants";
 
 @Component({
   selector: 'page-home',
@@ -13,9 +16,33 @@ export class HomePage {
 
   exercicePage = ExercicesPage;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public storage: Storage) {
     this.categories = [];
 
+    this.initCategories();
+
+    this.firstTimeLaunched()
+  }
+
+  firstTimeLaunched() {
+    var _this = this;
+
+    _this.storage.get(Constant.db_user_key)
+      .then(function(user : User) {
+
+        if (!user) {
+          // TODO: Do anything to send the user to the ranking tests
+          var user = new User();
+
+          _this.storage.set(Constant.db_user_key, user);
+        }
+
+      }, function(error) {
+        console.error(error);
+      });
+  }
+
+  initCategories() {
     this.categories.push(new Categorie(
       null,
       'Au programme',

@@ -4,6 +4,7 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content>
     <ion-card *ngFor="let categorie of categories" ngClass="card-{{categorie.type}}" [navPush]="categorie.page">
       <ion-card-header>
