@@ -5,6 +5,7 @@ import { ExercicesPage } from "../exercices/exercices";
 import { Storage } from "@ionic/storage";
 import { User } from "../../models/user";
 import * as Constant from "../../utilities/constants";
+import {EloPage} from "../elo/elo";
 
 @Component({
   selector: 'page-home',
@@ -13,8 +14,6 @@ import * as Constant from "../../utilities/constants";
 export class HomePage {
 
   categories: Array<Categorie>;
-
-  exercicePage = ExercicesPage;
 
   constructor(public navCtrl: NavController, public storage: Storage) {
     this.categories = [];
@@ -52,7 +51,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      this.exercicePage,
+      ExercicesPage,
       'Exercices',
       'bulb',
       'Tous les exercices que vous pouvez débloqués !',
@@ -68,7 +67,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      null,
+      EloPage,
       'Extra',
       'game-controller-a',
       'Des jeux à faire tout le temps !',

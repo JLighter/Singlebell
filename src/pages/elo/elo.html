@@ -1,0 +1,54 @@
+<!--
+  Generated template for the EloPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Elo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+<ion-grid>
+  <ion-card>
+    <ion-card-content>
+
+      <ion-row>
+        <ion-segment [(ngModel)]="score">
+          <ion-segment-button value="1">User win</ion-segment-button>
+          <ion-segment-button value="0.5">Null</ion-segment-button>
+          <ion-segment-button value="0">User fail</ion-segment-button>
+        </ion-segment>
+      </ion-row>
+
+      <ion-row>
+        <ion-item>
+          <ion-label>User</ion-label>
+          <ion-input placeholder="e.g 100" [(ngModel)]="p1" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Exercice</ion-label>
+          <ion-input placeholder="e.g 400" [(ngModel)]="p2" required></ion-input>
+        </ion-item>
+      </ion-row>
+
+    </ion-card-content>
+    <ion-row>
+      <button ion-button margin full (click)="newRank()">New rank</button>
+    </ion-row>
+  </ion-card>
+
+  <ion-row>
+    <div col-12 text-center>
+      <h1 class="primary">Avant match</h1>
+      <h3>Estimations</h3>
+      <h4>{{ elo.expected(p1, p2) * 100 }} %</h4>
+    </div>
+  </ion-row>
+
+</ion-grid>
+</ion-content>
