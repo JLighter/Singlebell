@@ -4,14 +4,15 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-content padding>
 
-  <ion-navbar>
-    <ion-title>slides</ion-title>
-  </ion-navbar>
-
-</ion-header>
-<ion-content>
+  <ion-grid>
+    <ion-row align-items-end>
+      <ion-col>
+        <button ion-button (click)="goToTest()">Passez directement le test de niveau</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-slides pager>
 
@@ -26,14 +27,16 @@
     </ion-slide>
 
     <ion-slide>
+      <img class="ear" src="../../assets/img/Music_Notes.png">
       <p>Avant d'utiliser Single Bell il est important de connaitre les bases de la théorie musicale.</p>
       <p>Savoir ce qu'est une intervalle, un accord, une tierce majeure par exemple est primordiale.</p>
+      <p>Si vous n'avez aucune connaissance de ces notions nous vous conseillons vivement de vous documentez <br/>ou de vous renseignez auprs de votre enseignant de musique.</p>
     </ion-slide>
 
     <ion-slide>
-      <p>Nous allons vous faire passez un test.</p>
+      <p>Nous allons maintenant vous faire passez un test</p>
       <p>Notre alogorithme vous jaugera et vous proposera des exercices personalisez en fonction de votre niveau</p>
-      <button ion-button>Commencer le test</button>
+      <button ion-button (click)="goToTest()">Commencer le test</button>
     </ion-slide>
 
   </ion-slides>

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
+import { HomePage } from '../home/home';
+
 
 /**
  * Generated class for the SlidesPage page.
@@ -22,9 +24,9 @@ export class SlidesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  /*goToSlide() {
-    this.slides.slideTo(2, 500);
-  }*/
+  goToTest() {
+    this.navCtrl.push(HomePage);
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SlidesPage');
