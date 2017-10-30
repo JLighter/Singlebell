@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import {HomePage} from "../pages/home/home";
+import {SlidesPage} from "../pages/slides/slides";
+
 import {Elo} from "../utilities/elo";
 
 @Component({
@@ -11,7 +13,7 @@ import {Elo} from "../utilities/elo";
   providers: [Elo]
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any = SlidesPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, Elo: Elo) {
     platform.ready().then(() => {

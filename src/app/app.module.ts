@@ -12,14 +12,17 @@ import { IonicStorageModule } from "@ionic/storage";
 import { EloPage } from "../pages/elo/elo";
 import {FormsModule} from "@angular/forms";
 import {ProgressPage} from "../pages/progress/progress";
+import {SlidesPage} from "../pages/slides/slides";
+
 
 @NgModule({
   declarations: [
     MyApp,
+    SlidesPage,
     HomePage,
     EloPage,
     ProgressPage,
-    ExercicesPage
+    ExercicesPage,
   ],
   imports: [
     BrowserModule,
@@ -33,10 +36,11 @@ import {ProgressPage} from "../pages/progress/progress";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    SlidesPage,
     HomePage,
     EloPage,
     ProgressPage,
-    ExercicesPage
+    ExercicesPage,
   ],
   providers: [
     StatusBar,
