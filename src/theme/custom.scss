@@ -15,6 +15,9 @@ ion-card {
     }
 
   }
+
+  ion-title.#{nth($color, 1)} .toolbar-title,
+  h1.#{nth($color, 1)} {
+    color: #{nth($color, 2)} !important;
+  }
 }
-
-

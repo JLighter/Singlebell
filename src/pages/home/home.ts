@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Categorie } from "../../models/categorie";
-import { ExercicesPage } from "../exercices/exercices";
 import { Storage } from "@ionic/storage";
-import { User } from "../../models/user";
+
 import * as Constant from "../../utilities/constants";
+
+import { Categorie } from "../../models/categorie";
+import { User } from "../../models/user";
+
+import {EloPage} from "../elo/elo";
+import { ExercicesPage } from "../exercices/exercices";
+import {ProgressPage} from "../progress/progress";
 
 @Component({
   selector: 'page-home',
@@ -13,8 +18,6 @@ import * as Constant from "../../utilities/constants";
 export class HomePage {
 
   categories: Array<Categorie>;
-
-  exercicePage = ExercicesPage;
 
   constructor(public navCtrl: NavController, public storage: Storage) {
     this.categories = [];
@@ -31,11 +34,16 @@ export class HomePage {
       .then(function(user : User) {
 
         if (!user) {
+
           // TODO: Do anything to send the user to the ranking tests
+
           var user = new User();
 
           _this.storage.set(Constant.db_user_key, user);
+
         }
+
+        console.log(user);
 
       }, function(error) {
         console.error(error);
@@ -52,7 +60,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      this.exercicePage,
+      ExercicesPage,
       'Exercices',
       'bulb',
       'Tous les exercices que vous pouvez débloqués !',
@@ -60,7 +68,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      null,
+      ProgressPage,
       'Progression',
       'podium',
       'Les statistique sur votre progression.',
@@ -68,7 +76,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      null,
+      EloPage,
       'Extra',
       'game-controller-a',
       'Des jeux à faire tout le temps !',
