@@ -29,4 +29,5 @@ export class EloPage {
   newRank() {
     this.p1 = this.elo.calculElo(this.p1, this.elo.expected(this.p1, this.p2), this.score);
   }
+
 }

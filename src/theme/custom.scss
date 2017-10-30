@@ -15,10 +15,6 @@ ion-card {
     }
 
   }
-
-  h1.#{nth($color, 1)} {
-    color: #{nth($color, 2)};
-  }
 }
 
 
