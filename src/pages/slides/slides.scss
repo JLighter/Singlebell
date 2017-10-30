@@ -1,6 +1,31 @@
 page-slides {
+
   .logo {
     width:39vw;
     height:30vh;
+  }
+  .ear{
+    width: 40vw;
+  }
+  .skip{
+    color: #e04653;
+  }
+
+  h2{
+    color: #e04653;
+  }
+
+  .swiper-pagination-bullet-active{
+
+    background: #e04653!important;
+  }
+
+  .toolbar-background,.toolbar-background-ios{
+    background: none!important;
+    border: none!important;
+  }
+
+  .header-md::after{
+    background: none!important;
   }
 }

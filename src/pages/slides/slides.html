@@ -4,15 +4,17 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-content padding>
+<ion-header class="slides_header">
+  <ion-toolbar>
+     <ion-buttons end>
+       <button ion-button class="skip" (click)="goToTest()">
+         Passez
+       </button>
+     </ion-buttons>
+   </ion-toolbar>
+</ion-header>
 
-  <ion-grid>
-    <ion-row align-items-end>
-      <ion-col>
-        <button ion-button (click)="goToTest()">Passez directement le test de niveau</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content padding>
 
   <ion-slides pager>
 
@@ -23,7 +25,7 @@
 
     <ion-slide>
       <img class="ear" src="../../assets/icon/ear.png">
-      <p>Single Bell a pour obectif d'exercer quotidiennement votre oreille musicale par le biais de divers exercices</p>
+      <p>Single Bell a pour objectif d'exercer quotidiennement votre oreille musicale par le biais de divers exercices.</p>
     </ion-slide>
 
     <ion-slide>
