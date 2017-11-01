@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ExercicesCat } from "../../models/exercicesCat";
+import { Categorie } from "../../models/categorie";
+import { ExoCat } from "../../utilities/exo";
+
 
 /**
  * Generated class for the ExercicesPage page.
@@ -12,20 +14,16 @@ import { ExercicesCat } from "../../models/exercicesCat";
 @IonicPage()
 @Component({
   selector: 'page-exercices',
+  providers:[ExoCat],
   templateUrl: 'exercices.html',
 })
 export class ExercicesPage {
 
-  public categories : Array<ExercicesCat>;
+  categories
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.categories = [];
+  constructor(public navCtrl: NavController, public navParams: NavParams,private exoCat: ExoCat ) {
 
-    this.categories.push(new ExercicesCat(
-      'icon',
-      'Identification de notes',
-      'Trouvez la note jouez',
-      [])
-    )
+    this.categories = exoCat.getCategories() ;
+    console.log(this.categories);
   }
 }

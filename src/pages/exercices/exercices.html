@@ -5,15 +5,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let exercice of exercices" ngClass="card-{{exercice.type}}" [navPush]="exercice.page">
+  <ion-card *ngFor="let categorie of categories" ngClass="card-{{categorie.type}}" [navPush]="categorie.page">
     <ion-card-header>
       <h1>
-        {{ exercice.name }}
-        <ion-icon float-right name="{{ exercice.icon }}"></ion-icon>
+        {{ categorie.name }}
+        <ion-icon float-right name="{{ categorie.icon }}"></ion-icon>
       </h1>
     </ion-card-header>
     <ion-card-content>
-      <p>{{ exercice.description }}</p>
+      <p>{{ categorie.description }}</p>
     </ion-card-content>
   </ion-card>
 </ion-content>
