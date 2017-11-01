@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {Exercice} from "../../models/exercice";
+import { ExercicesCat } from "../../models/exercicesCat";
 
 /**
  * Generated class for the ExercicesPage page.
@@ -16,19 +16,16 @@ import {Exercice} from "../../models/exercice";
 })
 export class ExercicesPage {
 
-  public exercices: Array<Exercice>;
+  public categories : Array<ExercicesCat>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.exercices = [];
+    this.categories = [];
 
-    this.exercices.push(new Exercice(
-      null,
-      'none',
-      'Exercice 1',
-      'Descrption sommaire lorem ipsum dolor sit amet',
-      'primary',
-      10
-    ))
+    this.categories.push(new ExercicesCat(
+      'icon',
+      'Identification de notes',
+      'Trouvez la note jouez',
+      [])
+    )
   }
-
 }
