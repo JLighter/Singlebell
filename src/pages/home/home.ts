@@ -10,6 +10,8 @@ import { User } from "../../models/user";
 import {EloPage} from "../elo/elo";
 import { ExercicesPage } from "../exercices/exercices";
 import {ProgressPage} from "../progress/progress";
+import { QuestionsPage } from "../questions/questions";
+
 import {Exercice} from "../../models/exercice";
 import {ExerciceType} from "../../models/exercice_type";
 
@@ -23,7 +25,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public storage: Storage) {
     this.categories = [];
-    
+
     this.initCategories();
 
     this.firstTimeLaunched();
@@ -96,7 +98,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      ExercicesPage,
+      QuestionsPage,
       'Exercices',
       'bulb',
       'Tous les exercices que vous pouvez débloqués !',

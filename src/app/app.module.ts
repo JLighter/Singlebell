@@ -13,6 +13,8 @@ import { EloPage } from "../pages/elo/elo";
 import {FormsModule} from "@angular/forms";
 import {ProgressPage} from "../pages/progress/progress";
 import {SlidesPage} from "../pages/slides/slides";
+import { QuestionsPage } from "../pages/questions/questions";
+
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
     ProgressPage,
     ExercicesPage,
     ProgressBarComponent,
-    ProgressPage
+    ProgressPage,
+    QuestionsPage
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
     EloPage,
     ProgressPage,
     ExercicesPage,
+    QuestionsPage
   ],
   providers: [
     StatusBar,
