@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {Navbar, NavController} from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 
 import * as Constant from "../../utilities/constants";
@@ -15,7 +15,7 @@ import {ExerciceType} from "../../models/exercice_type";
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
 
@@ -23,7 +23,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public storage: Storage) {
     this.categories = [];
-
+    
     this.initCategories();
 
     this.firstTimeLaunched();
