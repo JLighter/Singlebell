@@ -16,6 +16,8 @@ import {SlidesPage} from "../pages/slides/slides";
 import { QuestionsPage } from "../pages/questions/questions";
 
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
+import {UserRepository} from "../repository/user_repository";
+import {ExerciceRepository} from "../repository/exercice_repository";
 @NgModule({
   declarations: [
     MyApp,
