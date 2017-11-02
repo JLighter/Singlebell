@@ -1,0 +1,43 @@
+progress-bar {
+
+  $progress-border-radius: 20px;
+  $progress-height: 20px;
+
+  .progress-outer {
+    width: 98%;
+    margin: 10px 1%;
+    text-align: center;
+    background-color: #f4f4f4;
+    border: 1px solid #dcdcdc;
+    color: #fff;
+    border-radius: $progress-border-radius;
+  }
+
+  .progress-inner {
+    min-width: 0%;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: $progress-border-radius;
+    background-color: map_get($colors, 'primary');
+  }
+
+  @each $color in $colors {
+    .progress-inner.#{nth($color, 1)} {
+      background-color: #{nth($color, 2)};
+    }
+  }
+
+  .animated {
+    animation: progress-grow 1s ease-in-out;
+  }
+
+  @keyframes progress-grow {
+    0% {
+      max-width: 0%;
+    }
+    100% {
+      max-width: 100%;
+    }
+  }
+}

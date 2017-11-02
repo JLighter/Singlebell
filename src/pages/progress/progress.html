@@ -5,16 +5,84 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>progress</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Progress</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content>
 
-<ion-content padding>
+  <ion-list>
+
+    <!-- User header start -->
+    <ion-item no-lines>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-sm-2 text-center text-sm-start text-capitalize>
+            <h1>{{user.name}}</h1>
+          </ion-col>
+          <ion-col col-12 col-sm-9 offset-sm-1>
+            <progress-bar [progress]="progress" [label]="label"></progress-bar>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <!-- User header end -->
+
+    <ion-item-group>
+
+      <ion-item-divider>
+        <h3>Historique</h3>
+      </ion-item-divider>
+
+      <!-- Start listing type -->
+      <ion-card *ngFor="let type of exerciceTypes; let i=index;">
+
+        <ion-card-header>
+          <h2>
+            {{ type.name }}
+            <ion-icon float-right name="{{type.icon}}"></ion-icon>
+          </h2>
+        </ion-card-header>
+
+        <ion-list>
+
+          <ion-item-divider color="light">
+            <span item-start>Exercices</span>
+            <ion-toggle item-end [(ngModel)]="type.selected"></ion-toggle>
+
+          </ion-item-divider>
+
+          <div [ngClass]="{'active' : type.selected}" class="list-item-container">
+
+            <!-- Start listing exercices for current type -->
+            <div *ngFor="let exercice of exercicesOfType(type.id)">
+
+              <!-- Exercice start -->
+              <ion-item float-left>
+                <p>
+                  <span float-left>Questions x{{exercice.questions}}</span>
+                  <span float-right>{{exercice.date | date}}</span>
+                </p>
+                <progress-bar [progress]="exercice.score/exercice.questions * 100" label="{{exercice.score}}/{{exercice.questions}}">
+                </progress-bar>
+              </ion-item>
+              <!-- Exercice end -->
+
+            </div>
+          </div>
+
+        </ion-list>
+
+        <ion-item>
+          <h4 text-center>x{{ nbOfExerciceOfType(type.id) }}</h4>
+        </ion-item>
+
+      </ion-card>
+      <!-- End listing type -->
 
 
+    </ion-item-group>
+  </ion-list>
 
 </ion-content>

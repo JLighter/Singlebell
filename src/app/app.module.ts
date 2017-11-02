@@ -12,6 +12,7 @@ import { IonicStorageModule } from "@ionic/storage";
 import { EloPage } from "../pages/elo/elo";
 import {FormsModule} from "@angular/forms";
 import {ProgressPage} from "../pages/progress/progress";
+import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {ProgressPage} from "../pages/progress/progress";
     HomePage,
     EloPage,
     ProgressPage,
-    ExercicesPage
+    ExercicesPage,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
