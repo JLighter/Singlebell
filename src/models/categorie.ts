@@ -2,10 +2,10 @@ export class Categorie {
 
   constructor(
     public page: any,
-    public name: String,
-    public icon: String = '',
-    public description: String = '',
-    public type: String = 'primary')
+    public name: string,
+    public icon: string = '',
+    public description: string = '',
+    public type: string = 'primary')
   {
     this.icon = icon;
     this.name = name;

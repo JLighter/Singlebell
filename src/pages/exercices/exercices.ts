@@ -20,15 +20,6 @@ export class ExercicesPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.exercices = [];
-
-    this.exercices.push(new Exercice(
-      null,
-      'none',
-      'Exercice 1',
-      'Descrption sommaire lorem ipsum dolor sit amet',
-      'primary',
-      10
-    ))
   }
 
 }

@@ -5,17 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import {HomePage} from "../pages/home/home";
 import {SlidesPage} from "../pages/slides/slides";
-
-import {Elo} from "../utilities/elo";
-
 @Component({
   templateUrl: 'app.html',
-  providers: [Elo]
 })
 export class MyApp {
   rootPage:any = SlidesPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, Elo: Elo) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
