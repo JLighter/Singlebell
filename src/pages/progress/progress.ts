@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import {Storage} from "@ionic/storage";
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {User} from "../../models/user";
 
-import * as Constant from "../../utilities/constants";
 import {Exercice} from "../../models/exercice";
 import {ExerciceType} from "../../models/exercice_type";
+import {UserRepository} from "../../repository/user_repository";
+import {ExerciceRepository} from "../../repository/exercice_repository";
 
 /**
  * Generated class for the ProgressPage page.
@@ -18,6 +18,7 @@ import {ExerciceType} from "../../models/exercice_type";
 @Component({
   selector: 'page-progress',
   templateUrl: 'progress.html',
+  providers: [UserRepository, ExerciceRepository]
 })
 export class ProgressPage {
 
@@ -27,61 +28,27 @@ export class ProgressPage {
   exercices : Array<Exercice> = [];
   exerciceTypes: Array<ExerciceType> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
-    this.getUser();
-    this.getDoneExercices();
-  }
-
-  getUser() {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public userRepository: UserRepository, public exerciceRepository: ExerciceRepository) {
     let _this = this;
 
-    _this.storage.get(Constant.db_user_key).then(function(user : User) {
-
+    _this.userRepository.getUser().then((user) => {
       _this.user = user;
       _this.progress = (user.level / 1000) * 100;
       _this.label = user.level + "/1000";
-
-    }, function(error) {
-
-      console.error(error);
     });
-  }
 
-  getDoneExercices() {
-    let _this = this;
+    _this.exerciceRepository.getDoneExercices().then((exercices) => _this.exercices = exercices);
 
-    _this.storage.get(Constant.db_done_exercice).then(function(exercices : Array<Exercice>) {
+    _this.exerciceRepository.getExerciceTypes().then((types) => _this.exerciceTypes = types);
 
-      _this.exercices = exercices;
-
-      _this.exercices.forEach(function(exercice) {
-        let types = _this.exerciceTypes.find(function(type) {
-          return exercice.type.id === type.id;
-        });
-
-        if (!types) {
-          _this.exerciceTypes.push(exercice.type);
-        }
-      });
-
-      console.log(_this.exercices, _this.exerciceTypes);
-
-    }, function(error) {
-
-      console.error(error);
-    });
   }
 
   exercicesOfType(id: number): Array<Exercice> {
-    return this.exercices.filter(function(x) {
-      return x.type.id == id
-    })
+    return this.exercices.filter((x) => x.type.id == id )
   }
 
   nbOfExerciceOfType(id: number): number {
-    return this.exercices.filter(function(x) {
-      return x.type.id == id
-    }).length
+    return this.exercices.filter((x) => x.type.id == id ).length;
   }
 
 }

@@ -14,6 +14,8 @@ import {FormsModule} from "@angular/forms";
 import {ProgressPage} from "../pages/progress/progress";
 import {SlidesPage} from "../pages/slides/slides";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
+import {UserRepository} from "../repository/user_repository";
+import {ExerciceRepository} from "../repository/exercice_repository";
 @NgModule({
   declarations: [
     MyApp,
