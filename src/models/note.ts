@@ -2,10 +2,10 @@ export class Note {
 
   constructor(
     public name: string,
-    public postion : Number
+    public position : number
   )
   {
     this.name = name;
-    this.postion = postion;
+    this.position = position;
   }
 }

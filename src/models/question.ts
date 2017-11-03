@@ -5,7 +5,7 @@ export class Question {
   constructor(
     public nbChoix: number,
     public range: number,
-    public answers: Array<string>,
+    public answer: Note,
     public notes: Array<Note>,
     public correct: boolean,
     public reponse : Note
@@ -13,7 +13,7 @@ export class Question {
   {
     this.nbChoix = nbChoix;
     this.range = range;
-    this.answers = answers;
+    this.answer = answer;
     this.notes = notes;
     this.correct = correct;
     this.reponse = reponse;

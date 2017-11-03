@@ -19,7 +19,7 @@ export class NoteRepository {
 
         notes = notes.filter((note) => {
           positions.forEach((position) =>{
-            if (note.postion === position){
+            if (note.position === position){
               return true
             }
           });

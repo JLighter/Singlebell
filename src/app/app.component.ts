@@ -77,21 +77,6 @@ export class MyApp {
     types.push(absType);
 
     _this.storage.set(Constant.db_exercice_type, types);
-
-    var questions = [];
-    for (var i=0; i<10;i++) {
-      questions.push(new Question(3, 3, [], [], true))
-    }
-
-    console.log(questions);
-
-    let exercices = [
-      new Exercice(questions, new Date().getTime(), relType, 100),
-      new Exercice([], new Date().getTime(), relType, 120),
-      new Exercice([], new Date().getTime(), relType, 150)
-    ];
-
-    _this.storage.set(Constant.db_done_exercice, exercices);
   }
 
   populateStorageWithNotes() {
