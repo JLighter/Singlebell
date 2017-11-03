@@ -5,7 +5,6 @@ import { Exercice } from "../../models/exercice";
 import { Question } from "../../models/question";
 import { ExerciceType } from "../../models/exercice_type";
 import { NativeAudio } from '@ionic-native/native-audio';
-import { ExerciceRepository } from "../../repository/exercice_repository";
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 
 /**
@@ -32,8 +31,8 @@ export class QuestionsPage {
   currentQuestion : any ;
   soundPath : string = "../../assets/audio/";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio, public exGen: ExerciceGenerator) {
-
+  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public gen : ExerciceGenerator) {
+    console.log(this.gen.exerciceRepository);
     // this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué")
     // this.exo = exGen.newExercice(this.type);
     // this.currentQuestion = exGen.newQuestion(this.exo) ;

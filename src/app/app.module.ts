@@ -57,8 +57,8 @@ import { ExerciceGenerator } from '../utilities/exercice_generator';
     NativeAudio,
     ExerciceGenerator,
     ExerciceRepository,
-    UserRepository,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+
   ]
 })
 export class AppModule {}
