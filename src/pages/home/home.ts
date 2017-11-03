@@ -5,7 +5,6 @@ import { Storage } from "@ionic/storage";
 import * as Constant from "../../utilities/constants";
 
 import { Categorie } from "../../models/categorie";
-import { User } from "../../models/user";
 
 import {EloPage} from "../elo/elo";
 import { ExercicesPage } from "../exercices/exercices";

@@ -13,6 +13,7 @@ import {UserRepository} from "../repository/user_repository";
 import {Storage} from "@ionic/storage";
 
 import * as Constant from '../utilities/constants';
+import {Question} from "../models/question";
 
 @Component({
   templateUrl: 'app.html',
@@ -75,21 +76,17 @@ export class MyApp {
 
     _this.storage.set(Constant.db_exercice_type, types);
 
+    var questions = [];
+    for (var i=0; i<10;i++) {
+      questions.push(new Question(3, 3, [], [], true))
+    }
+
+    console.log(questions);
+
     let exercices = [
-      new Exercice(10, 15, new Date().getTime(), relType, 100),
-      new Exercice(15, 15, new Date().getTime(), relType, 120),
-      new Exercice(5, 16, new Date().getTime(), relType, 160),
-      new Exercice(12, 16, new Date().getTime(), relType, 120),
-      new Exercice(11, 16, new Date().getTime(), relType, 150),
-      new Exercice(11, 16, new Date().getTime(), symphType, 350),
-      new Exercice(2, 5, new Date().getTime(), symphType, 350),
-      new Exercice(7, 10, new Date().getTime(), symphType, 340),
-      new Exercice(6, 10, new Date().getTime(), absType, 460),
-      new Exercice(5, 12, new Date().getTime(), absType, 490),
-      new Exercice(5, 12, new Date().getTime(), absType, 480),
-      new Exercice(7, 17, new Date().getTime(), absType, 780),
-      new Exercice(5, 7, new Date().getTime(), absType, 750),
-      new Exercice(17, 20, new Date().getTime(), absType, 880)
+      new Exercice(questions, new Date().getTime(), relType, 100),
+      new Exercice([], new Date().getTime(), relType, 120),
+      new Exercice([], new Date().getTime(), relType, 150)
     ];
 
     _this.storage.set(Constant.db_done_exercice, exercices);
