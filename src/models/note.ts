@@ -1,8 +1,8 @@
 export class Note {
 
   constructor(
-    public name: String,
-    public fileName: String,
+    public name: string,
+    public fileName: string,
     public postion : Number
   )
   {

@@ -11,33 +11,33 @@
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content padding>
   <ion-grid>
     <ion-row>
       <div>
-        <p>Questions  i/10</p>
+        <p></p>
       </div>
     </ion-row>
     <ion-row justify-content-center>
-      <button ion-button class="sound_btn">
+      <button ion-button class="sound_btn" (click)="playSound()">
         <ion-icon name="musical-notes"></ion-icon>
       </button>
     </ion-row>
     <ion-row justify-content-center>
-      <ion-col class="choices">
-        <button ion-button>!</button>
+      <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice)" >
+        <button ion-button>{{choice}}</button>
       </ion-col>
-      <ion-col class="choices">
-        <button ion-button>!</button>
+    </ion-row>
+    <ion-row>
+      <ion-col [ngSwitch]="checkUserChoice" *ngIf="hidden">
+        <p *ngSwitchCase="true">Bonne Réponse !</p>
+        <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{currentQuestion.note[0].name}}</p>
       </ion-col>
     </ion-row>
     <ion-row justify-content-end>
-      <ion-col col-3>
-        <button ion-button>Suivant  <ion-icon name="arrow-forward"></ion-icon></button>
+      <ion-col>
+        <button ion-button style="float:right" (click)="nextQuestion()" [disabled]="btnSwitch" [ngClass]="{disable:!btnSwitch,enable:btnSwitch}">Suivant &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>
