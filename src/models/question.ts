@@ -3,15 +3,17 @@ import { Note } from "./note";
 export class Question {
 
   constructor(
-    public label: string,
     public nbChoix: number,
-    public answers : Array<string>,
-    public note: Array<Note>,
+    public range: number,
+    public answers: Array<string>,
+    public notes: Array<Note>,
+    public correct: boolean
   )
   {
-    this.label = label;
     this.nbChoix = nbChoix;
+    this.range = range;
     this.answers = answers;
-    this.note = note;
+    this.notes = notes;
+    this.correct = correct;
   }
 }

@@ -22,7 +22,7 @@
             <h1>{{user.name}}</h1>
           </ion-col>
           <ion-col col-12 col-sm-9 offset-sm-1>
-            <progress-bar [progress]="progress" [label]="label"></progress-bar>
+            <progress-bar [progress]="(user.level / 1000) * 100" [label]="user.level + '/1000'"></progress-bar>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -61,10 +61,11 @@
               <!-- Exercice start -->
               <ion-item float-left>
                 <p>
-                  <span float-left>Questions x{{exercice.questions}}</span>
+                  <span float-left>Questions x{{exercice.questions.length}}</span>
                   <span float-right>{{exercice.date | date}}</span>
                 </p>
-                <progress-bar [progress]="exercice.score/exercice.questions * 100" label="{{exercice.score}}/{{exercice.questions}}">
+                <progress-bar [progress]="progressPourcent(exercice)"
+                              [label]="progressLabel(exercice)">
                 </progress-bar>
               </ion-item>
               <!-- Exercice end -->

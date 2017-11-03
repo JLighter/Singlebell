@@ -1,13 +1,11 @@
 export class Note {
 
   constructor(
-    public name: string,
-    public fileName: string,
+    public name: String,
     public postion : Number
   )
   {
     this.name = name;
-    this.fileName = fileName;
     this.postion = postion;
   }
 }

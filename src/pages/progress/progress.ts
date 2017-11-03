@@ -31,11 +31,7 @@ export class ProgressPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public userRepository: UserRepository, public exerciceRepository: ExerciceRepository) {
     let _this = this;
 
-    _this.userRepository.getUser().then((user) => {
-      _this.user = user;
-      _this.progress = (user.level / 1000) * 100;
-      _this.label = user.level + "/1000";
-    });
+    _this.userRepository.getUser().then((user) => _this.user = user);
 
     _this.exerciceRepository.getDoneExercices().then((exercices) => _this.exercices = exercices);
 
@@ -49,6 +45,14 @@ export class ProgressPage {
 
   nbOfExerciceOfType(id: number): number {
     return this.exercices.filter((x) => x.type.id == id ).length;
+  }
+
+  progressLabel(exercice: Exercice) {
+    return Exercice.getScore(exercice.questions) + '/' + exercice.questions.length
+  }
+
+  progressPourcent(exercice: Exercice) {
+    return Exercice.getScore(exercice.questions)/exercice.questions.length * 100
   }
 
 }

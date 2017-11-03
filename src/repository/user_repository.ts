@@ -6,7 +6,7 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class UserRepository {
 
-  constructor(public storage: Storage) {}
+  constructor(private storage: Storage) {}
 
   getUser() {
     return this.storage.get(Constant.db_user_key)
