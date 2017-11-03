@@ -5,6 +5,8 @@ import { Exercice } from "../../models/exercice";
 import { Question } from "../../models/question";
 import { ExerciceType } from "../../models/exercice_type";
 import { NativeAudio } from '@ionic-native/native-audio';
+import { ExerciceRepository } from "../../repository/exercice_repository";
+import { ExerciceGenerator } from '../../utilities/exercice_generator';
 
 /**
  * Generated class for the QuestionsPage page.
@@ -20,24 +22,25 @@ import { NativeAudio } from '@ionic-native/native-audio';
 })
 export class QuestionsPage {
 
+  type : ExerciceType ;
+  exo : Exercice;
   questions : Array<Question>;
   choices : Array<String>;
   checkUserChoice : boolean ;
   hidden:boolean = false;
   btnSwitch:boolean = false;
-  currentQuestion : Question;
+  currentQuestion : any ;
   soundPath : string = "../../assets/audio/";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio, public exGen: ExerciceGenerator) {
 
-    /*Fake generated questions*/
-    this.questions = [new Question(4,2,['Do','Re','Mi','Fa'],[new Note('Do',1)],false,new Note('Do',1)),
-                      new Question(4,2,['Do','Sol','Mi','La'],[new Note('Do',1)],false,new Note('Do',1))
-                      ]
-
-    this.currentQuestion = this.questions[1];
-    console.log(this.currentQuestion);
-    this.choices = this.currentQuestion.answers ;
+    // this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué")
+    // this.exo = exGen.newExercice(this.type);
+    // this.currentQuestion = exGen.newQuestion(this.exo) ;
+    //
+    // /*Fake generated questions*/
+    // console.log(this.currentQuestion);
+    // this.choices = this.currentQuestion.answers ;
   }
 
   checkAnswer(choice: any){
@@ -55,6 +58,7 @@ export class QuestionsPage {
   }
 
   nextQuestion(){
+
     this.btnSwitch=false;
     this.hidden = false;
     this.checkUserChoice = false;

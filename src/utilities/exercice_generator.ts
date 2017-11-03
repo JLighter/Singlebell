@@ -8,7 +8,10 @@ import {Question} from "../models/question";
 import {Note} from "../models/note";
 import {Utils} from "./utils";
 import {NoteRepository} from "../repository/note_repository";
+import {Injectable} from "@angular/core";
 
+
+@Injectable()
 export class ExerciceGenerator {
 
   public user: User;

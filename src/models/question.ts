@@ -7,8 +7,7 @@ export class Question {
     public range: number,
     public answer: Note,
     public notes: Array<Note>,
-    public correct: boolean,
-    public reponse : Note
+    public correct: boolean
   )
   {
     this.nbChoix = nbChoix;
@@ -16,7 +15,5 @@ export class Question {
     this.answer = answer;
     this.notes = notes;
     this.correct = correct;
-    this.reponse = reponse;
-
   }
 }

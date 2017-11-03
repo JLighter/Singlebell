@@ -17,7 +17,9 @@ import { QuestionsPage } from "../pages/questions/questions";
 
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 import {UserRepository} from "../repository/user_repository";
-import {ExerciceRepository} from "../repository/exercice_repository";
+import { ExerciceRepository } from "../repository/exercice_repository";
+import { ExerciceGenerator } from '../utilities/exercice_generator';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -53,6 +55,9 @@ import {ExerciceRepository} from "../repository/exercice_repository";
     StatusBar,
     SplashScreen,
     NativeAudio,
+    ExerciceGenerator,
+    ExerciceRepository,
+    UserRepository,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
