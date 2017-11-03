@@ -16,6 +16,7 @@ import {SlidesPage} from "../pages/slides/slides";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 import {UserRepository} from "../repository/user_repository";
 import {ExerciceRepository} from "../repository/exercice_repository";
+import {ExtraPage} from "../pages/extra/extra";
 @NgModule({
   declarations: [
     MyApp,
@@ -24,6 +25,7 @@ import {ExerciceRepository} from "../repository/exercice_repository";
     EloPage,
     ProgressPage,
     ExercicesPage,
+    ExtraPage,
     ProgressBarComponent,
     ProgressPage
   ],
@@ -44,6 +46,7 @@ import {ExerciceRepository} from "../repository/exercice_repository";
     EloPage,
     ProgressPage,
     ExercicesPage,
+    ExtraPage,
   ],
   providers: [
     StatusBar,
