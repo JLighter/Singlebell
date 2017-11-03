@@ -26,23 +26,27 @@ export class QuestionsPage {
   hidden:boolean = false;
   btnSwitch:boolean = false;
   currentQuestion : Question;
-  soundPath : string;
+  soundPath : string = "../../assets/audio/";
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio) {
 
     /*Fake generated questions*/
-    this.soundPath ="../../assets/audio/"
-    this.questions = [new Question("Quel est cette note ?",4,['Do','Re','Mi','Fa'],[new Note('Do','do_sound.mp3',1)]),new Question("Quel est cette note ?",4,['miB','LA','DO','SI'],[new Note('Do','1.wav',1)])]
+    this.questions = [new Question(4,2,['Do','Re','Mi','Fa'],[new Note('Do',1)],false,new Note('Do',1)),
+                      new Question(4,2,['Do','Sol','Mi','La'],[new Note('Do',1)],false,new Note('Do',1))
+                      ]
 
-    this.currentQuestion = this.questions[0];
+    this.currentQuestion = this.questions[1];
+    console.log(this.currentQuestion);
     this.choices = this.currentQuestion.answers ;
   }
 
-  checkAnswer(choice: String){
+  checkAnswer(choice: any){
 
     this.btnSwitch=true;
     this.hidden = true;
-    if(choice == this.currentQuestion.note[0].name){
+
+    console.log(choice);
+    if(choice == this.currentQuestion.notes[0].name){
       this.checkUserChoice = true;
     }
     else{
@@ -51,7 +55,10 @@ export class QuestionsPage {
   }
 
   nextQuestion(){
-
+    this.btnSwitch=false;
+    this.hidden = false;
+    this.checkUserChoice = false;
+    this.currentQuestion = this.questions[1];
     /* Put response false/true in the question object
       Push the question in the Storage
       Then generate the new question with the function
@@ -60,8 +67,11 @@ export class QuestionsPage {
   }
 
   playSound(){
-    this.nativeAudio.preloadSimple(this.currentQuestion.note[0].name,this.soundPath+'do_sound.mp3')
-    this.nativeAudio.play(this.currentQuestion.note[0].name);
+    for(let i =0; i < this.currentQuestion.notes.length; i++){
+      this.nativeAudio.preloadSimple(this.currentQuestion.notes[i].name,this.soundPath+this.currentQuestion.notes[i].name.toString()+'.wav')
+      this.nativeAudio.play(this.currentQuestion.notes[i].name);
+    }
+
   }
 
 }

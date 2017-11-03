@@ -1,7 +1,7 @@
 export class Note {
 
   constructor(
-    public name: String,
+    public name: string,
     public postion : Number
   )
   {
