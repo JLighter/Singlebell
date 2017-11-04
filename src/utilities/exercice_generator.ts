@@ -23,7 +23,6 @@ export class ExerciceGenerator {
 
     this.userRepository.getUser().then(function(user) {
       _this.user = user;
-      console.log(user);
     })
 
   }
@@ -42,8 +41,29 @@ export class ExerciceGenerator {
 
   newQuestion(exercice: Exercice): Promise<Question> {
     let _this = this;
-    let nbChoix : number = 3;
-    let range   : number = 10;
+
+    let rank = exercice.rank;
+
+    let nbChoix : number = 0;
+    let range : number = 0
+
+    // Select the good properties with the exercice rank
+
+    let randRange = 5;
+
+    if (rank < 100) randRange = 2;
+    else if (rank < 300) randRange = 3;
+    else if (rank < 500) randRange = 4;
+    else if (rank < 700) randRange = 5;
+    else if (rank < 900) randRange = 6;
+
+    nbChoix = Utils.generateRandomInteger(2, rank / 100 + 2);
+    range = Utils.generateRandomInteger(rank / 100 + 1, rank / 100 + randRange);
+
+    if (nbChoix > 8) nbChoix = 8;
+    if (range > 15) nbChoix = 15;
+
+    // Begin generate exercice
 
     return new Promise((resolve, reject) => {
 
