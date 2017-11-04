@@ -16,11 +16,13 @@ import {SlidesPage} from "../pages/slides/slides";
 import { QuestionsPage } from "../pages/questions/questions";
 
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
-import { UserRepository } from "../repository/user_repository";
-import { ExerciceRepository } from "../repository/exercice_repository";
-import { NoteRepository } from "../repository/note_repository";
-import { ExerciceGenerator } from '../utilities/exercice_generator';
+import {ExtraPage} from "../pages/extra/extra";
+import {GeneratorPage} from "../pages/generator/generator";
+import {ExerciceGenerator} from "../utilities/exercice_generator";
 
+import {ExerciceRepository} from "../repository/exercice_repository";
+import {NoteRepository} from "../repository/note_repository";
+import {UserRepository} from "../repository/user_repository";
 
 @NgModule({
   declarations: [
@@ -30,9 +32,11 @@ import { ExerciceGenerator } from '../utilities/exercice_generator';
     EloPage,
     ProgressPage,
     ExercicesPage,
+    ExtraPage,
     ProgressBarComponent,
     ProgressPage,
-    QuestionsPage
+    QuestionsPage,
+    GeneratorPage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,9 @@ import { ExerciceGenerator } from '../utilities/exercice_generator';
     EloPage,
     ProgressPage,
     ExercicesPage,
-    QuestionsPage
+    QuestionsPage,
+    ExtraPage,
+    GeneratorPage,
   ],
   providers: [
     StatusBar,
@@ -61,8 +67,7 @@ import { ExerciceGenerator } from '../utilities/exercice_generator';
     ExerciceRepository,
     NoteRepository,
     UserRepository,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

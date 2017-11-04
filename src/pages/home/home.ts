@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import {Navbar, NavController} from 'ionic-angular';
-import { Storage } from "@ionic/storage";
-
-import * as Constant from "../../utilities/constants";
-
+import {NavController} from 'ionic-angular';
 import { Categorie } from "../../models/categorie";
 
-import {EloPage} from "../elo/elo";
 import { ExercicesPage } from "../exercices/exercices";
 import { QuestionsPage } from "../questions/questions"
 import {ProgressPage} from "../progress/progress";
+import {ExtraPage} from "../extra/extra";
 
 @Component({
   selector: 'page-home',
@@ -19,7 +15,7 @@ export class HomePage {
 
   categories: Array<Categorie>;
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController) {
     this.categories = [];
 
     this.initCategories();
@@ -51,7 +47,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      EloPage,
+      ExtraPage,
       'Extra',
       'game-controller-a',
       'Des jeux à faire tout le temps !',

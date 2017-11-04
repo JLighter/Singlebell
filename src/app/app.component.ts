@@ -76,7 +76,7 @@ export class MyApp {
     types.push(relType);
     types.push(absType);
 
-    _this.storage.set(Constant.db_exercice_type, types);
+    _this.storage.set(Constant.db_exercice_type, types).catch((error) => console.error(error));
   }
 
   populateStorageWithNotes() {
@@ -145,6 +145,6 @@ export class MyApp {
       new Note("Bb", 62),
       new Note("B", 63),
       new Note("C", 64)
-    ])
+    ]).catch((error) => console.error(error));
   }
 }

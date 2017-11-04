@@ -17,14 +17,7 @@ export class NoteRepository {
     return new Promise(function(resolve, reject) {
       _this.storage.get(Constant.db_notes).then(function(notes: Array<Note>) {
 
-        notes = notes.filter((note) => {
-          positions.forEach((position) =>{
-            if (note.position === position){
-              return true
-            }
-          });
-          return false
-        });
+        notes = notes.filter((note) => positions.filter((position) => note.position == position).length != 0);
 
         resolve(notes);
 
