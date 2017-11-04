@@ -21,15 +21,14 @@ import {UserRepository} from "../../repository/user_repository";
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
-  providers : [ExerciceGenerator,
-      ExerciceRepository,UserRepository]
+  providers : [ExerciceGenerator]
 })
 export class QuestionsPage {
 
   type : ExerciceType ;
   exo : Exercice;
   questions : Array<Question>;
-  choices : Array<String>;
+  choices : Array<Note> = [];
   checkUserChoice : boolean ;
   hidden:boolean = false;
   btnSwitch:boolean = false;
@@ -37,29 +36,36 @@ export class QuestionsPage {
   soundPath : string = "../../assets/audio/";
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator) {
-    console.log(this.exGen.exerciceRepository);
-    this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué")
-    console.log(this.type);
+   this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué");
+   this.generateNewQuestion();
 
-    this.exGen.userRepository.getUser().then((user)=> {
-      this.exo = exGen.newExercice(this.type);
-      this.currentQuestion = exGen.newQuestion(this.exo);
-    })
+  //  this.exGen.newQuestion(this.exo).then((questions)=>{
+  //    this.currentQuestion = questions;
+  //    this.choices.push(questions.answer);
+  //    this.questions.push(questions);
+  //  })
+   //
+  //  this.exGen.falseAnswers(this.type.id,this.currentQuestion.range,this.currentQuestion.notes,this.currentQuestion.nbChoix).then((choices)=>{
+   //
+  //     for(let i=0; i<choices.length;i++){
+  //       this.choices.push(choices[i]);
+  //     }
+  //  });
+
 
     // this.currentQuestion = exGen.newQuestion(this.exo) ;
     //
     // /*Fake generated questions*/
     // console.log(this.currentQuestion);
-    // this.choices = this.currentQuestion.answers ;
   }
 
-  checkAnswer(choice: any){
+  checkAnswer(position: number){
 
     this.btnSwitch=true;
     this.hidden = true;
 
-    console.log(choice);
-    if(choice == this.currentQuestion.notes[0].name){
+    console.log(position);
+    if(position == this.currentQuestion.answer.position){
       this.checkUserChoice = true;
     }
     else{
@@ -75,7 +81,6 @@ export class QuestionsPage {
     this.currentQuestion = this.questions[1];
 
 
-      this.currentQuestion = this.exGen.newQuestion(this.exo);
     /* Put response false/true in the question object
       Push the question in the Storage
       Then generate the new question with the function
@@ -83,12 +88,37 @@ export class QuestionsPage {
     */
   }
 
-  playSound(){
-    for(let i =0; i < this.currentQuestion.notes.length; i++){
-      this.nativeAudio.preloadSimple(this.currentQuestion.notes[i].name,this.soundPath+this.currentQuestion.notes[i].name.toString()+'.wav')
-      this.nativeAudio.play(this.currentQuestion.notes[i].name);
-    }
+  generateNewQuestion(){
 
+    this.exGen.newExercice(this.type.id).then((exercice)=>{
+      this.exo = exercice;
+      return exercice
+    }).then((exercice)=>{
+
+     return this.exGen.newQuestion(exercice).then(function(question){
+        return question;
+      })
+
+    }).then((question)=>{
+      console.log(question);
+      this.currentQuestion = question;
+      this.choices.push(question.answer);
+      return this.exGen.falseAnswers(this.type.id,question.range,question.notes,question.nbChoix).then(function(fake){
+         return fake;
+       })
+
+    }).then((fake)=>{
+      for(let i =0; i<fake.length ;i++){
+        this.choices.push(fake[i]);
+
+      }
+    })
+
+  }
+
+  playSound(note:Note){
+    this.nativeAudio.preloadSimple(note.name,this.soundPath+note.position+'.wav')
+    this.nativeAudio.play(note.name);
   }
 
 }

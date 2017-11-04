@@ -11,7 +11,7 @@
   </ion-navbar>
 
 </ion-header>
-<!-- <ion-content padding>
+<ion-content padding>
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col>
@@ -19,19 +19,19 @@
       </ion-col>
     </ion-row>
     <ion-row justify-content-center>
-      <button ion-button class="sound_btn" (click)="playSound()">
+      <button ion-button class="sound_btn" (click)="playSound(currentQuestion.answer)">
         <ion-icon name="musical-notes"></ion-icon>
       </button>
     </ion-row>
     <ion-row justify-content-center>
-      <ion-col ng col-3 class="choices" [ngClass]="{disable:btnSwitch,enable:!btnSwitch}" *ngFor="let choice of choices" (click)="checkAnswer(choice)" >
-        <button ion-button>{{choice}}</button>
+      <ion-col ng col-3 class="choices" [ngClass]="{disable:btnSwitch,enable:!btnSwitch}" *ngFor="let choice of choices" (click)="checkAnswer(choice.position)" >
+        <button ion-button (click)="playSound(choice)">{{choice.name}}</button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col [ngSwitch]="checkUserChoice" *ngIf="hidden">
         <p *ngSwitchCase="true">Bonne Réponse !</p>
-        <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{currentQuestion.notes[0].name}}</p>
+        <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{currentQuestion.answer.name}}</p>
       </ion-col>
     </ion-row>
     <ion-row justify-content-end>
@@ -40,4 +40,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-content> -->
+</ion-content>

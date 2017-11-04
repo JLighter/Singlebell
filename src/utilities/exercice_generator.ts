@@ -82,7 +82,7 @@ export class ExerciceGenerator {
         }
       })().then((notes) => {
 
-        return new Question(nbChoix, range, notes[0], notes, false);
+        resolve(new Question(nbChoix, range, notes[0], notes, false));
 
       }, (error) => reject(error));
 
@@ -119,6 +119,7 @@ export class ExerciceGenerator {
 
   falseAnswers(type: number, range: number, notes: Array<Note>, nbAnswers: number): Promise<Array<Note>> {
     let goodP : number;
+    console.log("type: "+type);
 
     switch(type) {
       case 0: goodP = notes[1].position; break;
