@@ -6,6 +6,9 @@ import { Question } from "../../models/question";
 import { ExerciceType } from "../../models/exercice_type";
 import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
+import { ExerciceRepository } from '../../repository/exercice_repository';
+import {UserRepository} from "../../repository/user_repository";
+
 
 /**
  * Generated class for the QuestionsPage page.
@@ -18,6 +21,8 @@ import { ExerciceGenerator } from '../../utilities/exercice_generator';
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
+  providers : [ExerciceGenerator,
+      ExerciceRepository,UserRepository]
 })
 export class QuestionsPage {
 
@@ -28,13 +33,19 @@ export class QuestionsPage {
   checkUserChoice : boolean ;
   hidden:boolean = false;
   btnSwitch:boolean = false;
-  currentQuestion : any ;
+  currentQuestion : Question ;
   soundPath : string = "../../assets/audio/";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public gen : ExerciceGenerator) {
-    console.log(this.gen.exerciceRepository);
-    // this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué")
-    // this.exo = exGen.newExercice(this.type);
+  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator) {
+    console.log(this.exGen.exerciceRepository);
+    this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué")
+    console.log(this.type);
+
+    this.exGen.userRepository.getUser().then((user)=> {
+      this.exo = exGen.newExercice(this.type);
+      this.currentQuestion = exGen.newQuestion(this.exo);
+    })
+
     // this.currentQuestion = exGen.newQuestion(this.exo) ;
     //
     // /*Fake generated questions*/
@@ -62,6 +73,9 @@ export class QuestionsPage {
     this.hidden = false;
     this.checkUserChoice = false;
     this.currentQuestion = this.questions[1];
+
+
+      this.currentQuestion = this.exGen.newQuestion(this.exo);
     /* Put response false/true in the question object
       Push the question in the Storage
       Then generate the new question with the function

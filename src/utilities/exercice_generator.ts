@@ -21,9 +21,9 @@ export class ExerciceGenerator {
 
   constructor(injector: Injector) {
 
-    this.exerciceRepository = injector.get("ExerciceRepository");
-    this.noteRepository = injector.get("NoteRepository");
-    this.userRepository = injector.get("UserRepository");
+    this.exerciceRepository = injector.get(ExerciceRepository);
+    this.noteRepository = injector.get(NoteRepository);
+    this.userRepository = injector.get(UserRepository);
 
     let _this = this;
 
@@ -33,7 +33,8 @@ export class ExerciceGenerator {
   }
 
   newExercice(type: ExerciceType) {
-    return new Exercice([], new Date().getTime(), type, this.user.level)
+    let _this = this;
+    return new Exercice([], new Date().getTime(), type,_this.user.level)
   }
 
   newQuestion(exercice: Exercice) {
@@ -47,6 +48,7 @@ export class ExerciceGenerator {
         // Generating good array of notes
         if (exercice.type.id == 0) {
 
+            console.log(_this.generateInterval(range));
           return _this.generateInterval(range)
 
         } else {
@@ -57,7 +59,7 @@ export class ExerciceGenerator {
         }
       })().then((notes) => {
 
-        resolve(new Question(nbChoix, range, notes[0], notes, false))
+        return new Question(nbChoix, range, notes[0], notes, false);
 
       }, (error) => reject(error));
 
@@ -80,11 +82,15 @@ export class ExerciceGenerator {
 
   generateInterval(range: number): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1, 64-range);
+    console.log(firstNoteP);
     let secondNoteP = Utils.generateRandomInteger(firstNoteP-range, firstNoteP+range);
+    console.log(secondNoteP);
+
     let repo = this.noteRepository;
 
     return new Promise(function(resolve, reject) {
       repo.getNotesByPosition([firstNoteP, secondNoteP]).then(function(notes : Array<Note>) {
+        console.log(notes);
         resolve(notes);
       }, (error) => reject(error));
     });

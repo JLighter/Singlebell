@@ -16,9 +16,11 @@ import {SlidesPage} from "../pages/slides/slides";
 import { QuestionsPage } from "../pages/questions/questions";
 
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
-import {UserRepository} from "../repository/user_repository";
+import { UserRepository } from "../repository/user_repository";
 import { ExerciceRepository } from "../repository/exercice_repository";
+import { NoteRepository } from "../repository/note_repository";
 import { ExerciceGenerator } from '../utilities/exercice_generator';
+
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { ExerciceGenerator } from '../utilities/exercice_generator';
     NativeAudio,
     ExerciceGenerator,
     ExerciceRepository,
+    NoteRepository,
+    UserRepository,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
 
   ]
