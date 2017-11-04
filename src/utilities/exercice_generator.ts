@@ -1,44 +1,51 @@
 import {User} from "../models/user";
 import {ExerciceRepository} from "../repository/exercice_repository";
-import {Component, Injector} from "@angular/core";
+import {Injectable, Injector} from "@angular/core";
 import {UserRepository} from "../repository/user_repository";
 import {Exercice} from "../models/exercice";
-import {ExerciceType} from "../models/exercice_type";
 import {Question} from "../models/question";
 import {Note} from "../models/note";
 import {Utils} from "./utils";
 import {NoteRepository} from "../repository/note_repository";
 
+@Injectable()
 export class ExerciceGenerator {
 
-  public user: User;
-  public userRepository: UserRepository;
-  public noteRepository: NoteRepository;
-  public exerciceRepository: ExerciceRepository;
+  private user: User;
 
-  constructor(injector: Injector) {
-
-    this.exerciceRepository = injector.get("ExerciceRepository");
-    this.noteRepository = injector.get("NoteRepository");
-    this.userRepository = injector.get("UserRepository");
+  constructor(injector: Injector,
+              private userRepository: UserRepository = injector.get(UserRepository),
+              private exerciceRepository: ExerciceRepository = injector.get(ExerciceRepository),
+              private noteRepository: NoteRepository = injector.get(NoteRepository)
+  ) {
 
     let _this = this;
 
     this.userRepository.getUser().then(function(user) {
       _this.user = user;
+      console.log(user);
     })
+
   }
 
-  newExercice(type: ExerciceType) {
-    return new Exercice([], new Date().getTime(), type, this.user.level)
-  }
-
-  newQuestion(exercice: Exercice) {
+  newExercice(typeId: number): Promise<Exercice> {
     let _this = this;
-    let nbChoix : number = 0;
-    let range   : number = 0;
 
-    new Promise((resolve, reject) => {
+    return new Promise(function(resolve, reject) {
+
+      _this.exerciceRepository.getExerciceType(typeId).then(function(type) {
+
+        resolve(new Exercice([], new Date().getTime(), type, _this.user.level))
+      }, (error) => reject(error));
+    });
+  }
+
+  newQuestion(exercice: Exercice): Promise<Question> {
+    let _this = this;
+    let nbChoix : number = 3;
+    let range   : number = 10;
+
+    return new Promise((resolve, reject) => {
 
       (() : Promise<Array<Note>> => {
         // Generating good array of notes
@@ -48,7 +55,7 @@ export class ExerciceGenerator {
 
         } else {
 
-          let minor : boolean = Utils.generateRandomInteger(0,1) == 1;
+          let minor : boolean = Utils.generateRandomInteger(0,10)%2 == 1;
 
           return _this.generateChord(minor);
         }
@@ -76,8 +83,9 @@ export class ExerciceGenerator {
   }
 
   generateInterval(range: number): Promise<Array<Note>> {
-    let firstNoteP = Utils.generateRandomInteger(1, 64-range);
+    let firstNoteP = Utils.generateRandomInteger(1+range, 64-range);
     let secondNoteP = Utils.generateRandomInteger(firstNoteP-range, firstNoteP+range);
+
     let repo = this.noteRepository;
 
     return new Promise(function(resolve, reject) {

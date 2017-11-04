@@ -14,9 +14,12 @@ import {FormsModule} from "@angular/forms";
 import {ProgressPage} from "../pages/progress/progress";
 import {SlidesPage} from "../pages/slides/slides";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
-import {UserRepository} from "../repository/user_repository";
-import {ExerciceRepository} from "../repository/exercice_repository";
 import {ExtraPage} from "../pages/extra/extra";
+import {GeneratorPage} from "../pages/generator/generator";
+import {ExerciceRepository} from "../repository/exercice_repository";
+import {NoteRepository} from "../repository/note_repository";
+import {UserRepository} from "../repository/user_repository";
+
 @NgModule({
   declarations: [
     MyApp,
@@ -27,7 +30,8 @@ import {ExtraPage} from "../pages/extra/extra";
     ExercicesPage,
     ExtraPage,
     ProgressBarComponent,
-    ProgressPage
+    ProgressPage,
+    GeneratorPage,
   ],
   imports: [
     BrowserModule,
@@ -47,11 +51,15 @@ import {ExtraPage} from "../pages/extra/extra";
     ProgressPage,
     ExercicesPage,
     ExtraPage,
+    GeneratorPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     NativeAudio,
+    ExerciceRepository,
+    NoteRepository,
+    UserRepository,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

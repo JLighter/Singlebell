@@ -1,6 +1,5 @@
 import * as Constant from "../utilities/constants";
 import {Storage} from "@ionic/storage";
-import {User} from "../models/user";
 import {Injectable} from "@angular/core";
 
 @Injectable()
