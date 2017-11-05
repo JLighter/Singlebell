@@ -32,7 +32,7 @@ export class QuestionsPage {
   nbQuestionMax : number = 15;
   synth = new Tone.Synth().toMaster();
   type : ExerciceType ;
-  rank : number;
+  difficulty : number;
   exo : Exercice;
   questions : Array<Question> = [];
   choices : Array<Note> = [];
@@ -44,7 +44,7 @@ export class QuestionsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ) {
    this.type = this.navParams.get('exercice_type');
-   this.rank = this.navParams.get('rank');
+   this.difficulty = this.navParams.get('rank');
 
    this.generateNewExercice();
   }
@@ -93,7 +93,7 @@ export class QuestionsPage {
   }
 
   generateNewExercice(){
-    this.exGen.newExercice(this.type.id,this.rank).then((exercice)=>{
+    this.exGen.newExercice(this.type.id,this.difficulty).then((exercice)=>{
       this.exo = exercice;
       this.generateNewQuestion(this.exo);
     })
