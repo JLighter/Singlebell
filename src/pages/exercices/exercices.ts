@@ -47,14 +47,14 @@ export class ExercicesPage {
       alert.addInput({
         type: 'radio',
         label: 'Facile',
-        value: '0',
+        value: '0.25',
         checked: true
       });
 
       alert.addInput({
         type: 'radio',
         label: 'Moyen',
-        value: '1',
+        value: '0.5',
         checked: false
       });
 
@@ -62,7 +62,7 @@ export class ExercicesPage {
     alert.addInput({
         type: 'radio',
         label: 'Difficile',
-        value: '2',
+        value: '0.75',
         checked: false
       });
 

@@ -27,7 +27,6 @@ import  Tone  from 'tone';
 export class QuestionsPage {
 
   //Manque Nb De questions
-  //Manque Score
   synth = new Tone.Synth().toMaster();
   type : ExerciceType ;
   rank : number;
@@ -43,6 +42,7 @@ export class QuestionsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator) {
    this.type = this.navParams.get('exercice_type');
    this.rank = this.navParams.get('rank');
+
    this.generateNewExercice();
   }
 
@@ -81,7 +81,7 @@ export class QuestionsPage {
   }
 
   generateNewExercice(){
-    this.exGen.newExercice(this.type.id).then((exercice)=>{
+    this.exGen.newExercice(this.type.id,this.rank).then((exercice)=>{
       this.exo = exercice;
       this.generateNewQuestion(this.exo);
     })
@@ -107,19 +107,33 @@ export class QuestionsPage {
     })
   }
 
-  playSound(notes:Note){
-    //adapt to intervalles and chords
-    // if(notes.length>1){
-    //   for(let i =0; i<notes.length; i++){
-    //
-    //     this.synth.synthtriggerAttackRelease(notes[i].name,0.5,1);
-    //
-    //     // this.nativeAudio.preloadSimple(notes[i].name,this.soundPath+notes[i].position+'.wav');
-    //     // this.nativeAudio.play(notes[i].name);
-    //   }
-    // }
+  playSoundFromChoices(note:Note){
+    if(this.type.id == 0){
+      if(this.currentQuestion.answer.name == note.name){
+        this.synth.triggerAttackRelease(this.currentQuestion.notes[0].name,0.8,1);
+        setTimeout(()=>{
+          this.synth.triggerAttackRelease(this.currentQuestion.notes[1].name,0.8,1);
+        }, 1000)
+      }
+      else{
+        this.synth.triggerAttackRelease(this.currentQuestion.answer.name,0.8,1);
+        setTimeout(()=>{
+          this.synth.triggerAttackRelease(note.name,0.8,1);
+        }, 1000)
+      }
+  }
+}
 
-      this.synth.triggerAttackRelease(notes.name,0.5,1);
+  playSound(notes: Array<Note>){
+    if(this.type.id == 0){
+      this.synth.triggerAttackRelease(this.currentQuestion.notes[0].name,0.8,1);
+      setTimeout(()=>{
+        this.synth.triggerAttackRelease(this.currentQuestion.notes[1].name,0.8,1);
+      }, 1000)
+    }
+    else{
+      this.synth.triggerAttackRelease(this.currentQuestion.answer.name,0.8,1);
+    }
 
   }
 }

@@ -27,14 +27,15 @@ export class ExerciceGenerator {
 
   }
 
-  newExercice(typeId: number): Promise<Exercice> {
+  newExercice(typeId: number,rank :number): Promise<Exercice> {
     let _this = this;
 
     return new Promise(function(resolve, reject) {
 
+
       _this.exerciceRepository.getExerciceType(typeId).then(function(type) {
 
-        resolve(new Exercice([], new Date().getTime(), type, _this.user.level))
+        resolve(new Exercice([], new Date().getTime(), type,_this.reverse(_this.user.level,rank)))
       }, (error) => reject(error));
     });
   }
@@ -135,5 +136,9 @@ export class ExerciceGenerator {
 
     return this.noteRepository.getNotesByPosition(positions);
   }
+
+  reverse(userLevel : number ,level : number) {
+     return (userLevel * Math.log(10) + 400 * Math.log(-(level-1)/level))/Math.log(10)
+   }
 
 }
