@@ -25,6 +25,8 @@ import {UserRepository} from "../../repository/user_repository";
 })
 export class QuestionsPage {
 
+  //Manque Nb De questions
+  //Manque Score
   type : ExerciceType ;
   rank : number;
   exo : Exercice;
@@ -60,7 +62,6 @@ export class QuestionsPage {
       this.currentQuestion.correct = this.checkUserChoice;
       this.questions.push(this.currentQuestion);
     }
-
   }
 
   nextQuestion(){
@@ -69,6 +70,12 @@ export class QuestionsPage {
     this.checkUserChoice = false;
     this.choices = [];
     this.generateNewQuestion(this.exo);
+  }
+
+  gameOver(){
+    //Push this.Questions to created Exercice
+    //Push Exercice To storage at Done exercice
+
   }
 
   generateNewExercice(){
@@ -98,10 +105,13 @@ export class QuestionsPage {
     })
   }
 
-  playSound(note:Note){
-    console.log('note');
-    this.nativeAudio.preloadSimple(note.name,this.soundPath+note.position+'.wav');
-    this.nativeAudio.play(note.name);
+  playSound(notes: Array<Note>){
+    //adapt to intervalles and chords
+    if(notes.length>1){
+      for(let i =0; i<notes.length; i++){
+        this.nativeAudio.preloadSimple(notes[i].name,this.soundPath+notes[i].position+'.wav');
+        this.nativeAudio.play(notes[i].name);
+      }
+    }
   }
-
 }
