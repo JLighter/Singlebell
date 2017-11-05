@@ -27,11 +27,10 @@ export class ExerciceGenerator {
 
   }
 
-  newExercice(typeId: number,rank :number): Promise<Exercice> {
+  newExercice(typeId: number, rank :number = this.user.level): Promise<Exercice> {
     let _this = this;
 
     return new Promise(function(resolve, reject) {
-
 
       _this.exerciceRepository.getExerciceType(typeId).then(function(type) {
 
@@ -45,24 +44,9 @@ export class ExerciceGenerator {
 
     let rank = exercice.rank;
 
-    let nbChoix : number = 0;
-    let range : number = 0
-
-    // Select the good properties with the exercice rank
-
-    let randRange = 5;
-
-    if (rank < 100) randRange = 2;
-    else if (rank < 300) randRange = 3;
-    else if (rank < 500) randRange = 4;
-    else if (rank < 700) randRange = 5;
-    else if (rank < 900) randRange = 6;
-
-    nbChoix = Utils.generateRandomInteger(2, rank / 100 + 2);
-    range = Utils.generateRandomInteger(rank / 100 + 1, rank / 100 + randRange);
-
-    if (nbChoix > 8) nbChoix = 8;
-    if (range > 15) nbChoix = 15;
+    let properties = this.getQuestionProperties(rank);
+    let range = properties[0];
+    let nbChoix = properties[1];
 
     // Begin generate exercice
 
@@ -72,7 +56,6 @@ export class ExerciceGenerator {
         // Generating good array of notes
         if (exercice.type.id == 0) {
 
-            console.log(_this.generateInterval(range));
           return _this.generateInterval(range)
 
         } else {
@@ -91,6 +74,29 @@ export class ExerciceGenerator {
 
   }
 
+  getQuestionProperties(rank: number) {
+    let nbChoix : number = 0;
+    let range : number = 0;
+
+    // Select the good properties with the exercice rank
+
+    let randRange = 5;
+
+    if (rank < 100) randRange = 2;
+    else if (rank < 300) randRange = 3;
+    else if (rank < 500) randRange = 4;
+    else if (rank < 700) randRange = 5;
+    else if (rank < 900) randRange = 6;
+
+    nbChoix = Utils.generateRandomInteger(2, rank / 100 + 2);
+    range = Utils.generateRandomInteger(rank / 100 + 1, rank / 100 + randRange);
+
+    if (nbChoix > 8) nbChoix = 8;
+    if (range > 15) nbChoix = 15;
+
+    return [range, nbChoix];
+  }
+
   generateChord(minor: boolean): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1, 64 - 7);
     let secondNoteP = minor ? firstNoteP + 3 : firstNoteP + 4;
@@ -104,9 +110,16 @@ export class ExerciceGenerator {
     });
   }
 
-  generateInterval(range: number): Promise<Array<Note>> {
+  generateInterval(range: number, fixed : boolean = false, interval: number = 0): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1+range, 64-range);
     let secondNoteP = Utils.generateRandomInteger(firstNoteP-range, firstNoteP+range);
+
+    if (fixed) {
+      interval = interval < 0 ? 0 : interval;
+      interval = interval > 9 ? 9 : interval;
+
+      secondNoteP = firstNoteP + interval;
+    }
 
     let repo = this.noteRepository;
 
@@ -130,7 +143,18 @@ export class ExerciceGenerator {
     let positions = [goodP];
 
     for (let i=0; i<nbAnswers; i++) {
-      let falseP = Utils.generateRandomInteger(goodP-range, goodP+range);
+      var falseP = 0;
+      var isContaining = true;
+
+      // Protect for doublons
+      while (falseP == 0 || isContaining) {
+        falseP = Utils.generateRandomInteger(goodP-range, goodP+range);
+
+        if (positions.filter((p) => falseP == p).length == 0) {
+          isContaining = false;
+        }
+      }
+
       positions.push(falseP);
     }
 
