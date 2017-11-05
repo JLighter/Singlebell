@@ -29,10 +29,10 @@ export class GeneratorPage {
 
   generateExercice() {
 
-    this.generator.newExercice(1).then((exercice)=> {
-      this.exercice = exercice;
-      console.log(exercice);
-    }, (error) => console.error(error))
+    // this.generator.newExercice(1).then(function(exercice) {
+    //   this.exercice = exercice;
+    //   console.log(exercice);
+    // }, (error) => console.error(error))
   }
 
   generateQuestion() {

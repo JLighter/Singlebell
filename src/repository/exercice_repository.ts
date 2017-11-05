@@ -59,13 +59,14 @@ export class ExerciceRepository {
   }
 
   addDoneExercice(exercice: Exercice): Promise<any> {
+    let _this = this;
 
     return new Promise(function(resolve, reject) {
-      this.getDoneExercices().then(function(exercices) {
+      _this.getDoneExercices().then(function(exercices) {
 
         exercices = exercices.push(exercice);
 
-        this.storage.set(Constant.db_done_exercice, exercices).then(function(){
+        _this.storage.set(Constant.db_done_exercice, exercices).then(function(){
 
           resolve(exercices)
 
