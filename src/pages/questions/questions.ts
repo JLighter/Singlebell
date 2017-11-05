@@ -7,6 +7,7 @@ import { ExerciceType } from "../../models/exercice_type";
 import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
+import { ResultatPage } from '../resultat/resultat';
 import {UserRepository} from "../../repository/user_repository";
 import  Tone  from 'tone';
 
@@ -22,14 +23,16 @@ import  Tone  from 'tone';
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
-  providers : [ExerciceGenerator]
+  providers : [ExerciceGenerator,ExerciceRepository]
 })
 export class QuestionsPage {
 
   //Manque Nb De questions
+  nbQuestion : number = 0;
+  nbQuestionMax : number = 15;
   synth = new Tone.Synth().toMaster();
   type : ExerciceType ;
-  rank : number;
+  difficulty : number;
   exo : Exercice;
   questions : Array<Question> = [];
   choices : Array<Note> = [];
@@ -39,9 +42,9 @@ export class QuestionsPage {
   currentQuestion : Question ;
   soundPath : string = "assets/audio/";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ) {
    this.type = this.navParams.get('exercice_type');
-   this.rank = this.navParams.get('rank');
+   this.difficulty = this.navParams.get('rank');
 
    this.generateNewExercice();
   }
@@ -67,11 +70,20 @@ export class QuestionsPage {
   }
 
   nextQuestion(){
-    this.btnSwitch=false;
-    this.hidden = false;
-    this.checkUserChoice = false;
-    this.choices = [];
-    this.generateNewQuestion(this.exo);
+    if(this.nbQuestion == this.nbQuestionMax){
+      this.exo.questions = this.questions;
+      //this.exRepo.addDoneExercice(this.exo);
+      this.navCtrl.push(ResultatPage);
+    }
+    else{
+
+      this.btnSwitch=false;
+      this.hidden = false;
+      this.checkUserChoice = false;
+      this.choices = [];
+      this.generateNewQuestion(this.exo);
+    }
+
   }
 
   gameOver(){
@@ -81,13 +93,15 @@ export class QuestionsPage {
   }
 
   generateNewExercice(){
-    this.exGen.newExercice(this.type.id,this.rank).then((exercice)=>{
+    this.exGen.newExercice(this.type.id,this.difficulty).then((exercice)=>{
       this.exo = exercice;
       this.generateNewQuestion(this.exo);
     })
   }
 
   generateNewQuestion(exercice: Exercice ){
+    this.nbQuestion = this.nbQuestion+1;
+
     this.exGen.newQuestion(exercice).then(function(question){
 
       return question;

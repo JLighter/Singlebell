@@ -16,7 +16,12 @@
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col>
-        <p>{{type.name}} ?</p>
+        <p>Questions {{nbQuestion}}/{{nbQuestionMax}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col style="text-align:center">
+        <p>{{type.description}} ?</p>
       </ion-col>
     </ion-row>
     <ion-row justify-content-center>
@@ -37,8 +42,9 @@
       </ion-col>
     </ion-row>
     <ion-row justify-content-end>
-      <ion-col>
-        <button ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Suivant &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
+      <ion-col  [ngSwitch]="nbQuestion == nbQuestionMax">
+        <button *ngSwitchCase="false" ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Suivant &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
+        <button *ngSwitchCase="true" ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Résultats &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
       </ion-col>
     </ion-row>
   </ion-grid>

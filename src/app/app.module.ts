@@ -18,6 +18,8 @@ import { QuestionsPage } from "../pages/questions/questions";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 import {ExtraPage} from "../pages/extra/extra";
 import {GeneratorPage} from "../pages/generator/generator";
+import {ResultatPage} from "../pages/resultat/resultat";
+
 import {ExerciceGenerator} from "../utilities/exercice_generator";
 
 import {ExerciceRepository} from "../repository/exercice_repository";
@@ -36,7 +38,8 @@ import {UserRepository} from "../repository/user_repository";
     ProgressBarComponent,
     ProgressPage,
     QuestionsPage,
-    GeneratorPage
+    GeneratorPage,
+    ResultatPage
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import {UserRepository} from "../repository/user_repository";
     QuestionsPage,
     ExtraPage,
     GeneratorPage,
+    ResultatPage,
   ],
   providers: [
     StatusBar,
