@@ -16,4 +16,9 @@
 <ion-content padding>
   <button ion-button (click)="generateExercice()">Generate Exercice</button>
   <button ion-button (click)="generateQuestion()">Generate question</button>
+  <ion-label fixed>Tone</ion-label>
+  <ion-input [(ngModel)]="tone"></ion-input>
+  <ion-label fixed>Height</ion-label>
+  <ion-input [(ngModel)]="height"></ion-input>
+  <button ion-button (click)="generateSound(tone, height)">Play chord</button>
 </ion-content>
