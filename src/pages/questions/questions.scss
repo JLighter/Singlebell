@@ -10,13 +10,16 @@ page-questions {
     text-align: center;
   }
 
-  .disable{
+  .enable{
 
   }
 
-  .enable{
+  .disableGood{
+    background-color: green !important
+  }
 
-    
+  .disableFalse{
+    background-color: red !important;
   }
 
 }

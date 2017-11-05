@@ -7,7 +7,8 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>questions</ion-title>
+    <ion-title>Type Exercie</ion-title>
+    <ion-title>Difficulté</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -24,8 +25,9 @@
       </button>
     </ion-row>
     <ion-row justify-content-center>
-      <ion-col ng col-3 class="choices" [ngClass]="{disable:btnSwitch,enable:!btnSwitch}" *ngFor="let choice of choices" (click)="checkAnswer(choice.position)" >
-        <button ion-button (click)="playSound(choice)">{{choice.name}}</button>
+      <ion-col  ng col-3 class="choices"*ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.answer.name">
+        <button *ngSwitchCase="true" ion-button (click)="playSound(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{choice.name}}</button>
+        <button *ngSwitchCase="false" ion-button (click)="playSound(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.name}}</button>
       </ion-col>
     </ion-row>
     <ion-row>

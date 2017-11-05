@@ -27,77 +27,59 @@ export class QuestionsPage {
 
   type : ExerciceType ;
   exo : Exercice;
-  questions : Array<Question>;
+  questions : Array<Question> = [];
   choices : Array<Note> = [];
   checkUserChoice : boolean ;
   hidden:boolean = false;
   btnSwitch:boolean = false;
   currentQuestion : Question ;
-  soundPath : string = "../../assets/audio/";
+  soundPath : string = "assets/audio/";
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator) {
    this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué");
-   this.generateNewQuestion();
-
-  //  this.exGen.newQuestion(this.exo).then((questions)=>{
-  //    this.currentQuestion = questions;
-  //    this.choices.push(questions.answer);
-  //    this.questions.push(questions);
-  //  })
-   //
-  //  this.exGen.falseAnswers(this.type.id,this.currentQuestion.range,this.currentQuestion.notes,this.currentQuestion.nbChoix).then((choices)=>{
-   //
-  //     for(let i=0; i<choices.length;i++){
-  //       this.choices.push(choices[i]);
-  //     }
-  //  });
-
-
-    // this.currentQuestion = exGen.newQuestion(this.exo) ;
-    //
-    // /*Fake generated questions*/
-    // console.log(this.currentQuestion);
+   this.generateNewExercice();
   }
 
-  checkAnswer(position: number){
+  checkAnswer(position: number,event){
 
-    this.btnSwitch=true;
-    this.hidden = true;
-
-    console.log(position);
-    if(position == this.currentQuestion.answer.position){
-      this.checkUserChoice = true;
+    if(this.hidden==true){
+      event.stopPropagation();
     }
     else{
-      this.checkUserChoice = false;
+      this.btnSwitch=true;
+      this.hidden = true;
+      if(position == this.currentQuestion.answer.position){
+        this.checkUserChoice = true;
+        this.currentQuestion.correct = this.checkUserChoice;
+      }
+      else{
+        this.checkUserChoice = false;
+      }
+      this.currentQuestion.correct = this.checkUserChoice;
+      this.questions.push(this.currentQuestion);
     }
+
   }
 
   nextQuestion(){
-
     this.btnSwitch=false;
     this.hidden = false;
     this.checkUserChoice = false;
-    this.currentQuestion = this.questions[1];
-
-
-    /* Put response false/true in the question object
-      Push the question in the Storage
-      Then generate the new question with the function
-      Put the generated question in the this.currentQuestion
-    */
+    this.choices = [];
+    this.generateNewQuestion(this.exo);
   }
 
-  generateNewQuestion(){
-
+  generateNewExercice(){
     this.exGen.newExercice(this.type.id).then((exercice)=>{
       this.exo = exercice;
-      return exercice
-    }).then((exercice)=>{
+      this.generateNewQuestion(this.exo);
+    })
+  }
 
-     return this.exGen.newQuestion(exercice).then(function(question){
-        return question;
-      })
+  generateNewQuestion(exercice: Exercice ){
+    this.exGen.newQuestion(exercice).then(function(question){
+
+      return question;
 
     }).then((question)=>{
       console.log(question);
@@ -110,14 +92,13 @@ export class QuestionsPage {
     }).then((fake)=>{
       for(let i =0; i<fake.length ;i++){
         this.choices.push(fake[i]);
-
       }
     })
-
   }
 
   playSound(note:Note){
-    this.nativeAudio.preloadSimple(note.name,this.soundPath+note.position+'.wav')
+    console.log('note');
+    this.nativeAudio.preloadSimple(note.name,this.soundPath+note.position+'.wav');
     this.nativeAudio.play(note.name);
   }
 
