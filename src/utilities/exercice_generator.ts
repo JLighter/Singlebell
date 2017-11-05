@@ -27,14 +27,14 @@ export class ExerciceGenerator {
 
   }
 
-  newExercice(typeId: number, rank :number = this.user.level): Promise<Exercice> {
+  newExercice(typeId: number, difficulty :number = 0.5): Promise<Exercice> {
     let _this = this;
 
     return new Promise(function(resolve, reject) {
 
       _this.exerciceRepository.getExerciceType(typeId).then(function(type) {
 
-        resolve(new Exercice([], new Date().getTime(), type,_this.reverse(_this.user.level,rank)))
+        resolve(new Exercice([], new Date().getTime(), type,_this.reverse(_this.user.level,difficulty)))
       }, (error) => reject(error));
     });
   }
@@ -74,7 +74,7 @@ export class ExerciceGenerator {
 
   }
 
-  getQuestionProperties(rank: number) {
+  getQuestionProperties(rank: number): Array<number> {
     let nbChoix : number = 0;
     let range : number = 0;
 

@@ -3,7 +3,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {ExerciceGenerator} from "../../utilities/exercice_generator";
 import {Exercice} from "../../models/exercice";
 import {Note} from "../../models/note";
-import Tone from 'tone';
+import Tone, {default as tone} from 'tone';
+import {ToneUtilities} from "../../utilities/tone";
+import {Question} from "../../models/question";
+
 /**
  * Generated class for the GeneratorPage page.
  *
@@ -15,21 +18,21 @@ import Tone from 'tone';
 @Component({
   selector: 'page-generator',
   templateUrl: 'generator.html',
-  providers: [ExerciceGenerator]
+  providers: [ExerciceGenerator, ToneUtilities]
 })
 export class GeneratorPage {
 
   private exercice: Exercice;
+  private question: Question;
 
   private notes: Array<Note>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator, private speaker: ToneUtilities) {
 
   }
 
   generateExercice() {
-
-    this.generator.newExercice(1).then((exercice)=> {
+    this.generator.newExercice(1, 0.5).then((exercice)=> {
       this.exercice = exercice;
       console.log(exercice);
     }, (error) => console.error(error))
@@ -39,36 +42,25 @@ export class GeneratorPage {
 
     this.generator.newQuestion(this.exercice).then((question)=> {
       this.exercice.questions.push(question);
-      console.log(question);
+      this.question = question;
       this.notes = question.notes;
     }, (error) => console.error(error))
   }
 
-  generateSound(tone, height) {
+  playExercice() {
     let synth = new Tone.Synth().toMaster();
-    console.log(synth);
 
-    if (tone) {
-      synth.triggerAttackRelease(tone+height, "8n")
+    if (this.exercice.type.id == 0) {
+      this.speaker.playInterval(this.question.notes);
     } else {
-      let timeout = 500;
-
-      setTimeout(()=>{
-        synth.triggerAttackRelease(this.notes[0].name, "8n")
-
-        setTimeout(()=>{
-          synth.triggerAttackRelease(this.notes[1].name, "8n")
-
-          setTimeout(()=>{
-            synth.triggerAttackRelease(this.notes[2].name, "8n")
-          }, timeout)
-
-        }, timeout)
-
-      }, timeout);
-
+      this.speaker.playChord(this.question.notes, false);
     }
+  }
 
+  playTone(tone = "C", height = 4) {
+    let synth = new Tone.Synth().toMaster();
+
+    synth.triggerAttackRelease(tone+height, "8n")
 
   }
 

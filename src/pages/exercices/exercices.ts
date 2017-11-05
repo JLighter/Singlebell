@@ -23,7 +23,7 @@ import { QuestionsPage } from '../questions/questions'
 export class ExercicesPage {
 
   public exercicesType: Array<ExerciceType>;
-  public rank : number;
+  public difficulty : number;
   public selectedType : ExerciceType;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public exerciceRepository: ExerciceRepository,public alertCtrl: AlertController) {
@@ -70,8 +70,8 @@ export class ExercicesPage {
       alert.addButton({
       text: 'OK',
       handler: data => {
-        this.rank = data;
-        this.navCtrl.push(QuestionsPage,{rank:this.rank,exercice_type:exTypeSelected})
+        this.difficulty = data;
+        this.navCtrl.push(QuestionsPage,{rank:this.difficulty,exercice_type:exTypeSelected})
       }
       });
       alert.present();

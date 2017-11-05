@@ -14,11 +14,31 @@
 
 
 <ion-content padding>
-  <button ion-button (click)="generateExercice()">Generate Exercice</button>
-  <button ion-button (click)="generateQuestion()">Generate question</button>
-  <ion-label fixed>Tone</ion-label>
-  <ion-input [(ngModel)]="tone"></ion-input>
-  <ion-label fixed>Height</ion-label>
-  <ion-input [(ngModel)]="height"></ion-input>
-  <button ion-button (click)="generateSound(tone, height)">Play chord</button>
+  <ion-grid>
+    <ion-row>
+        <ion-card padding>
+          <ion-item>
+            <ion-label fixed>Tone</ion-label>
+            <ion-input [(ngModel)]="tone"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Height</ion-label>
+            <ion-input [(ngModel)]="height"></ion-input>
+          </ion-item>
+          <ion-item>
+            <button ion-button (click)="playTone(tone, height)" full>Play chord</button>
+          </ion-item>
+        </ion-card>
+    </ion-row>
+    <ion-row>
+      <ion-card padding justify-content-center="">
+        <button ion-button (click)="generateExercice()">Generate Exercice</button>
+        <button ion-button (click)="generateQuestion()">Generate question</button>
+        <button ion-button (click)="playExercice()">Play question</button>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+
+
+
 </ion-content>
