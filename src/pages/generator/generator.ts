@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {ExerciceGenerator} from "../../utilities/exercice_generator";
 import {Exercice} from "../../models/exercice";
+import {Note} from "../../models/note";
 import Tone from 'tone';
 /**
  * Generated class for the GeneratorPage page.
@@ -27,28 +28,25 @@ export class GeneratorPage {
   }
 
   generateExercice() {
-    let _this = this;
 
-    this.generator.newExercice(1).then(function(exercice) {
-      _this.exercice = exercice;
+    this.generator.newExercice(1).then((exercice)=> {
+      this.exercice = exercice;
       console.log(exercice);
     }, (error) => console.error(error))
   }
 
   generateQuestion() {
-    let _this = this;
 
-    _this.generator.newQuestion(_this.exercice).then(function(question) {
-      _this.exercice.questions.push(question);
+    this.generator.newQuestion(this.exercice).then((question)=> {
+      this.exercice.questions.push(question);
       console.log(question);
-      _this.notes = question.notes;
+      this.notes = question.notes;
     }, (error) => console.error(error))
   }
 
   generateSound(tone, height) {
-    let _this = this;
     let synth = new Tone.Synth().toMaster();
-
+    console.log(synth);
 
     if (tone) {
       synth.triggerAttackRelease(tone+height, "8n")

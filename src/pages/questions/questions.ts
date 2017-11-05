@@ -8,6 +8,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
 import {UserRepository} from "../../repository/user_repository";
+import  Tone  from 'tone';
 
 
 /**
@@ -27,6 +28,7 @@ export class QuestionsPage {
 
   //Manque Nb De questions
   //Manque Score
+  synth = new Tone.Synth().toMaster();
   type : ExerciceType ;
   rank : number;
   exo : Exercice;
@@ -105,13 +107,19 @@ export class QuestionsPage {
     })
   }
 
-  playSound(notes: Array<Note>){
+  playSound(notes:Note){
     //adapt to intervalles and chords
-    if(notes.length>1){
-      for(let i =0; i<notes.length; i++){
-        this.nativeAudio.preloadSimple(notes[i].name,this.soundPath+notes[i].position+'.wav');
-        this.nativeAudio.play(notes[i].name);
-      }
-    }
+    // if(notes.length>1){
+    //   for(let i =0; i<notes.length; i++){
+    //
+    //     this.synth.synthtriggerAttackRelease(notes[i].name,0.5,1);
+    //
+    //     // this.nativeAudio.preloadSimple(notes[i].name,this.soundPath+notes[i].position+'.wav');
+    //     // this.nativeAudio.play(notes[i].name);
+    //   }
+    // }
+
+      this.synth.triggerAttackRelease(notes.name,0.5,1);
+
   }
 }
