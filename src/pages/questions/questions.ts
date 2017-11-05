@@ -26,6 +26,7 @@ import {UserRepository} from "../../repository/user_repository";
 export class QuestionsPage {
 
   type : ExerciceType ;
+  rank : number;
   exo : Exercice;
   questions : Array<Question> = [];
   choices : Array<Note> = [];
@@ -36,7 +37,8 @@ export class QuestionsPage {
   soundPath : string = "assets/audio/";
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator) {
-   this.type = new ExerciceType(0,"Absolue melodique","","Identifiez correctement la note joué");
+   this.type = this.navParams.get('exercice_type');
+   this.rank = this.navParams.get('rank');
    this.generateNewExercice();
   }
 

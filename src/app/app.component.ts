@@ -66,9 +66,9 @@ export class MyApp {
 
     _this.storage.set(Constant.db_user_key, user);
 
-    let symphType = new ExerciceType(0, "Symphonique", "musical-note", "");
-    let relType = new ExerciceType(2, "Relative", "eye", "");
-    let absType = new ExerciceType(1, "Absolue", "eye-off", "");
+    let symphType = new ExerciceType(0, "Symphonique", "musical-note", "Ennoncé");
+    let relType = new ExerciceType(2, "Relative", "eye", "Ennoncé");
+    let absType = new ExerciceType(1, "Absolue", "eye-off", "Ennoncé");
 
     let types = [];
 

@@ -4,7 +4,7 @@ import {ExerciceType} from "../../models/exercice_type";
 import {Storage} from "@ionic/storage";
 import { ExerciceRepository } from "../../repository/exercice_repository"
 import { AlertController } from 'ionic-angular';
-
+import { QuestionsPage } from '../questions/questions'
 
 /**
  * Generated class for the ExercicesPage page.
@@ -23,6 +23,8 @@ import { AlertController } from 'ionic-angular';
 export class ExercicesPage {
 
   public exercicesType: Array<ExerciceType>;
+  public rank : number;
+  public selectedType : ExerciceType;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public exerciceRepository: ExerciceRepository,public alertCtrl: AlertController) {
 
@@ -37,7 +39,7 @@ export class ExercicesPage {
 
   }
 
-  selectLevel(){
+  selectLevel(exTypeSelected : ExerciceType){
 
       let alert = this.alertCtrl.create();
       alert.setTitle('Selectionnez un niveau de difficulté');
@@ -68,9 +70,8 @@ export class ExercicesPage {
       alert.addButton({
       text: 'OK',
       handler: data => {
-        let testRadioOpen = false;
-        let testRadioResult = data;
-        console.log(data);
+        this.rank = data;
+        this.navCtrl.push(QuestionsPage,{rank:this.rank,exercice_type:exTypeSelected})
       }
       });
       alert.present();

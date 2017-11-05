@@ -31,7 +31,7 @@ export class HomePage {
     ));
 
     this.categories.push(new Categorie(
-      QuestionsPage,
+      ExercicesPage,
       'Exercices',
       'bulb',
       'Tous les exercices que vous pouvez débloqués !',

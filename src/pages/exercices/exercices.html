@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let exerciceType of exercicesType" ngClass="card-{{exercicesType.type}}" (click)="selectLevel()"> 
+  <ion-card *ngFor="let exerciceType of exercicesType" ngClass="card-{{exercicesType.type}}" (click)="selectLevel(exerciceType)"> 
     <ion-card-header>
       <h1>
         {{ exerciceType.name }}

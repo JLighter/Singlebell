@@ -7,8 +7,8 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Type Exercie</ion-title>
-    <ion-title>Difficulté</ion-title>
+    <ion-title>{{type.name}}</ion-title>
+    <ion-title>Level {{rank}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,7 +16,7 @@
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col>
-        <p>Question ?</p>
+        <p>{{type.name}} ?</p>
       </ion-col>
     </ion-row>
     <ion-row justify-content-center>
