@@ -138,6 +138,7 @@ export class QuestionsPage {
       this.switchRefNote = Math.random() >= 0.5;
     }
 
+<<<<<<< HEAD
     let _this = this;
 
     _this.exGen.newQuestion(exercice).then((question)=> {

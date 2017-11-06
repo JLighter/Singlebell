@@ -63,8 +63,10 @@ export class ExerciceRepository {
 
     return new Promise(function(resolve, reject) {
       _this.getDoneExercices().then(function(exercices) {
-        console.log(exercices);
+        if (!exercices) exercices = [];
+
        exercices.push(exercice);
+
         _this.storage.set(Constant.db_done_exercice, exercices).then(function(){
 
           resolve(exercices)
