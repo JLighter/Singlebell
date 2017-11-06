@@ -1,0 +1,35 @@
+<!--
+  Generated template for the SettingsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>settings</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="save()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">
+        <ion-label>Notifications</ion-label>
+        <ion-toggle [(ngModel)]="notification"></ion-toggle>
+      </ion-item-divider>
+      <ion-item *ngIf="notification">
+        <ion-label>Heure de rappel</ion-label>
+        <ion-datetime displayFormat="HH:mm" [(ngModel)]="hour"></ion-datetime>
+      </ion-item>
+
+    </ion-item-group>
+  </ion-list>
+</ion-content>
