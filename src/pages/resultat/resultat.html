@@ -5,24 +5,53 @@
   Ionic pages and navigation.
 -->
 
-
-
 <ion-content padding>
   <ion-grid>
-    <ion-row justify-content-center>
-      <ion-col style="text-align:center">
-        <p>Votre score est de :{{score}}</p>
-      </ion-col>
-    </ion-row>
+
     <ion-row>
-      <ion-col style="text-align:center" >
-        <button ion-button>Accueil</button>
-      </ion-col>
-      <ion-col style="text-align:center">
-        <button ion-button>Recommencez</button>
-      </ion-col>
-      <ion-col style="text-align:center">
-        <button ion-button>Passez au niveau suivant</button>
+      <!-- Start listing type -->
+      <ion-card>
+
+        <ion-card-header>
+          <h2 float-start>{{ exercice.type.name }}</h2>
+          <h1 class="primary grow" float-end>{{ score }} / {{exercice.questions.length}}</h1>
+        </ion-card-header>
+
+        <ion-list>
+
+          <ion-item-divider color="light">
+            Questions
+          </ion-item-divider>
+
+          <div class="active list-item-container">
+
+            <!-- Start listing exercices for current type -->
+              <!-- Exercice start -->
+              <ion-item *ngFor="let question of exercice.questions; let i = index">
+                <div item-start>
+                  <h2 item-start>{{question.correctAnswer.name}}</h2>
+                </div>
+                <div item-end>
+                  <ion-checkbox item-end [ngModel]="question.correct" color="primary" disabled></ion-checkbox>
+                </div>
+              </ion-item>
+              <!-- Exercice end -->
+
+          </div>
+
+        </ion-list>
+
+        <ion-item>
+          <h4 text-center>x{{ exercice.questions.length }}</h4>
+        </ion-item>
+
+      </ion-card>
+      <!-- End listing type -->
+    </ion-row>
+
+    <ion-row>
+      <ion-col >
+        <button ion-button full (click)="popHome()">Accueil</button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -13,10 +13,10 @@ export class Elo {
   }
 
   // Calcul de la nouvelle cote de P1
-  calculElo(old: number, exp: number, score: number): number {
+  calculElo(old: number, exp: number, score: number, k: number = this.kValue(old)): number {
     // +old because if not, this variable is cast to string
     old = +old;
-    var newElo: number = old + this.kValue(old) * (score - exp);
+    var newElo: number = old + k * (score - exp);
 
     if (newElo < 100) {
       newElo = 100;
