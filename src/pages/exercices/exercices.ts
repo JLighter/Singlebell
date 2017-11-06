@@ -37,7 +37,7 @@ export class ExercicesPage {
         alert(error);
     });
   }
-  
+
   selectLevel(exTypeSelected : ExerciceType){
 
       let alert = this.alertCtrl.create();
@@ -45,47 +45,47 @@ export class ExercicesPage {
       alertInterval.setTitle('Selectionnez un ou plusieurs intervales à travailler');
       alertInterval.addInput({
         type: 'checkbox',
-        label: '2 demi ton',
+        label: 'Ton majeur (+2.0)',
         value: '2',
         checked: true
       });
 
       alertInterval.addInput({
         type: 'checkbox',
-        label: '3 demi ton',
+        label: 'Tierce mineur (+3.2)',
         value: '3',
         checked: false
       });
 
     alertInterval.addInput({
         type: 'checkbox',
-        label: '4 demi ton',
+        label: 'Tierce majeur (+3.9)',
         value: '4',
         checked: false
       });
 
       alertInterval.addInput({
           type: 'checkbox',
-          label: '5 demi ton',
+          label: 'Quarte (+5.0)',
           value: '5',
           checked: false
       });
 
       alertInterval.addInput({
             type: 'checkbox',
-            label: '7 demi ton',
+            label: 'Quinte (+7.0)',
             value: '7',
             checked: false
         });
       alertInterval.addInput({
             type: 'checkbox',
-            label: '8 demi ton',
+            label: 'Sixte mineur (+8.1)',
             value: '8',
             checked: false
         });
       alertInterval.addInput({
             type: 'checkbox',
-            label: '9 demi ton',
+            label: 'Sixte majeur (+8.8)',
             value: '9',
             checked: false
       });

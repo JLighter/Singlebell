@@ -12,7 +12,7 @@ export class ToneUtilities {
     synth.triggerAttackRelease(note.name, "1n");
   }
 
-  playInterval(interval: Array<Note>, delay = 300) {
+  playInterval(interval: Array<Note>, delay = 500) {
     if (interval.length != 2) return;
 
     let synths = new Tone.Synth(interval.length, Tone.Synth).toMaster();

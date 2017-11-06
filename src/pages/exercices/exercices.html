@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Exercices</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let exerciceType of exercicesType" ngClass="card-{{exercicesType.type}}" (click)="selectLevel(exerciceType)"> 
+  <ion-card *ngFor="let exerciceType of exercicesType" ngClass="card-primary" (click)="selectLevel(exerciceType)">
     <ion-card-header>
       <h1>
         {{ exerciceType.name }}

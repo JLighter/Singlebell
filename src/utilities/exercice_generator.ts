@@ -7,6 +7,7 @@ import {Question} from "../models/question";
 import {Note} from "../models/note";
 import {Utils} from "./utils";
 import {NoteRepository} from "../repository/note_repository";
+import {ExerciceType} from "../models/exercice_type";
 
 @Injectable()
 export class ExerciceGenerator {
@@ -40,7 +41,7 @@ export class ExerciceGenerator {
   }
 
   newQuestion(exercice: Exercice): Promise<Question> {
-    let _this = this;
+    var question : Question;
 
     let rank = exercice.rank;
 
@@ -56,17 +57,30 @@ export class ExerciceGenerator {
         // Generating good array of notes
         if (exercice.type.id == 0) {
 
-          return _this.generateInterval(range)
+          return this.generateInterval(range)
 
-        } else {
+        } else if (exercice.type.id == 1) {
 
-          let minor : boolean = Utils.generateRandomInteger(0,10)%2 == 1;
+          return this.generateNote();
 
-          return _this.generateChord(minor);
         }
       })().then((notes) => {
+        var goodAnswer: Note;
 
-        resolve(new Question(nbChoix, range, notes[0], notes, false));
+        switch(exercice.type.id) {
+          case 0: goodAnswer = notes[1]; break;
+          case 1: goodAnswer = notes[0]; break;
+        }
+
+        question = new Question(nbChoix, range, goodAnswer, notes, false);
+
+        return this.answers(exercice.type, question);
+
+      }).then(function(answers) {
+
+        question.answers = answers;
+
+        resolve(question)
 
       }, (error) => reject(error));
 
@@ -110,6 +124,18 @@ export class ExerciceGenerator {
     });
   }
 
+  generateNote() {
+    let firstNoteP = Utils.generateRandomInteger(1, 64 - 7);
+    let repo = this.noteRepository;
+
+    return new Promise(function(resolve,reject) {
+      repo.getNotesByPosition([firstNoteP]).then(function(notes) {
+        if (!notes) reject("No note with this position: "+ firstNoteP);
+        resolve(notes)
+      }, (error) => reject(error))
+    })
+  }
+
   generateInterval(range: number, fixed : boolean = false, interval: number = 0): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1+range, 64-range);
 
@@ -131,38 +157,40 @@ export class ExerciceGenerator {
     return new Promise(function(resolve, reject) {
       repo.getNotesByPosition([firstNoteP, secondNoteP]).then(function(notes : Array<Note>) {
 
+        // Conserve order betwteen notes
+        if (notes[0].position != firstNoteP) notes = notes.reverse();
+
         resolve(notes);
       }, (error) => reject(error));
     });
   }
 
-  falseAnswers(type: number, range: number, notes: Array<Note>, nbAnswers: number): Promise<Array<Note>> {
+  answers(type: ExerciceType, question: Question): Promise<Array<Note>> {
     let goodP : number;
-    console.log("type: "+type);
 
-    switch(type) {
-      case 0: goodP = notes[1].position; break;
-      case 1: goodP = notes[0].position; break;
-    }
+    goodP = question.correctAnswer.position;
 
     let positions = [goodP];
 
-    for (let i=0; i<nbAnswers; i++) {
+    for (let i=0; i<question.nbChoix; i++) {
       var falseP = 0;
       var isContaining = true;
 
       // Protect for doublons
       while (falseP == 0 || isContaining) {
-        falseP = Utils.generateRandomInteger(goodP-range, goodP+range);
+        falseP = Utils.generateRandomInteger(goodP-question.range, goodP+question.range);
 
-        if (positions.filter((p) => falseP == p).length == 0) {
+        if (positions.indexOf(falseP)) {
           isContaining = false;
         }
+        console.log(!positions.indexOf(falseP), falseP)
       }
 
+      console.debug("pushed", falseP);
       positions.push(falseP);
     }
 
+    console.debug("anserws", falseP);
     return this.noteRepository.getNotesByPosition(positions);
   }
 

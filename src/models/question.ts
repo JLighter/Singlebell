@@ -5,15 +5,17 @@ export class Question {
   constructor(
     public nbChoix: number,
     public range: number,
-    public answer: Note,
+    public correctAnswer: Note,
     public notes: Array<Note>,
-    public correct: boolean
+    public correct: boolean,
+    public answers: Array<Note> = []
   )
   {
     this.nbChoix = nbChoix;
     this.range = range;
-    this.answer = answer;
+    this.correctAnswer = correctAnswer;
     this.notes = notes;
     this.correct = correct;
+    this.answers = answers
   }
 }

@@ -13,46 +13,48 @@
 
 </ion-header>
 <ion-content padding>
-  <ion-grid>
-    <ion-row justify-content-center>
-      <ion-col>
-        <p>Questions {{nbQuestion}}/{{nbQuestionMax}}</p>
-      </ion-col>
-    </ion-row>
-    <ion-row justify-content-center>
-      <ion-col style="text-align:center">
-        <p>{{type.description}} ?</p>
-      </ion-col>
-    </ion-row>
-    <ion-row justify-content-center>
-      <ion-col class="choices">
-        <button ion-button class="sound_btn" (click)="playSound(currentQuestion.notes)">
-          <ion-icon name="musical-notes"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col class="choices" *ngIf="switchRefNote">
-        <button ion-button class="sound_btn_Ref" (click)="playSound(currentQuestion.notes)">
-          <ion-icon name="musical-notes"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row justify-content-center>
-      <ion-col  ng col-3 class="choices"*ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.answer.name">
-        <button *ngSwitchCase="true" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{choice.position - currentQuestion.answer.position}}</button>
-        <button *ngSwitchCase="false" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.position -currentQuestion.answer.position}}</button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col [ngSwitch]="checkUserChoice" *ngIf="hidden">
-        <p *ngSwitchCase="true">Bonne Réponse !</p>
-        <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{currentQuestion.answer.name}}</p>
-      </ion-col>
-    </ion-row>
-    <ion-row justify-content-end>
-      <ion-col  [ngSwitch]="nbQuestion == nbQuestionMax">
-        <button *ngSwitchCase="false" ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Suivant &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
-        <button *ngSwitchCase="true" ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Résultats &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col>
+          <p>Questions {{nbQuestion}}/{{nbQuestionMax}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col style="text-align:center">
+          <p>{{type.description}} ?</p>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col class="choices">
+          <button ion-button class="sound_btn" (click)="playSound(currentQuestion.notes)">
+            <ion-icon name="musical-notes"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col class="choices" *ngIf="switchRefNote">
+          <button ion-button class="sound_btn_Ref" (click)="playSound(currentQuestion.notes)">
+            <ion-icon name="musical-notes"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
+          <button *ngSwitchCase="true" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{choice.position
+            - currentQuestion.correctAnswer.position}}</button>
+          <button *ngSwitchCase="false" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.position
+            - currentQuestion.correctAnswer.position}}</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col [ngSwitch]="checkUserChoice" *ngIf="hidden">
+          <p *ngSwitchCase="true">Bonne Réponse !</p>
+          <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{currentQuestion.correctAnswer.name}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-end>
+        <ion-col  [ngSwitch]="nbQuestion == nbQuestionMax">
+          <button *ngSwitchCase="false" ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Suivant &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
+          <button *ngSwitchCase="true" ion-button style="float:right" (click)="nextQuestion()" [disabled]="!btnSwitch">Résultats &nbsp;&nbsp;&nbsp;<ion-icon name="ios-arrow-forward"></ion-icon></button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>

@@ -27,32 +27,36 @@ import { ToneUtilities } from "../../utilities/tone";
 export class QuestionsPage {
 
   nbQuestion : number = 0;
-  nbQuestionMax : number = 15;
+  nbMaxUncorrectQuestion : number = 0;
+  nbQuestionMax : number;
   speaker = new ToneUtilities();
   type : ExerciceType ;
   difficulty : number;
   exo : Exercice;
-  questions : Array<Question> = [];
   choices : Array<Note> = [];
   checkUserChoice : boolean ;
-  hidden:boolean = false;0
+  hidden:boolean = false;
   switchRefNote : boolean = false;
   btnSwitch:boolean = false;
-  currentQuestion : Question ;
+  currentQuestion : Question = null;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ) {
    this.type = this.navParams.get('exercice_type');
    this.difficulty = this.navParams.get('rank');
 
+   this.nbQuestionMax = this.difficulty <= 0.25 ? 7 :
+                        this.difficulty <= 0.5 ? 10 : 15;
+
+   this.nbMaxUncorrectQuestion = this.difficulty <= 0.25 ? 7 : 5;
+
    this.generateNewExercice();
   }
-
 
   changeChoicesNames(choices : Array<Note>){
   }
 
-  checkAnswer(position: number,event){
+  checkAnswer(position: number, event){
 
     if(this.hidden==true){
       event.stopPropagation();
@@ -60,32 +64,42 @@ export class QuestionsPage {
     else{
       this.btnSwitch=true;
       this.hidden = true;
-      if(position == this.currentQuestion.answer.position){
-        this.checkUserChoice = true;
-        this.currentQuestion.correct = this.checkUserChoice;
-      }
-      else{
-        this.checkUserChoice = false;
-      }
-      this.currentQuestion.correct = this.checkUserChoice;
-      this.questions.push(this.currentQuestion);
+
+      this.currentQuestion.correct = position == this.currentQuestion.correctAnswer.position;
+
+      this.exo.questions.push(this.currentQuestion);
     }
   }
 
   nextQuestion(){
-    if(this.nbQuestion == this.nbQuestionMax){
-      this.exo.questions = this.questions;
-      //this.exRepo.addDoneExercice(this.exo);
-      this.navCtrl.push(ResultatPage,{'questions':this.questions});
+    if(this.nbQuestion == this.nbQuestionMax || this.isLoosingGame()){
+      this.exRepo.addDoneExercice(this.exo);
+      this.navCtrl.push(ResultatPage,{'exercice':this.exo});
     }
     else{
-
       this.btnSwitch=false;
       this.hidden = false;
       this.checkUserChoice = false;
-      this.choices = [];
       this.generateNewQuestion(this.exo);
     }
+
+  }
+
+  // Function defined in order to prevent the user to lose 5 multiple questions or other
+  isLoosingGame(): boolean {
+    var count = 0;
+
+    this.exo.questions.forEach((question) => {
+      if (question.correct == false) count++;
+      else count = 0;
+
+      if (count >= this.nbMaxUncorrectQuestion) return false
+    });
+
+    return false
+  }
+
+  finalizeExercice() {
 
   }
 
@@ -97,8 +111,11 @@ export class QuestionsPage {
   }
 
   generateNewQuestion(exercice: Exercice ){
+
     this.nbQuestion = this.nbQuestion+1;
+
     if(this.type.id == 1 && this.difficulty == 0.25){
+
       this.switchRefNote = true;
     }
     else if(this.type.id == 1 && this.difficulty == 0.5){
@@ -106,20 +123,11 @@ export class QuestionsPage {
       this.switchRefNote = Math.random() >= 0.5;
     }
 
-    this.exGen.newQuestion(exercice).then(function(question){
+    let _this = this;
 
-      return question;
-
-    }).then((question)=>{
-      this.currentQuestion = question;
-      this.choices.push(question.answer);
-      return this.exGen.falseAnswers(this.type.id,question.range,question.notes,question.nbChoix).then(function(fake){
-         return fake;
-       })
-    }).then((fake)=>{
-      for(let i =0; i<fake.length ;i++){
-        this.choices.push(fake[i]);
-      }
+    _this.exGen.newQuestion(exercice).then((question)=> {
+      _this.currentQuestion = question;
+      _this.choices = question.answers;
     })
   }
 
@@ -127,7 +135,7 @@ export class QuestionsPage {
     if(this.type.id == 0){
       this.speaker.playInterval([note,this.currentQuestion.notes[1]])
     }else{
-        this.speaker.playNote(note);
+      this.speaker.playNote(note);
   }
 }
 

@@ -32,7 +32,7 @@ export class GeneratorPage {
   }
 
   generateExercice() {
-    this.generator.newExercice(1, 0.5).then((exercice)=> {
+    this.generator.newExercice(0, 0.5).then((exercice)=> {
       this.exercice = exercice;
       console.log(exercice);
     }, (error) => console.error(error))
@@ -44,6 +44,8 @@ export class GeneratorPage {
       this.exercice.questions.push(question);
       this.question = question;
       this.notes = question.notes;
+
+      console.log(question)
     }, (error) => console.error(error))
   }
 
