@@ -12,13 +12,13 @@ export class ToneUtilities {
     synth.triggerAttackRelease(note.name, "1n")
   }
 
-  playInterval(interval: Array<Note>, delay = 500) {
+  playInterval(interval: Array<Note>, delay = 300) {
     if (interval.length != 2) return;
 
-    let synths = new Tone.PolySynth(notes.length, Tone.Synth).toMaster();
+    let synths = new Tone.Synth(interval.length, Tone.Synth).toMaster();
 
     synths.triggerAttackRelease(interval[0].name, "1n");
-    setTimeout(()=> synths.triggerAttackRelease(interval[0].name, "1n"), delay);
+    setTimeout(()=> synths.triggerAttackRelease(interval[1].name, "1n"), delay);
   }
 
   // Play an array of notes with a delay between each note

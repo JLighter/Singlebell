@@ -9,7 +9,8 @@ import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
 import { ResultatPage } from '../resultat/resultat';
 import {UserRepository} from "../../repository/user_repository";
-import  Tone  from 'tone';
+import { ToneUtilities } from "../../utilities/tone";
+
 
 
 /**
@@ -30,7 +31,7 @@ export class QuestionsPage {
   //Manque Nb De questions
   nbQuestion : number = 0;
   nbQuestionMax : number = 15;
-  synth = new Tone.Synth().toMaster();
+  speaker = new ToneUtilities();
   type : ExerciceType ;
   difficulty : number;
   exo : Exercice;
@@ -86,11 +87,6 @@ export class QuestionsPage {
 
   }
 
-  gameOver(){
-    //Push this.Questions to created Exercice
-    //Push Exercice To storage at Done exercice
-
-  }
 
   generateNewExercice(){
     this.exGen.newExercice(this.type.id,this.difficulty).then((exercice)=>{
@@ -109,6 +105,7 @@ export class QuestionsPage {
     }).then((question)=>{
       console.log(question);
       this.currentQuestion = question;
+      console.log(question);
       this.choices.push(question.answer);
       return this.exGen.falseAnswers(this.type.id,question.range,question.notes,question.nbChoix).then(function(fake){
          return fake;
@@ -123,31 +120,18 @@ export class QuestionsPage {
 
   playSoundFromChoices(note:Note){
     if(this.type.id == 0){
-      if(this.currentQuestion.answer.name == note.name){
-        this.synth.triggerAttackRelease(this.currentQuestion.notes[0].name,0.8,1);
-        setTimeout(()=>{
-          this.synth.triggerAttackRelease(this.currentQuestion.notes[1].name,0.8,1);
-        }, 1000)
-      }
-      else{
-        this.synth.triggerAttackRelease(this.currentQuestion.answer.name,0.8,1);
-        setTimeout(()=>{
-          this.synth.triggerAttackRelease(note.name,0.8,1);
-        }, 1000)
-      }
+      this.speaker.playInterval([note,this.currentQuestion.notes[1]])
+    }else{
+        this.speaker.playNote(note);
   }
 }
 
   playSound(notes: Array<Note>){
     if(this.type.id == 0){
-      this.synth.triggerAttackRelease(this.currentQuestion.notes[0].name,0.8,1);
-      setTimeout(()=>{
-        this.synth.triggerAttackRelease(this.currentQuestion.notes[1].name,0.8,1);
-      }, 1000)
+      this.speaker.playInterval(notes);
     }
     else{
-      this.synth.triggerAttackRelease(this.currentQuestion.answer.name,0.8,1);
+      this.speaker.playNote(notes[0]);
     }
-
   }
 }
