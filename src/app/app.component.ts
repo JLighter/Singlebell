@@ -66,14 +66,12 @@ export class MyApp {
 
     _this.storage.set(Constant.db_user_key, user);
 
-    let symphType = new ExerciceType(0, "Symphonique", "musical-note", "Ennoncé");
-    let relType = new ExerciceType(2, "Relative", "eye", "Ennoncé");
-    let absType = new ExerciceType(1, "Absolue", "eye-off", "Ennoncé");
+    let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
+    let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
 
     let types = [];
 
     types.push(symphType);
-    types.push(relType);
     types.push(absType);
 
     _this.storage.set(Constant.db_exercice_type, types).catch((error) => console.error(error));

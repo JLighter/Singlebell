@@ -11,8 +11,6 @@ import { ResultatPage } from '../resultat/resultat';
 import {UserRepository} from "../../repository/user_repository";
 import { ToneUtilities } from "../../utilities/tone";
 
-
-
 /**
  * Generated class for the QuestionsPage page.
  *
@@ -28,7 +26,6 @@ import { ToneUtilities } from "../../utilities/tone";
 })
 export class QuestionsPage {
 
-  //Manque Nb De questions
   nbQuestion : number = 0;
   nbQuestionMax : number = 15;
   speaker = new ToneUtilities();
@@ -39,9 +36,10 @@ export class QuestionsPage {
   choices : Array<Note> = [];
   checkUserChoice : boolean ;
   hidden:boolean = false;
+  switchRefNote : boolean = false;
   btnSwitch:boolean = false;
   currentQuestion : Question ;
-  soundPath : string = "assets/audio/";
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ) {
    this.type = this.navParams.get('exercice_type');
@@ -87,7 +85,6 @@ export class QuestionsPage {
 
   }
 
-
   generateNewExercice(){
     this.exGen.newExercice(this.type.id,this.difficulty).then((exercice)=>{
       this.exo = exercice;
@@ -97,6 +94,13 @@ export class QuestionsPage {
 
   generateNewQuestion(exercice: Exercice ){
     this.nbQuestion = this.nbQuestion+1;
+    if(this.type.id == 1 && this.difficulty == 0.25){
+      this.switchRefNote = true;
+    }
+    else if(this.type.id == 1 && this.difficulty == 0.5){
+
+      this.switchRefNote = Math.random() >= 0.5;
+    }
 
     this.exGen.newQuestion(exercice).then(function(question){
 
@@ -110,7 +114,6 @@ export class QuestionsPage {
       return this.exGen.falseAnswers(this.type.id,question.range,question.notes,question.nbChoix).then(function(fake){
          return fake;
        })
-
     }).then((fake)=>{
       for(let i =0; i<fake.length ;i++){
         this.choices.push(fake[i]);
@@ -131,6 +134,7 @@ export class QuestionsPage {
       this.speaker.playInterval(notes);
     }
     else{
+      console.log(notes);
       this.speaker.playNote(notes[0]);
     }
   }

@@ -36,12 +36,68 @@ export class ExercicesPage {
 
         alert(error);
     });
-
   }
-
+  
   selectLevel(exTypeSelected : ExerciceType){
 
       let alert = this.alertCtrl.create();
+      let alertInterval= this.alertCtrl.create();
+      alertInterval.setTitle('Selectionnez un ou plusieurs intervales à travailler');
+      alertInterval.addInput({
+        type: 'checkbox',
+        label: '2 demi ton',
+        value: '2',
+        checked: true
+      });
+
+      alertInterval.addInput({
+        type: 'checkbox',
+        label: '3 demi ton',
+        value: '3',
+        checked: false
+      });
+
+    alertInterval.addInput({
+        type: 'checkbox',
+        label: '4 demi ton',
+        value: '4',
+        checked: false
+      });
+
+      alertInterval.addInput({
+          type: 'checkbox',
+          label: '5 demi ton',
+          value: '5',
+          checked: false
+      });
+
+      alertInterval.addInput({
+            type: 'checkbox',
+            label: '7 demi ton',
+            value: '7',
+            checked: false
+        });
+      alertInterval.addInput({
+            type: 'checkbox',
+            label: '8 demi ton',
+            value: '8',
+            checked: false
+        });
+      alertInterval.addInput({
+            type: 'checkbox',
+            label: '9 demi ton',
+            value: '9',
+            checked: false
+      });
+
+      alertInterval.addButton('Cancel');
+      alertInterval.addButton({
+      text: 'OK',
+      handler: data => {
+        this.navCtrl.push(QuestionsPage,{rank:this.difficulty,exercice_type:exTypeSelected,selectedIntervals:data})
+      }
+      });
+
       alert.setTitle('Selectionnez un niveau de difficulté');
 
       alert.addInput({
@@ -71,7 +127,12 @@ export class ExercicesPage {
       text: 'OK',
       handler: data => {
         this.difficulty = data;
-        this.navCtrl.push(QuestionsPage,{rank:this.difficulty,exercice_type:exTypeSelected})
+        if(exTypeSelected.id==0){
+          alertInterval.present();
+        }
+        else{
+          this.navCtrl.push(QuestionsPage,{rank:this.difficulty,exercice_type:exTypeSelected})
+        }
       }
       });
       alert.present();

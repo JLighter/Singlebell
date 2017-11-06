@@ -8,8 +8,8 @@ export class ToneUtilities {
   constructor() {}
 
   playNote(note: Note) {
-    let synth = new Tone.Synth().toMatser();
-    synth.triggerAttackRelease(note.name, "1n")
+    let synth = new Tone.Synth().toMaster();
+    synth.triggerAttackRelease(note.name, "1n");
   }
 
   playInterval(interval: Array<Note>, delay = 300) {

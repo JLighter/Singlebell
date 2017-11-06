@@ -25,9 +25,16 @@
       </ion-col>
     </ion-row>
     <ion-row justify-content-center>
-      <button ion-button class="sound_btn" (click)="playSound(currentQuestion.notes)">
-        <ion-icon name="musical-notes"></ion-icon>
-      </button>
+      <ion-col class="choices">
+        <button ion-button class="sound_btn" (click)="playSound(currentQuestion.notes)">
+          <ion-icon name="musical-notes"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col class="choices" *ngIf="switchRefNote">
+        <button ion-button class="sound_btn_Ref" (click)="playSound(currentQuestion.notes)">
+          <ion-icon name="musical-notes"></ion-icon>
+        </button>
+      </ion-col>
     </ion-row>
     <ion-row justify-content-center>
       <ion-col  ng col-3 class="choices"*ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.answer.name">
