@@ -112,9 +112,14 @@ export class ExerciceGenerator {
 
   generateInterval(range: number, fixed : boolean = false, interval: number = 0): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1+range, 64-range);
-    let secondNoteP = Utils.generateRandomInteger(firstNoteP-range, firstNoteP+range);
 
-    if (fixed) {
+    var secondNoteP: number;
+
+    while(!secondNoteP || secondNoteP == firstNoteP) {
+      secondNoteP = Utils.generateRandomInteger(firstNoteP - range, firstNoteP + range);
+    }
+
+    if (fixed && interval != 0) {
       interval = interval < 0 ? 0 : interval;
       interval = interval > 9 ? 9 : interval;
 
@@ -125,7 +130,7 @@ export class ExerciceGenerator {
 
     return new Promise(function(resolve, reject) {
       repo.getNotesByPosition([firstNoteP, secondNoteP]).then(function(notes : Array<Note>) {
-        console.log(notes);
+
         resolve(notes);
       }, (error) => reject(error));
     });
