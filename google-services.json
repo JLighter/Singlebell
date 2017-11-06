@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "372828739124",
+    "firebase_url": "https://singlebell-79eb0.firebaseio.com",
+    "project_id": "singlebell-79eb0",
+    "storage_bucket": "singlebell-79eb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372828739124:android:5940b59d6a6e13a0",
+        "android_client_info": {
+          "package_name": "io.emstudent.singlebell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372828739124-embs6pmifqot00oc5jmfm78i21ubmieo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-p1wWf7NQhflcRqdSDStRoepUaRtaLd8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
