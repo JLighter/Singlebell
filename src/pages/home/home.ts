@@ -6,6 +6,7 @@ import { ExercicesPage } from "../exercices/exercices";
 import { QuestionsPage } from "../questions/questions"
 import {ProgressPage} from "../progress/progress";
 import {ExtraPage} from "../extra/extra";
+import {SettingsPage} from "../settings/settings";
 
 @Component({
   selector: 'page-home',
@@ -51,6 +52,14 @@ export class HomePage {
       'Extra',
       'game-controller-a',
       'Des jeux à faire tout le temps !',
+      'primary'
+    ));
+
+    this.categories.push(new Categorie(
+      SettingsPage,
+      'Settings',
+      'settings',
+      'Parametrer votre application !',
       'primary'
     ));
   }

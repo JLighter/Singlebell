@@ -25,6 +25,7 @@ import {ExerciceGenerator} from "../utilities/exercice_generator";
 import {ExerciceRepository} from "../repository/exercice_repository";
 import {NoteRepository} from "../repository/note_repository";
 import {UserRepository} from "../repository/user_repository";
+import {SettingsPage} from "../pages/settings/settings";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {UserRepository} from "../repository/user_repository";
     ProgressPage,
     QuestionsPage,
     GeneratorPage,
-    ResultatPage
+    ResultatPage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,7 @@ import {UserRepository} from "../repository/user_repository";
     ExtraPage,
     GeneratorPage,
     ResultatPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,
