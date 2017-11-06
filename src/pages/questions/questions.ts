@@ -8,8 +8,12 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
 import { ResultatPage } from '../resultat/resultat';
-//import {UserRepository} from "../../repository/user_repository";
 import { ToneUtilities } from "../../utilities/tone";
+import { Elo } from "../../utilities/elo";
+import { UserRepository } from "../../repository/user_repository";
+import { User } from "../../models/user";
+
+
 
 /**
  * Generated class for the QuestionsPage page.
@@ -22,7 +26,7 @@ import { ToneUtilities } from "../../utilities/tone";
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
-  providers : [ExerciceGenerator,ExerciceRepository]
+  providers : [ExerciceGenerator,ExerciceRepository,Elo,UserRepository]
 })
 export class QuestionsPage {
 
@@ -40,11 +44,18 @@ export class QuestionsPage {
   refNote : Note = null;
   btnSwitch:boolean = false;
   currentQuestion : Question = null;
+  userOldRank : number;
+  userName : string ;
 
-
-  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ,public elo: Elo, public userRepo : UserRepository) {
     this.type = this.navParams.get('exercice_type');
+
     this.difficulty = this.navParams.get('rank');
+
+    this.userRepo.getUser().then((user)=>{
+      this.userOldRank = user.level;
+      this.userName = user.name;
+    }),
 
     this.nbQuestionMax = this.difficulty <= 0.25 ? 7 :
       this.difficulty <= 0.5 ? 10 : 15;
@@ -70,7 +81,12 @@ export class QuestionsPage {
   }
 
   nextQuestion(){
+
     if(this.nbQuestion == this.nbQuestionMax || this.isLoosingGame()){
+      let expected = this.elo.expected(this.userOldRank,this.exo.rank);
+      let score = Exercice.getScore(this.exo.questions);
+      let newRank = this.elo.calculElo(this.userOldRank,expected,score);
+      this.userRepo.setNewLevel(newRank,this.userName);
       this.exRepo.addDoneExercice(this.exo);
       this.navCtrl.push(ResultatPage,{'exercice':this.exo});
     }
@@ -107,6 +123,18 @@ export class QuestionsPage {
 
     this.nbQuestion = this.nbQuestion+1;
 
+<<<<<<< HEAD
+=======
+    if(this.type.id == 1 && this.difficulty == 0.25){
+
+      this.switchRefNote = true;
+    }
+    else if(this.type.id == 1 && this.difficulty == 0.5){
+
+      this.switchRefNote = Math.random() >= 0.5;
+    }
+
+>>>>>>> d98475bb4d88724efef3ea94957e814920acf7e2
     let _this = this;
 
     _this.exGen.newQuestion(exercice).then((question)=> {
