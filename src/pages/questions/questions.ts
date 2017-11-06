@@ -35,7 +35,7 @@ export class QuestionsPage {
   questions : Array<Question> = [];
   choices : Array<Note> = [];
   checkUserChoice : boolean ;
-  hidden:boolean = false;0
+  hidden:boolean = false;
   switchRefNote : boolean = false;
   btnSwitch:boolean = false;
   currentQuestion : Question ;
@@ -47,7 +47,6 @@ export class QuestionsPage {
 
    this.generateNewExercice();
   }
-
 
   changeChoicesNames(choices : Array<Note>){
   }
@@ -106,18 +105,14 @@ export class QuestionsPage {
       this.switchRefNote = Math.random() >= 0.5;
     }
 
-    this.exGen.newQuestion(exercice).then(function(question){
-
-      return question;
-
-    }).then((question)=>{
+    this.exGen.newQuestion(exercice).then((question)=>{
       this.currentQuestion = question;
-      this.choices.push(question.answer);
-      return this.exGen.falseAnswers(this.type.id,question.range,question.notes,question.nbChoix).then(function(fake){
-         return fake;
-       })
+
+      return this.exGen.answers(this.type.id,question.range,question.notes,question.nbChoix)
     }).then((fake)=>{
+      console.log(fake);
       for(let i =0; i<fake.length ;i++){
+        console.log(this.choices);
         this.choices.push(fake[i]);
       }
     })

@@ -58,11 +58,11 @@ export class ExerciceGenerator {
 
           return _this.generateInterval(range)
 
-        } else {
+        } else if (exercice.type.id == 1) {
 
           let minor : boolean = Utils.generateRandomInteger(0,10)%2 == 1;
 
-          return _this.generateChord(minor);
+          return _this.generateNote();
         }
       })().then((notes) => {
 
@@ -110,6 +110,18 @@ export class ExerciceGenerator {
     });
   }
 
+  generateNote() {
+    let firstNoteP = Utils.generateRandomInteger(1, 64 - 7);
+    let repo = this.noteRepository;
+
+    return new Promise(function(resolve,reject) {
+      repo.getNotesByPosition([firstNoteP]).then(function(notes) {
+        if (!notes) reject("No note with this position: "+ firstNoteP);
+        resolve(notes)
+      }, (error) => reject(error))
+    })
+  }
+
   generateInterval(range: number, fixed : boolean = false, interval: number = 0): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1+range, 64-range);
 
@@ -136,7 +148,7 @@ export class ExerciceGenerator {
     });
   }
 
-  falseAnswers(type: number, range: number, notes: Array<Note>, nbAnswers: number): Promise<Array<Note>> {
+  answers(type: number, range: number, notes: Array<Note>, nbAnswers: number): Promise<Array<Note>> {
     let goodP : number;
     console.log("type: "+type);
 
@@ -155,11 +167,13 @@ export class ExerciceGenerator {
       while (falseP == 0 || isContaining) {
         falseP = Utils.generateRandomInteger(goodP-range, goodP+range);
 
-        if (positions.filter((p) => falseP == p).length == 0) {
+        if (positions.indexOf(falseP)) {
           isContaining = false;
         }
+        console.log(!positions.indexOf(falseP), falseP)
       }
 
+      console.debug("pushed", falseP);
       positions.push(falseP);
     }
 
