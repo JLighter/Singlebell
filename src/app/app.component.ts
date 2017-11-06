@@ -22,6 +22,8 @@ import {Note} from "../models/note";
 })
 export class MyApp {
   rootPage:any;
+  user : User ;
+
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public storage: Storage, public userRepository: UserRepository) {
 
@@ -42,15 +44,13 @@ export class MyApp {
     let _this = this;
 
     _this.userRepository.getUser().then(function(user) {
-
-      console.log(user);
-
       if (!user) {
-
+         _this.user = new User('Julien', 500);
+         _this.storage.set(Constant.db_user_key,_this.user);
         _this.rootPage = SlidesPage;
 
       } else {
-
+        _this.user = user;
         _this.rootPage = HomePage;
 
       }
@@ -60,11 +60,12 @@ export class MyApp {
   populateStorage() {
     let _this = this;
 
-    _this.storage.clear();
+    //_this.storage.clear();
+    console.log('user populate storage');
+    console.log(_this.user)
+    _this.storage.set(Constant.db_user_key,_this.user);
+    _this.storage.set(Constant.db_done_exercice, []);
 
-    let user = new User('Julien', 500);
-
-    _this.storage.set(Constant.db_user_key, user);
 
     let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
     let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");

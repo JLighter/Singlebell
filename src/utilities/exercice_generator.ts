@@ -24,6 +24,7 @@ export class ExerciceGenerator {
 
     this.userRepository.getUser().then(function(user) {
       _this.user = user;
+      console.log(user);
     })
 
   }

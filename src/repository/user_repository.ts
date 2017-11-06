@@ -8,6 +8,7 @@ export class UserRepository {
   constructor(private storage: Storage) {}
 
   getUser() {
+    console.log(this.storage.get(Constant.db_user_key));
     return this.storage.get(Constant.db_user_key)
   }
 
