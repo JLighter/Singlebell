@@ -37,11 +37,10 @@
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
-        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
+        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="type.id == 0">
           <button *ngSwitchCase="true" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{choice.position
             - currentQuestion.correctAnswer.position}}</button>
-          <button *ngSwitchCase="false" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.position
-            - currentQuestion.correctAnswer.position}}</button>
+          <button *ngSwitchCase="false" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.name}}</button>
         </ion-col>
       </ion-row>
       <ion-row>

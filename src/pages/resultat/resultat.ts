@@ -22,7 +22,7 @@ export class ResultatPage {
   score : number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.score = Exercice.getScore(this.navParams.get('questions'))
+    this.score = Exercice.getScore(this.navParams.get('exercice'));
   }
 
   ionViewDidLoad() {
