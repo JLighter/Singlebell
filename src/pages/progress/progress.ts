@@ -40,12 +40,12 @@ export class ProgressPage {
   }
 
   exercicesOfType(id: number): Array<Exercice> {
-    if (!this.exercices || this.exercices.length == 0) return null
+    if (!this.exercices || this.exercices.length == 0) return null;
     else return this.exercices.filter((x) => x.type.id == id );
   }
 
   nbOfExerciceOfType(id: number): number {
-    if (!this.exercices || this.exercices.length == 0) return 0
+    if (!this.exercices || this.exercices.length == 0) return 0;
     return this.exercices.filter((x) => x.type.id == id ).length;
   }
 

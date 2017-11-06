@@ -55,7 +55,7 @@ export class QuestionsPage {
     this.userRepo.getUser().then((user)=>{
       this.userOldRank = user.level;
       this.userName = user.name;
-    }),
+    });
 
     this.nbQuestionMax = this.difficulty <= 0.25 ? 7 :
       this.difficulty <= 0.5 ? 10 : 15;
@@ -123,36 +123,24 @@ export class QuestionsPage {
 
     this.nbQuestion = this.nbQuestion+1;
 
-<<<<<<< HEAD
-=======
-    if(this.type.id == 1 && this.difficulty == 0.25){
+    let this_ = this;
 
-      this.switchRefNote = true;
-    }
-    else if(this.type.id == 1 && this.difficulty == 0.5){
-
-      this.switchRefNote = Math.random() >= 0.5;
-    }
-
->>>>>>> d98475bb4d88724efef3ea94957e814920acf7e2
-    let _this = this;
-
-    _this.exGen.newQuestion(exercice).then((question)=> {
-      _this.currentQuestion = question;
-      _this.choices = question.answers;
+    this_.exGen.newQuestion(exercice).then((question)=> {
+      this_.currentQuestion = question;
+      this_.choices = question.answers;
 
       let answer = question.correctAnswer;
 
-      _this.exGen.generateRefNote(parseInt(answer.name[answer.name.length-1])).then(function(notes) {
-        _this.refNote = notes[0];
+      this_.exGen.generateRefNote(parseInt(answer.name[answer.name.length-1])).then(function(notes) {
+        this_.refNote = notes[0];
 
-        if(_this.type.id == 1 && _this.difficulty == 0.25){
+        if(this_.type.id == 1 && this_.difficulty == 0.25){
 
-          _this.switchRefNote = true;
+          this_.switchRefNote = true;
         }
-        else if(this.type.id == 1 && _this.difficulty == 0.5){
+        else if(this_.type.id == 1 && this_.difficulty == 0.5){
 
-          _this.switchRefNote = Math.random() >= 0.5;
+          this_.switchRefNote = Math.random() >= 0.5;
 
         }
       })
