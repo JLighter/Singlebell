@@ -8,6 +8,22 @@
 
 
 <ion-content padding>
-  <p>Wow</p>
-
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col style="text-align:center">
+        <p>Votre score est de :{{score}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="text-align:center" >
+        <button ion-button>Accueil</button>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <button ion-button>Recommencez</button>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <button ion-button>Passez au niveau suivant</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

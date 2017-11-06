@@ -8,7 +8,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
 import { ResultatPage } from '../resultat/resultat';
-import {UserRepository} from "../../repository/user_repository";
+//import {UserRepository} from "../../repository/user_repository";
 import { ToneUtilities } from "../../utilities/tone";
 
 /**
@@ -35,7 +35,7 @@ export class QuestionsPage {
   questions : Array<Question> = [];
   choices : Array<Note> = [];
   checkUserChoice : boolean ;
-  hidden:boolean = false;
+  hidden:boolean = false;0
   switchRefNote : boolean = false;
   btnSwitch:boolean = false;
   currentQuestion : Question ;
@@ -46,6 +46,10 @@ export class QuestionsPage {
    this.difficulty = this.navParams.get('rank');
 
    this.generateNewExercice();
+  }
+
+
+  changeChoicesNames(choices : Array<Note>){
   }
 
   checkAnswer(position: number,event){
@@ -72,7 +76,7 @@ export class QuestionsPage {
     if(this.nbQuestion == this.nbQuestionMax){
       this.exo.questions = this.questions;
       //this.exRepo.addDoneExercice(this.exo);
-      this.navCtrl.push(ResultatPage);
+      this.navCtrl.push(ResultatPage,{'questions':this.questions});
     }
     else{
 
@@ -107,9 +111,7 @@ export class QuestionsPage {
       return question;
 
     }).then((question)=>{
-      console.log(question);
       this.currentQuestion = question;
-      console.log(question);
       this.choices.push(question.answer);
       return this.exGen.falseAnswers(this.type.id,question.range,question.notes,question.nbChoix).then(function(fake){
          return fake;
