@@ -37,23 +37,21 @@ export class QuestionsPage {
   checkUserChoice : boolean ;
   hidden:boolean = false;
   switchRefNote : boolean = false;
+  refNote : Note = null;
   btnSwitch:boolean = false;
   currentQuestion : Question = null;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ) {
-   this.type = this.navParams.get('exercice_type');
-   this.difficulty = this.navParams.get('rank');
+    this.type = this.navParams.get('exercice_type');
+    this.difficulty = this.navParams.get('rank');
 
-   this.nbQuestionMax = this.difficulty <= 0.25 ? 7 :
-                        this.difficulty <= 0.5 ? 10 : 15;
+    this.nbQuestionMax = this.difficulty <= 0.25 ? 7 :
+      this.difficulty <= 0.5 ? 10 : 15;
 
-   this.nbMaxUncorrectQuestion = this.difficulty <= 0.25 ? 7 : 5;
+    this.nbMaxUncorrectQuestion = this.difficulty <= 0.25 ? 7 : 5;
 
-   this.generateNewExercice();
-  }
-
-  changeChoicesNames(choices : Array<Note>){
+    this.generateNewExercice();
   }
 
   checkAnswer(position: number, event){
@@ -77,12 +75,11 @@ export class QuestionsPage {
       this.navCtrl.push(ResultatPage,{'exercice':this.exo});
     }
     else{
-      this.btnSwitch=false;
+      this.btnSwitch = false;
       this.hidden = false;
       this.checkUserChoice = false;
       this.generateNewQuestion(this.exo);
     }
-
   }
 
   // Function defined in order to prevent the user to lose 5 multiple questions or other
@@ -99,10 +96,6 @@ export class QuestionsPage {
     return false
   }
 
-  finalizeExercice() {
-
-  }
-
   generateNewExercice(){
     this.exGen.newExercice(this.type.id,this.difficulty).then((exercice)=>{
       this.exo = exercice;
@@ -114,21 +107,28 @@ export class QuestionsPage {
 
     this.nbQuestion = this.nbQuestion+1;
 
-    if(this.type.id == 1 && this.difficulty == 0.25){
-
-      this.switchRefNote = true;
-    }
-    else if(this.type.id == 1 && this.difficulty == 0.5){
-
-      this.switchRefNote = Math.random() >= 0.5;
-    }
-
-<<<<<<< HEAD
     let _this = this;
 
     _this.exGen.newQuestion(exercice).then((question)=> {
       _this.currentQuestion = question;
       _this.choices = question.answers;
+
+      let answer = question.correctAnswer;
+
+      _this.exGen.generateRefNote(parseInt(answer.name[answer.name.length-1])).then(function(notes) {
+        _this.refNote = notes[0];
+
+        if(_this.type.id == 1 && _this.difficulty == 0.25){
+
+          _this.switchRefNote = true;
+        }
+        else if(this.type.id == 1 && _this.difficulty == 0.5){
+
+          _this.switchRefNote = Math.random() >= 0.5;
+
+        }
+      })
+
     })
   }
 
@@ -137,16 +137,19 @@ export class QuestionsPage {
       this.speaker.playInterval([note,this.currentQuestion.notes[1]])
     }else{
       this.speaker.playNote(note);
+    }
   }
-}
 
   playSound(notes: Array<Note>){
     if(this.type.id == 0){
       this.speaker.playInterval(notes);
     }
     else{
-      console.log(notes);
       this.speaker.playNote(notes[0]);
     }
+  }
+
+  labelForAnswer(question: Question, answer: Note): string {
+    return Question.labelForAnswer(this.exo.type, question.notes, answer);
   }
 }

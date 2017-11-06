@@ -125,13 +125,26 @@ export class ExerciceGenerator {
     });
   }
 
-  generateNote() {
+  generateNote(): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1, 64 - 7);
     let repo = this.noteRepository;
 
     return new Promise(function(resolve,reject) {
       repo.getNotesByPosition([firstNoteP]).then(function(notes) {
         if (!notes) reject("No note with this position: "+ firstNoteP);
+        resolve(notes)
+      }, (error) => reject(error))
+    })
+  }
+
+  generateRefNote(oct: number): Promise<Array<Note>> {
+    let refNote = "C"+oct;
+
+    let repo = this.noteRepository;
+
+    return new Promise(function(resolve,reject) {
+      repo.getNotesByName([refNote]).then(function(notes) {
+        if (!notes) reject("No note with this name: " + refNote);
         resolve(notes)
       }, (error) => reject(error))
     })

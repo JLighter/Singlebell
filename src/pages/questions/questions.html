@@ -31,29 +31,21 @@
           </button>
         </ion-col>
         <ion-col class="choices" *ngIf="switchRefNote">
-          <button ion-button class="sound_btn_Ref" (click)="playSound(currentQuestion.notes)">
-            <ion-icon name="musical-notes"></ion-icon>
+          <button ion-button class="sound_btn_Ref" (click)="playSound([refNote])">
+            {{refNote.name}}
           </button>
         </ion-col>
       </ion-row>
-      <ion-row justify-content-center *ngIf="type.id == 0">
+      <ion-row justify-content-center>
         <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
-          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{ choice.position
-            - currentQuestion.correctAnswer.position}}</button>
-          <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.position
-            - currentQuestion.correctAnswer.position}}</button>
-        </ion-col>
-      </ion-row>
-      <ion-row justify-content-center *ngIf="type.id == 1">
-        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
-          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{ choice.name}}</button>
-          <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.name}}</button>
+          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
+          <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col [ngSwitch]="checkUserChoice" *ngIf="hidden">
           <p *ngSwitchCase="true">Bonne Réponse !</p>
-          <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{currentQuestion.correctAnswer.name}}</p>
+          <p *ngSwitchCase="false">Mauvaise réponse ! La bonne réponse est : {{labelForAnswer(currentQuestion, currentQuestion.correctAnswer)}}</p>
         </ion-col>
       </ion-row>
       <ion-row justify-content-end>

@@ -1,4 +1,7 @@
 import { Note } from "./note";
+import {Exercice} from "./exercice";
+import {ExerciceType} from "./exercice_type";
+import * as Constant from '../utilities/constants';
 
 export class Question {
 
@@ -17,5 +20,13 @@ export class Question {
     this.notes = notes;
     this.correct = correct;
     this.answers = answers
+  }
+
+  public static labelForAnswer(type: ExerciceType, questionNotes: Array<Note>, answer: Note): string {
+    if (type.id == Constant.exercice_id_type_relative) {
+      return answer.position - questionNotes[0].position  + "/2"
+    } else if (type.id == Constant.exercice_id_type_asolute) {
+      return answer.name
+    }
   }
 }

@@ -29,7 +29,7 @@
               <!-- Exercice start -->
               <ion-item *ngFor="let question of exercice.questions; let i = index">
                 <div item-start>
-                  <h2 item-start>{{question.correctAnswer.name}}</h2>
+                  <h2 item-start>{{labelForAnswer(question, question.correctAnswer)}}</h2>
                 </div>
                 <div item-end>
                   <ion-checkbox item-end [ngModel]="question.correct" color="primary" disabled></ion-checkbox>

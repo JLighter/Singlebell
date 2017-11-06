@@ -25,13 +25,15 @@ export class NoteRepository {
     });
   }
 
-  getNotesByName(name: string) : Promise<Array<Note>> {
+  getNotesByName(names: Array<string>) : Promise<Array<Note>> {
     let _this = this;
     return new Promise(function(resolve, reject) {
 
       _this.storage.get(Constant.db_notes).then(function(notes: Array<Note>) {
 
-        resolve(notes.filter((note) => note.name === name))
+        notes = notes.filter((note) => names.filter((name) => note.name == name).length != 0);
+
+        resolve(notes);
 
       }, (error) => reject(error))
 

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Question } from "../../models/question";
 import { Exercice } from "../../models/exercice";
 import {ExercicesPage} from "../exercices/exercices";
-
+import {Note} from "../../models/note";
 
 
 /**
@@ -41,6 +41,10 @@ export class ResultatPage {
 
   popHome() {
     this.navCtrl.popToRoot();
+  }
+
+  labelForAnswer(question: Question, answer: Note): string {
+    return Question.labelForAnswer(this.exercice.type, question.notes, answer);
   }
 
 }

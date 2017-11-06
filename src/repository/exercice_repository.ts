@@ -65,7 +65,7 @@ export class ExerciceRepository {
       _this.getDoneExercices().then(function(exercices) {
         if (!exercices) exercices = [];
 
-       exercices.push(exercice);
+        exercices.push(exercice);
 
         _this.storage.set(Constant.db_done_exercice, exercices).then(function(){
 
