@@ -36,12 +36,18 @@
           </button>
         </ion-col>
       </ion-row>
-      <ion-row justify-content-center>
+      <ion-row justify-content-center *ngIf="type.id == 0">
         <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
-          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{choice.position
+          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{ choice.position
             - currentQuestion.correctAnswer.position}}</button>
           <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.position
             - currentQuestion.correctAnswer.position}}</button>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center *ngIf="type.id == 1">
+        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
+          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{ choice.name}}</button>
+          <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{choice.name}}</button>
         </ion-col>
       </ion-row>
       <ion-row>
