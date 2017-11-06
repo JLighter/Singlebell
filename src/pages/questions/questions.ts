@@ -150,7 +150,7 @@ export class QuestionsPage {
 
   playSoundFromChoices(note:Note){
     if(this.type.id == 0){
-      this.speaker.playInterval([note,this.currentQuestion.notes[1]])
+      this.speaker.playInterval([this.currentQuestion.notes[0],note])
     }else{
       this.speaker.playNote(note);
     }
