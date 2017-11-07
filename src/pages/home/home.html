@@ -14,10 +14,16 @@
         </h1>
       </ion-card-header>
       <ion-card-content>
-        <p>{{ categorie.description }}</p>
-        <span *ngIf="programLocked == true && categorie.name == 'Au programme'">
-          Prochain le {{ lockTimer | date : 'dd MMMM à HH:mm' }}
-        </span>
+        <ion-row no-padding >
+          <ion-col col-12 col-md-6 no-padding text-center text-md-left>
+            <span item-start>{{ categorie.description }}</span>
+          </ion-col>
+          <ion-col col-12 col-md-6 no-padding text-center text-md-right>
+            <p item-end *ngIf="programLocked == true && categorie.name == 'Au programme'">
+              Prochain le {{ lockTimer | date : 'dd MMMM à HH:mm' }}
+            </p>
+          </ion-col>
+        </ion-row>
       </ion-card-content>
     </ion-card>
 </ion-content>

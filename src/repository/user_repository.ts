@@ -17,15 +17,18 @@ export class UserRepository {
     return this.storage.set(Constant.db_user_key, user);
   }
 
-  setNewLevel(newLevel : number, userName: string): Promise<any>{
+  setNewLevel(newLevel : number): Promise<any>{
     if (newLevel <= 1) newLevel = 1;
     if (newLevel >= 1000) newLevel = 1000;
 
-    return this.storage.remove(Constant.db_user_key).then(()=>{
-       let user = new User(userName, newLevel);
+    return this.storage.get(Constant.db_user_key).then((user) => {
+
+      user = new User(user.name, newLevel);
 
       return this.storage.set(Constant.db_user_key, user)
-    });
+    })
+
+
   }
 
 }
