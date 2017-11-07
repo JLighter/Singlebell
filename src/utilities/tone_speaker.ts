@@ -3,7 +3,7 @@ import Tone from 'tone';
 import {Note} from "../models/note";
 
 @Injectable()
-export class ToneUtilities {
+export class ToneSpeaker {
 
   constructor() {}
 

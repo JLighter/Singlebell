@@ -8,11 +8,11 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
 import { ResultatPage } from '../resultat/resultat';
-import { ToneUtilities } from "../../utilities/tone";
+import { ToneSpeaker } from "../../utilities/tone";
 import { Elo } from "../../utilities/elo";
 import { UserRepository } from "../../repository/user_repository";
 import { User } from "../../models/user";
-
+import {HomePage} from "../home/home";
 
 
 /**
@@ -33,10 +33,11 @@ export class QuestionsPage {
   nbQuestion : number = 0;
   nbMaxUncorrectQuestion : number = 0;
   nbQuestionMax : number;
-  speaker = new ToneUtilities();
+  speaker = new ToneSpeaker();
   type : ExerciceType ;
   difficulty : number;
   exo : Exercice;
+  rank : number = 0;
   choices : Array<Note> = [];
   checkUserChoice : boolean ;
   hidden:boolean = false;
@@ -52,9 +53,10 @@ export class QuestionsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ,public elo: Elo, public userRepo : UserRepository) {
     this.type = this.navParams.get('exercice_type');
 
-    this.difficulty = this.navParams.get('rank');
+    this.difficulty = this.navParams.get('difficulty');
     this.isTest = this.navParams.get('isTest');
     this.selectedIntervals = this.navParams.get('selectedIntervals');
+
     this.userRepo.getUser().then((user)=>{
       this.userOldRank = user.level;
       this.userName = user.name;
@@ -76,6 +78,7 @@ export class QuestionsPage {
 
     this.exGen.newExercice(this.type.id,this.difficulty, opts).then((exercice)=>{
       this.exo = exercice;
+      this.rank = Math.round(exercice.rank);
       this.generateNewQuestion(this.exo);
     })
   }
@@ -162,6 +165,17 @@ export class QuestionsPage {
     let expected = this.elo.expected(this.userOldRank,this.exo.rank);
     let score = Exercice.getScore(this.exo.questions);
     let newRank = this.elo.calculElo(this.userOldRank,expected,score);
+
+    if (this.navParams.get('isProgram')) {
+
+      let tomorrow: Date = new Date();
+      tomorrow.setDate(tomorrow.getDate()+1);
+
+      this.exRepo.setTimeBeforeNextProgramme(tomorrow);
+
+    }
+
+    this.exRepo.setLastDoneExercices(this.exo);
     this.userRepo.setNewLevel(newRank,this.userName);
     this.exRepo.addDoneExercice(this.exo);
     this.navCtrl.push(ResultatPage,{'exercice':this.exo});

@@ -4,7 +4,7 @@ import {ExerciceGenerator} from "../../utilities/exercice_generator";
 import {Exercice} from "../../models/exercice";
 import {Note} from "../../models/note";
 import Tone, {default as tone} from 'tone';
-import {ToneUtilities} from "../../utilities/tone";
+import {ToneSpeaker} from "../../utilities/tone";
 import {Question} from "../../models/question";
 
 /**
@@ -18,7 +18,7 @@ import {Question} from "../../models/question";
 @Component({
   selector: 'page-generator',
   templateUrl: 'generator.html',
-  providers: [ExerciceGenerator, ToneUtilities]
+  providers: [ExerciceGenerator, ToneSpeaker]
 })
 export class GeneratorPage {
 
@@ -27,7 +27,7 @@ export class GeneratorPage {
 
   private notes: Array<Note>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator, private speaker: ToneUtilities) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator, private speaker: ToneSpeaker) {
 
   }
 

@@ -30,7 +30,7 @@ export class ExerciceGenerator {
 
   }
 
-  newExercice(typeId: number, difficulty :number = 0.5, opts: any): Promise<Exercice> {
+  newExercice(typeId: number, difficulty :number = 0.5, opts: any = null): Promise<Exercice> {
     let _this = this;
 
     return new Promise(function(resolve, reject) {

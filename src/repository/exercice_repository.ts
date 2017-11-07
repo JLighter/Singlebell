@@ -3,6 +3,7 @@ import * as Constant from "../utilities/constants";
 import {Injectable} from "@angular/core";
 import {Exercice} from "../models/exercice";
 import {ExerciceType} from "../models/exercice_type";
+import {DateTime} from "ionic-angular";
 
 
 @Injectable()
@@ -79,5 +80,21 @@ export class ExerciceRepository {
       }, (error) => reject(error));
     })
 
+  }
+
+  getLastDoneExercice(): Promise<Exercice> {
+    return this.storage.get(Constant.db_last_done_exercice)
+  }
+
+  setLastDoneExercices(exercice: Exercice): Promise<Exercice> {
+    return this.storage.set(Constant.db_last_done_exercice, exercice);
+  }
+
+  getTimeBeforeNextProgramme(): Promise<any> {
+    return this.storage.get(Constant.db_programme_time_before_next_session)
+  }
+
+  setTimeBeforeNextProgramme(date: Date): Promise<any> {
+    return this.storage.set(Constant.db_programme_time_before_next_session, date);
   }
 }

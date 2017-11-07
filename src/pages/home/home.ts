@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController} from 'ionic-angular';
+import { NavController} from 'ionic-angular';
 import { Categorie } from "../../models/categorie";
 
 import { ExercicesPage } from "../exercices/exercices";
@@ -7,29 +7,55 @@ import { QuestionsPage } from "../questions/questions"
 import {ProgressPage} from "../progress/progress";
 import {ExtraPage} from "../extra/extra";
 import {SettingsPage} from "../settings/settings";
+import {ExerciceRepository} from "../../repository/exercice_repository";
+import {Exercice} from "../../models/exercice";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  providers: [ExerciceRepository]
 })
 export class HomePage {
 
-  categories: Array<Categorie>;
+  public categories: Array<Categorie>;
+  public programLocked: boolean = false;
+  public lockTimer: number;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public repo: ExerciceRepository) {
     this.categories = [];
 
-    this.initCategories();
+    let this_ = this;
+
+    // Verify if the user can go to programme
+    this.repo.getTimeBeforeNextProgramme().then((time) => {
+
+      if (time) {
+        time = Date.parse(time);
+        let today = Date.now();
+
+        this_.programLocked = time > today;
+
+        this_.lockTimer = time;
+      }
+
+      this.initCategories();
+
+    });
+
   }
 
   initCategories() {
+
     this.categories.push(new Categorie(
-      null,
+      ExercicesPage,
       'Au programme',
       'easel',
-      '10 exercices spécialement choisient pour vous !',
-      'primary'
+      "Un exercice spécialement choisi pour vous !",
+      this.programLocked ? 'grey' : 'primary'
     ));
+
+    console.log("Locked", this.programLocked);
 
     this.categories.push(new Categorie(
       ExercicesPage,
@@ -62,6 +88,57 @@ export class HomePage {
       'Parametrer votre application !',
       'primary'
     ));
+  }
+
+  pushFor(categorie: Categorie) {
+    if (categorie.name == 'Au programme') {
+      if (!this.programLocked) this.launchProgramme()
+    } else {
+      this.navCtrl.push(categorie.page);
+    }
+  }
+
+  launchProgramme() {
+
+    let rand = Math.random();
+
+    var rank = rand;
+
+    this.repo.getLastDoneExercice().then(exercice => {
+      let typeId = 0;
+
+      if (exercice) {
+        if (exercice.type.id == 0 && rand > 0.75) typeId = 1;
+        if (exercice.type.id == 1 && rand > 0.75) typeId = 0;
+
+        let indice = Exercice.getScore(exercice.questions)/ exercice.questions.length;
+
+        if ( indice < 0.5 ) rank = 0.25;
+        else if ( indice < 0.75 ) rank = 0.5;
+        else rank = 1;
+      }
+
+      return this.repo.getExerciceType(typeId)
+
+    }).then(type => {
+
+      this.navCtrl.push(QuestionsPage,{difficulty:rand,exercice_type:type,isProgram:true})
+
+    })
+  }
+
+  getSecondsAsDigitalClock(inputSeconds: number) {
+    var sec_num = inputSeconds; // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+    var hoursString = '';
+    var minutesString = '';
+    var secondsString = '';
+    hoursString = (hours < 10) ? "0" + hours : hours.toString();
+    minutesString = (minutes < 10) ? "0" + minutes : minutes.toString();
+    secondsString = (seconds < 10) ? "0" + seconds : seconds.toString();
+    return hoursString + ':' + minutesString + ':' + secondsString;
   }
 
 }

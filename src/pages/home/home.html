@@ -6,7 +6,7 @@
 
 
 <ion-content>
-    <ion-card *ngFor="let categorie of categories" ngClass="card-{{categorie.type}}" [navPush]="categorie.page">
+    <ion-card *ngFor="let categorie of categories" ngClass="card-{{categorie.type}}" (click)="pushFor(categorie)">
       <ion-card-header>
         <h1>
           {{ categorie.name }}
@@ -15,6 +15,9 @@
       </ion-card-header>
       <ion-card-content>
         <p>{{ categorie.description }}</p>
+        <span *ngIf="programLocked == true && categorie.name == 'Au programme'">
+          Prochain le {{ lockTimer | date : 'dd MMMM à HH:mm' }}
+        </span>
       </ion-card-content>
     </ion-card>
 </ion-content>
