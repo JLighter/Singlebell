@@ -5,30 +5,32 @@ import {Note} from "../models/note";
 @Injectable()
 export class Speaker {
 
-  constructor() {}
+  public synth = new Tone.Synth();
 
-  static playNote(note: Note) {
-    let synth = new Tone.Synth().toMaster();
-    synth.triggerAttackRelease(note.name, "1n");
+  constructor() {
+    this.synth.toMaster();
   }
 
-  static playInterval(interval: Array<Note>, delay = 500) {
+  playNote(note: Note) {
+    this.synth.triggerAttackRelease(note.name, "0.8");
+  }
+
+  playInterval(interval: Array<Note>, delay = 800) {
     if (interval.length != 2) return;
 
-    let synths = new Tone.Synth(interval.length, Tone.Synth).toMaster();
-
-    synths.triggerAttackRelease(interval[0].name, "1n");
-    setTimeout(()=> synths.triggerAttackRelease(interval[1].name, "1n"), delay);
+    this.synth.triggerAttackRelease(interval[0].name, "0.8");
+    setTimeout(()=> this.synth.triggerAttackRelease(interval[1].name, "0.8"), delay);
   }
 
   // Play an array of notes with a delay between each note
-  static playChord(notes: Array<Note>, separetly: boolean) {
+  /*static playChord(notes: Array<Note>, separetly: boolean) {
     let synths = new Tone.PolySynth(notes.length, Tone.Synth).toMaster();
 
     let noteNames: Array<string> = [];
     notes.forEach((note) => noteNames.push(note.name));
 
     if (!separetly) {
+
       let synth = new Tone.PolySynth(notes.length, Tone.Synth).toMaster();
 
       synth.triggerAttackRelease(noteNames, "1n")
@@ -42,6 +44,6 @@ export class Speaker {
       seq.stop('1m');
       Tone.Transport.start().stop('1m');
     }
-  }
+  }*/
 
 }

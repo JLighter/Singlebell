@@ -24,7 +24,7 @@ export class Elo {
 
   // Calcule la valeur de K en fonction de la cote du joueur
   static kValue(elo: number): number {
-    return 100;
+    return 50;
   }
 
   static rankByDifficulty(userLevel : number , difficulty : number) {

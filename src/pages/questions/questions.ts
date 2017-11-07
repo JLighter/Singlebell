@@ -23,7 +23,7 @@ import * as Constant from '../../utilities/constants';
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
-  providers : [ExerciceGenerator,ExerciceRepository,UserRepository]
+  providers : [ExerciceGenerator,ExerciceRepository,UserRepository, Speaker]
 })
 export class QuestionsPage {
 
@@ -46,7 +46,7 @@ export class QuestionsPage {
   isTest : boolean = false;
   selectedIntervals : Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams ,public exGen : ExerciceGenerator, public exRepo : ExerciceRepository, public userRepo : UserRepository) {
+  constructor(public navCtrl: NavController, public navParams: NavParams ,public exGen : ExerciceGenerator, public exRepo : ExerciceRepository, public userRepo : UserRepository, public speaker: Speaker) {
     this.type = this.navParams.get('exercice_type');
 
     this.difficulty = this.navParams.get('difficulty');
@@ -180,18 +180,18 @@ export class QuestionsPage {
 
   playSoundFromChoices(note:Note){
     if(this.type.id == 0){
-      Speaker.playInterval([this.currentQuestion.notes[0],note])
+      this.speaker.playInterval([this.currentQuestion.notes[0],note])
     }else{
-      Speaker.playNote(note);
+      this.speaker.playNote(note);
     }
   }
 
   playSound(notes: Array<Note>){
     if(this.type.id == 0){
-      Speaker.playInterval(notes);
+      this.speaker.playInterval(notes);
     }
     else{
-      Speaker.playNote(notes[0]);
+      this.speaker.playNote(notes[0]);
     }
   }
 

@@ -24,7 +24,7 @@ export class GeneratorPage {
   private exercice: Exercice;
   private question: Question;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator, public speaker: Speaker) {
 
   }
 
@@ -49,13 +49,11 @@ export class GeneratorPage {
     let synth = new Tone.Synth().toMaster();
 
     if (this.exercice.type.id == 0) {
-      Speaker.playInterval(this.question.notes);
-    } else {
-      Speaker.playChord(this.question.notes, false);
+      this.speaker.playInterval(this.question.notes);
     }
   }
 
-  static playTone(tone = "C", height = 4) {
+  playTone(tone = "C", height = 4) {
     let synth = new Tone.Synth().toMaster();
 
     synth.triggerAttackRelease(tone+height, "8n")
