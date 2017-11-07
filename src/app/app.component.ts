@@ -7,85 +7,78 @@ import {HomePage} from "../pages/home/home";
 import {SlidesPage} from "../pages/slides/slides";
 import {User} from "../models/user";
 import {ExerciceType} from "../models/exercice_type";
-import {Exercice} from "../models/exercice";
 import {UserRepository} from "../repository/user_repository";
 
 import {Storage} from "@ionic/storage";
 
 import * as Constant from '../utilities/constants';
-import {Question} from "../models/question";
 import {Note} from "../models/note";
+import {ExerciceRepository} from "../repository/exercice_repository";
 
 @Component({
   templateUrl: 'app.html',
-  providers: [UserRepository]
+  providers: [UserRepository, ExerciceRepository]
 })
 export class MyApp {
-  rootPage:any;
-  user : User ;
 
+  rootPage:any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public storage: Storage, public userRepository: UserRepository) {
 
-    this.populateStorage();
-    this.populateStorageWithNotes();
-
-    this.firstTimeLaunched();
+    let this_ = this;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+
+      this_.populateStorage().then(() => {
+
+        return this_.populateStorageWithNotes();
+
+      }).then(() => {
+
+        return this_.firstTimeLaunched();
+
+      }, error => console.error(error));
+
       statusBar.styleDefault();
       splashScreen.hide();
     });
   }
 
-  firstTimeLaunched() {
+  firstTimeLaunched(): Promise<any> {
     let _this = this;
 
-    _this.userRepository.getUser().then(function(user) {
+    return _this.userRepository.getUser().then(function(user) {
+
+      _this.rootPage = HomePage;
+
       if (!user) {
-         _this.user = new User('Julien', 500);
-         _this.storage.set(Constant.db_user_key,_this.user);
+        let user = new User();
+        _this.userRepository.setUser(user);
         _this.rootPage = SlidesPage;
-
-      } else {
-        _this.user = user;
-        _this.rootPage = HomePage;
-
       }
-    });
+
+    }, (error) => console.log(error))
+
   }
 
-  populateStorage() {
+  populateStorage(): Promise<any> {
     let _this = this;
 
-      //_this.storage.clear();
-      if (!_this.user) {
-         _this.user = new User('Julien', 500);
-         _this.storage.set(Constant.db_user_key,_this.user);
+    let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
+    let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
 
-      } else {
+    let types = [];
 
-      _this.storage.set(Constant.db_user_key,_this.user);
-      _this.storage.set(Constant.db_done_exercice, []);
+    types.push(symphType);
+    types.push(absType);
 
-
-      let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
-      let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
-
-      let types = [];
-
-      types.push(symphType);
-      types.push(absType);
-
-      _this.storage.set(Constant.db_exercice_type, types).catch((error) => console.error(error));
-
-    }
+    return _this.storage.set(Constant.db_exercice_type, types).catch((error) => console.error(error));
   }
 
-  populateStorageWithNotes() {
-    this.storage.set(Constant.db_notes,[
+  populateStorageWithNotes(): Promise<any> {
+    return this.storage.set(Constant.db_notes,[
       new Note("A1", 1),
       new Note("Bb1", 2),
       new Note("B1", 3),

@@ -31,11 +31,11 @@ export class ResultatPage {
     console.log(this.exercice)
   }
 
-  progressLabel(exercice: Exercice) {
+  static progressLabel(exercice: Exercice) {
     return Exercice.getScore(exercice.questions) + '/' + exercice.questions.length
   }
 
-  progressPourcent(exercice: Exercice) {
+  static progressPourcent(exercice: Exercice) {
     return Exercice.getScore(exercice.questions)/exercice.questions.length * 100
   }
 

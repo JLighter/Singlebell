@@ -8,7 +8,7 @@ import {Note} from "../models/note";
 import {Utils} from "./utils";
 import {NoteRepository} from "../repository/note_repository";
 import {ExerciceType} from "../models/exercice_type";
-import {last} from "rxjs/operator/last";
+import {Elo} from "./elo";
 
 @Injectable()
 export class ExerciceGenerator {
@@ -25,7 +25,6 @@ export class ExerciceGenerator {
 
     this.userRepository.getUser().then(function(user) {
       _this.user = user;
-      console.log(user);
     })
 
   }
@@ -37,7 +36,7 @@ export class ExerciceGenerator {
 
       _this.exerciceRepository.getExerciceType(typeId).then(function(type) {
 
-        resolve(new Exercice([], new Date().getTime(), type, opts, _this.rankByDifficulty(_this.user.level,difficulty)))
+        resolve(new Exercice([], new Date().getTime(), type, opts, Elo.rankByDifficulty(_this.user.level,difficulty)))
       }, (error) => reject(error));
     });
   }
@@ -49,7 +48,10 @@ export class ExerciceGenerator {
     let range = properties[0];
     let nbChoix = properties[1];
 
-    let selectedRanges = exercice.opts.selectedIntervals;
+    let selectedRanges;
+
+    if (exercice.opts) selectedRanges = exercice.opts.selectedIntervals;
+
     var fixed = false;
     var interval = null;
 
@@ -68,7 +70,7 @@ export class ExerciceGenerator {
             interval = selectedRanges[Utils.generateRandomInteger(0, selectedRanges.length-1)]
           }
 
-          if (isSelectedIntervalGoodAnswer) {
+          if (isSelectedIntervalGoodAnswer && fixed) {
             return this.generateInterval(range, fixed, interval);
           } else {
             return this.generateInterval(range);
@@ -90,9 +92,6 @@ export class ExerciceGenerator {
 
         question = new Question(nbChoix, range, goodAnswer, notes, false, rank);
 
-        console.log("ADDED", !isSelectedIntervalGoodAnswer ? [interval] : null);
-
-
         return this.answers(exercice.type, question, !isSelectedIntervalGoodAnswer ? [interval] : null);
 
       }).then(function(answers) {
@@ -102,8 +101,6 @@ export class ExerciceGenerator {
         if (!isSelectedIntervalGoodAnswer) {
           question.answers.push()
         }
-
-        console.debug("Question", question, isSelectedIntervalGoodAnswer, interval);
 
         resolve(question)
 
@@ -240,8 +237,6 @@ export class ExerciceGenerator {
     return this.noteRepository.getNotesByPosition(positions);
   }
 
-  rankByDifficulty(userLevel : number , difficulty : number) {
-     return (userLevel * Math.log(10) + 400 * Math.log(-(difficulty-1)/difficulty))/Math.log(10)
-  }
+
 
 }

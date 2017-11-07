@@ -25,7 +25,6 @@ export class ExercicesPage {
 
   public exercicesType: Array<ExerciceType>;
   public difficulty : number;
-  public selectedType : ExerciceType;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public exerciceRepository: ExerciceRepository,public alertCtrl: AlertController) {
 
@@ -96,7 +95,7 @@ export class ExercicesPage {
     alertInterval.addButton({
       text: 'OK',
       handler: data => {
-        this.navCtrl.push(QuestionsPage,{rank:this.difficulty,exercice_type:exTypeSelected,selectedIntervals:data})
+        this.navCtrl.push(QuestionsPage,{difficulty:this.difficulty,exercice_type:exTypeSelected,selectedIntervals:data})
       }
     });
 
@@ -105,7 +104,7 @@ export class ExercicesPage {
     alert.addInput({
       type: 'radio',
       label: 'Facile',
-      value: '0.25',
+      value: '0.75',
       checked: true
     });
 
@@ -120,7 +119,7 @@ export class ExercicesPage {
     alert.addInput({
       type: 'radio',
       label: 'Difficile',
-      value: '0.75',
+      value: '0.25',
       checked: false
     });
 
@@ -133,7 +132,7 @@ export class ExercicesPage {
           alertInterval.present();
         }
         else{
-          this.navCtrl.push(QuestionsPage,{rank:this.difficulty,exercice_type:exTypeSelected})
+          this.navCtrl.push(QuestionsPage,{difficulty:this.difficulty,exercice_type:exTypeSelected})
         }
       }
     });

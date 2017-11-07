@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {ExerciceGenerator} from "../../utilities/exercice_generator";
 import {Exercice} from "../../models/exercice";
-import {Note} from "../../models/note";
 import Tone, {default as tone} from 'tone';
-import {ToneSpeaker} from "../../utilities/tone";
+import {Speaker} from "../../utilities/tone_speaker";
 import {Question} from "../../models/question";
 
 /**
@@ -18,16 +17,14 @@ import {Question} from "../../models/question";
 @Component({
   selector: 'page-generator',
   templateUrl: 'generator.html',
-  providers: [ExerciceGenerator, ToneSpeaker]
+  providers: [ExerciceGenerator, Speaker]
 })
 export class GeneratorPage {
 
   private exercice: Exercice;
   private question: Question;
 
-  private notes: Array<Note>;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator, private speaker: ToneSpeaker) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public generator: ExerciceGenerator) {
 
   }
 
@@ -43,7 +40,6 @@ export class GeneratorPage {
     this.generator.newQuestion(this.exercice).then((question)=> {
       this.exercice.questions.push(question);
       this.question = question;
-      this.notes = question.notes;
 
       console.log(question)
     }, (error) => console.error(error))
@@ -53,13 +49,13 @@ export class GeneratorPage {
     let synth = new Tone.Synth().toMaster();
 
     if (this.exercice.type.id == 0) {
-      this.speaker.playInterval(this.question.notes);
+      Speaker.playInterval(this.question.notes);
     } else {
-      this.speaker.playChord(this.question.notes, false);
+      Speaker.playChord(this.question.notes, false);
     }
   }
 
-  playTone(tone = "C", height = 4) {
+  static playTone(tone = "C", height = 4) {
     let synth = new Tone.Synth().toMaster();
 
     synth.triggerAttackRelease(tone+height, "8n")

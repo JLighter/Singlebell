@@ -6,20 +6,25 @@ import { User } from "../models/user";
 
 @Injectable()
 export class UserRepository {
-  user : User ;
+
   constructor(private storage: Storage) {}
 
-  getUser() {
-    return this.storage.get(Constant.db_user_key)
+  getUser(): Promise<any> {
+    return this.storage.get(Constant.db_user_key);
   }
-  setNewLevel(newLevel : number, userName: string){
-    if (newLevel <= 0) newLevel = 0;
+
+  setUser(user:User): Promise<any> {
+    return this.storage.set(Constant.db_user_key, user);
+  }
+
+  setNewLevel(newLevel : number, userName: string): Promise<any>{
+    if (newLevel <= 1) newLevel = 1;
     if (newLevel >= 1000) newLevel = 1000;
-    this.storage.remove(Constant.db_user_key).then(()=>{
-      this.user = new User(userName,newLevel);
-      this.storage.set(Constant.db_user_key,this.user).then(()=>{
-        console.log(this.storage.get(Constant.db_user_key));
-      });
+
+    return this.storage.remove(Constant.db_user_key).then(()=>{
+       let user = new User(userName, newLevel);
+
+      return this.storage.set(Constant.db_user_key, user)
     });
   }
 

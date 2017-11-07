@@ -6,11 +6,6 @@
 -->
 <ion-header class="slides_header">
   <ion-toolbar>
-     <ion-buttons end>
-       <button ion-button class="skip" (click)="goToTest()">
-         Passez
-       </button>
-     </ion-buttons>
    </ion-toolbar>
 </ion-header>
 
@@ -20,7 +15,7 @@
 
     <ion-slide>
       <img class="logo" src="../../assets/logo/logohdpi.png">
-      <h2>Bienvenue sur SingleBell</h2>
+      <h1 class="primary">Bienvenue sur SingleBell</h1>
     </ion-slide>
 
     <ion-slide>
@@ -35,10 +30,10 @@
       <p>Si vous n'avez aucune connaissance de ces notions nous vous conseillons vivement de vous documentez <br/>ou de vous renseignez auprs de votre enseignant de musique.</p>
     </ion-slide>
 
-    <ion-slide>
-      <p>Nous allons maintenant vous faire passez un test</p>
-      <p>Notre alogorithme vous jaugera et vous proposera des exercices personalisez en fonction de votre niveau</p>
-      <button ion-button (click)="goToTest()">Commencer le test</button>
+    <ion-slide justify-content-center>
+      <h3>Quel est ton nom ?</h3>
+      <ion-input col-10 push-1 [(ngModel)]="userName" placeholder="e.g : Francis"></ion-input>
+      <button ion-button (click)="exit()">Bienvenue {{userName}} !</button>
     </ion-slide>
 
   </ion-slides>

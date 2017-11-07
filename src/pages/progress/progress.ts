@@ -24,18 +24,17 @@ export class ProgressPage {
 
   user      : User = new User();
   progress  : number = 0;
-  label     : string = "0/1000";
   exercices : Array<Exercice> = [];
   exerciceTypes: Array<ExerciceType> = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public userRepository: UserRepository, public exerciceRepository: ExerciceRepository) {
-    let _this = this;
+    let this_ = this;
 
-    _this.userRepository.getUser().then((user) => _this.user = user);
+    this_.userRepository.getUser().then((user) => this_.user = user);
 
-    _this.exerciceRepository.getDoneExercices().then((exercices) => _this.exercices = exercices);
+    this_.exerciceRepository.getDoneExercices().then((exercices) => this_.exercices = exercices);
 
-    _this.exerciceRepository.getExerciceTypes().then((types) => _this.exerciceTypes = types);
+    this_.exerciceRepository.getExerciceTypes().then((types) => this_.exerciceTypes = types);
 
   }
 

@@ -1,19 +1,16 @@
-import { Component } from '@angular/core';
+import {Component, Output} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Note } from "../../models/note";
 import { Exercice } from "../../models/exercice";
 import { Question } from "../../models/question";
 import { ExerciceType } from "../../models/exercice_type";
-import { NativeAudio } from '@ionic-native/native-audio';
 import { ExerciceGenerator } from '../../utilities/exercice_generator';
 import { ExerciceRepository } from '../../repository/exercice_repository';
 import { ResultatPage } from '../resultat/resultat';
-import { ToneSpeaker } from "../../utilities/tone";
+import { Speaker } from "../../utilities/tone_speaker";
 import { Elo } from "../../utilities/elo";
 import { UserRepository } from "../../repository/user_repository";
-import { User } from "../../models/user";
-import {HomePage} from "../home/home";
-
+import * as Constant from '../../utilities/constants';
 
 /**
  * Generated class for the QuestionsPage page.
@@ -26,14 +23,13 @@ import {HomePage} from "../home/home";
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
-  providers : [ExerciceGenerator,ExerciceRepository,Elo,UserRepository]
+  providers : [ExerciceGenerator,ExerciceRepository,UserRepository]
 })
 export class QuestionsPage {
 
   nbQuestion : number = 0;
   nbMaxUncorrectQuestion : number = 0;
   nbQuestionMax : number;
-  speaker = new ToneSpeaker();
   type : ExerciceType ;
   difficulty : number;
   exo : Exercice;
@@ -50,7 +46,7 @@ export class QuestionsPage {
   isTest : boolean = false;
   selectedIntervals : Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ,public elo: Elo, public userRepo : UserRepository) {
+  constructor(public navCtrl: NavController, public navParams: NavParams ,public exGen : ExerciceGenerator, public exRepo : ExerciceRepository, public userRepo : UserRepository) {
     this.type = this.navParams.get('exercice_type');
 
     this.difficulty = this.navParams.get('difficulty');
@@ -62,9 +58,9 @@ export class QuestionsPage {
       this.userName = user.name;
     });
 
-    this.nbQuestionMax = this.difficulty <= 0.25 ? 7 : this.difficulty <= 0.5 ? 10 : 15;
+    this.nbQuestionMax = this.difficulty >= Constant.difficulty_indice_easy ? 7 : this.difficulty >= Constant.difficulty_indice_normal ? 10 : 15;
 
-    this.nbMaxUncorrectQuestion = this.difficulty <= 0.25 ? 7 : 5;
+    this.nbMaxUncorrectQuestion = this.difficulty >= Constant.difficulty_indice_easy ? 7 : 5;
 
     this.generateNewExercice();
   }
@@ -104,11 +100,11 @@ export class QuestionsPage {
 
         this_.refNote = note;
 
-        if(this_.type.id == 1 && this_.difficulty == 0.25){
+        if(this_.type.id == 1 && this_.difficulty == Constant.difficulty_indice_easy){
 
           this_.switchRefNote = true;
         }
-        else if(this_.type.id == 1 && this_.difficulty == 0.5){
+        else if(this_.type.id == 1 && this_.difficulty == Constant.difficulty_indice_normal){
 
           this_.switchRefNote = Math.random() >= 0.5;
 
@@ -129,6 +125,7 @@ export class QuestionsPage {
 
       this.currentQuestion.correct = note.position == this.currentQuestion.correctAnswer.position;
       this.currentQuestion.givenAnswer = note;
+      this.checkUserChoice = this.currentQuestion.correct;
 
       this.exo.questions.push(this.currentQuestion);
     }
@@ -162,9 +159,9 @@ export class QuestionsPage {
   }
 
   finalizeParty() {
-    let expected = this.elo.expected(this.userOldRank,this.exo.rank);
+    let expected = Elo.expected(this.userOldRank,this.exo.rank);
     let score = Exercice.getScore(this.exo.questions);
-    let newRank = this.elo.calculElo(this.userOldRank,expected,score);
+    let newRank = Elo.calculElo(this.userOldRank,expected,score);
 
     if (this.navParams.get('isProgram')) {
 
@@ -183,18 +180,18 @@ export class QuestionsPage {
 
   playSoundFromChoices(note:Note){
     if(this.type.id == 0){
-      this.speaker.playInterval([this.currentQuestion.notes[0],note])
+      Speaker.playInterval([this.currentQuestion.notes[0],note])
     }else{
-      this.speaker.playNote(note);
+      Speaker.playNote(note);
     }
   }
 
   playSound(notes: Array<Note>){
     if(this.type.id == 0){
-      this.speaker.playInterval(notes);
+      Speaker.playInterval(notes);
     }
     else{
-      this.speaker.playNote(notes[0]);
+      Speaker.playNote(notes[0]);
     }
   }
 

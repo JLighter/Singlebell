@@ -9,7 +9,6 @@ import {ExtraPage} from "../extra/extra";
 import {SettingsPage} from "../settings/settings";
 import {ExerciceRepository} from "../../repository/exercice_repository";
 import {Exercice} from "../../models/exercice";
-import {TimerObservable} from "rxjs/observable/TimerObservable";
 
 @Component({
   selector: 'page-home',
@@ -54,8 +53,6 @@ export class HomePage {
       "Un exercice spécialement choisi pour vous !",
       this.programLocked ? 'grey' : 'primary'
     ));
-
-    console.log("Locked", this.programLocked);
 
     this.categories.push(new Categorie(
       ExercicesPage,
@@ -122,23 +119,9 @@ export class HomePage {
 
     }).then(type => {
 
-      this.navCtrl.push(QuestionsPage,{difficulty:rand,exercice_type:type,isProgram:true})
+      this.navCtrl.push(QuestionsPage,{difficulty:rank,exercice_type:type,isProgram:true})
 
     })
-  }
-
-  getSecondsAsDigitalClock(inputSeconds: number) {
-    var sec_num = inputSeconds; // don't forget the second param
-    var hours   = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-    var hoursString = '';
-    var minutesString = '';
-    var secondsString = '';
-    hoursString = (hours < 10) ? "0" + hours : hours.toString();
-    minutesString = (minutes < 10) ? "0" + minutes : minutes.toString();
-    secondsString = (seconds < 10) ? "0" + seconds : seconds.toString();
-    return hoursString + ':' + minutesString + ':' + secondsString;
   }
 
 }

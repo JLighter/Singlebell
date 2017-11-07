@@ -62,7 +62,7 @@
               <ion-item float-left>
                 <p text-center>
                   <span float-left>Questions x{{exercice.questions.length}}</span>
-                  <span >{{ exercice.rank | number }}</span>
+                  <span >{{ exercice.rank | number : '4.0-0' }}</span>
                   <span float-right>{{exercice.date | date}}</span>
                 </p>
                 <progress-bar [progress]="progressPourcent(exercice)"

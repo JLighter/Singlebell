@@ -8,3 +8,6 @@ export const exercice_id_type_relative = 0;
 export const exercice_id_type_asolute = 1;
 export const db_last_done_exercice = "last_done_exercice";
 export const db_programme_time_before_next_session = "time_before_next_session";
+export const difficulty_indice_hard = 0.25;
+export const difficulty_indice_normal = 0.5;
+export const difficulty_indice_easy = 0.75;

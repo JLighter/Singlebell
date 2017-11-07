@@ -42,3 +42,14 @@ ion-card {
     color: #{nth($color, 2)} !important;
   }
 }
+
+ion-input {
+  margin:0;
+}
+
+ion-input .text-input {
+  background: rgba(0,0,0,0.05);
+  border: solid rgba(0,0,0,0.1) 1px;
+  border-radius: 5px;
+  padding: 1em;
+}

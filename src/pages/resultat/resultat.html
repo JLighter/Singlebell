@@ -27,7 +27,7 @@
 
             <!-- Start listing exercices for current type -->
               <!-- Exercice start -->
-              <ion-item *ngFor="let question of exercice.questions; let i = index" justify-content-center="">
+              <ion-item padding *ngFor="let question of exercice.questions; let i = index" justify-content-center="">
                   <h2 item-start>{{labelForAnswer(question, question.correctAnswer)}}</h2>
                 <h3>{{labelForAnswer(question, question.givenAnswer)}}</h3>
                   <ion-checkbox item-end [ngModel]="question.correct" color="primary" disabled></ion-checkbox>

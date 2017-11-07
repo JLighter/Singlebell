@@ -6,8 +6,10 @@
 -->
 <ion-header>
   <ion-navbar hideBackButton="true" color="primary">
-    <ion-title float-start>{{type.name}}</ion-title>
-    <ion-title float-end>Level {{rank}}</ion-title>
+    <ion-title>{{type.name}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear readonly>Level {{rank}}</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding>

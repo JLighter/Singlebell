@@ -3,27 +3,26 @@ import Tone from 'tone';
 import {Note} from "../models/note";
 
 @Injectable()
-export class ToneSpeaker {
+export class Speaker {
 
   constructor() {}
 
-  playNote(note: Note) {
+  static playNote(note: Note) {
     let synth = new Tone.Synth().toMaster();
     synth.triggerAttackRelease(note.name, "1n");
   }
 
-  playInterval(interval: Array<Note>, delay = 500) {
+  static playInterval(interval: Array<Note>, delay = 500) {
     if (interval.length != 2) return;
 
     let synths = new Tone.Synth(interval.length, Tone.Synth).toMaster();
-    console.log('inter1: '+interval[0].name);
-    console.log('inter2: '+interval[1].name);
+
     synths.triggerAttackRelease(interval[0].name, "1n");
     setTimeout(()=> synths.triggerAttackRelease(interval[1].name, "1n"), delay);
   }
 
   // Play an array of notes with a delay between each note
-  playChord(notes: Array<Note>, separetly: boolean) {
+  static playChord(notes: Array<Note>, separetly: boolean) {
     let synths = new Tone.PolySynth(notes.length, Tone.Synth).toMaster();
 
     let noteNames: Array<string> = [];
@@ -44,7 +43,5 @@ export class ToneSpeaker {
       Tone.Transport.start().stop('1m');
     }
   }
-
-
 
 }

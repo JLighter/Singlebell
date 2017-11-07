@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import {UserRepository} from "../../repository/user_repository";
+import {User} from "../../models/user";
 
 
 /**
@@ -16,20 +18,21 @@ import { HomePage } from '../home/home';
 @Component({
   selector: 'page-slides',
   templateUrl: 'slides.html',
+  providers: [UserRepository]
 })
 export class SlidesPage {
 
   @ViewChild(Slides) slides: Slides;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  userName: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public userRepository: UserRepository) {
   }
 
-  goToTest() {
-    this.navCtrl.push(HomePage);
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SlidesPage');
+  exit() {
+    this.userRepository.setUser(new User(this.userName)).then(() => {
+      this.navCtrl.push(HomePage);
+    });
   }
 
 }

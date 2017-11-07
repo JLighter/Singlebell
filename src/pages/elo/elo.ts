@@ -12,8 +12,7 @@ import { Elo } from "../../utilities/elo";
 @IonicPage()
 @Component({
   selector: 'page-elo',
-  templateUrl: 'elo.html',
-  providers: [Elo]
+  templateUrl: 'elo.html'
 })
 export class EloPage {
 
@@ -21,14 +20,17 @@ export class EloPage {
   public p2: number;
   public score: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public elo: Elo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.p1 = 100;
     this.p2 = 1000;
     this.score = 0.5;
   }
 
   newRank() {
-    console.log(this.p1, this.p2, this.score);
-    this.p1 = this.elo.calculElo(this.p1, this.elo.expected(this.p1, this.p2), this.score);
+    this.p1 = Elo.calculElo(this.p1, Elo.expected(this.p1, this.p2), this.score);
+  }
+
+  expected(p1,p2) {
+    return Elo.expected(p1,p2)
   }
 }
