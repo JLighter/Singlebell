@@ -11,7 +11,9 @@ export class Question {
     public correctAnswer: Note,
     public notes: Array<Note>,
     public correct: boolean,
-    public answers: Array<Note> = []
+    public rank: number,
+    public answers: Array<Note> = [],
+    public givenAnswer: Note = null,
   )
   {
     this.nbChoix = nbChoix;
@@ -19,7 +21,10 @@ export class Question {
     this.correctAnswer = correctAnswer;
     this.notes = notes;
     this.correct = correct;
-    this.answers = answers
+    this.answers = answers;
+    this.givenAnswer = givenAnswer;
+    this.rank = rank;
+
   }
 
   public static labelForAnswer(type: ExerciceType, questionNotes: Array<Note>, answer: Note): string {

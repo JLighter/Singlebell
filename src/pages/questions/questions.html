@@ -35,7 +35,7 @@
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
-        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice.position,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
+        <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
           <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
           <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
         </ion-col>

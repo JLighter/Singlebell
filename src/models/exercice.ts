@@ -7,11 +7,13 @@ export class Exercice {
     public questions: Array<Question>,
     public date: number,
     public type: ExerciceType,
+    public opts: any,
     public rank: number = 0)
   {
     this.questions = questions;
     this.date = date;
     this.type = type;
+    this.opts = opts,
     this.rank = rank;
   }
 

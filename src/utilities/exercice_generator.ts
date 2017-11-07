@@ -8,6 +8,7 @@ import {Note} from "../models/note";
 import {Utils} from "./utils";
 import {NoteRepository} from "../repository/note_repository";
 import {ExerciceType} from "../models/exercice_type";
+import {last} from "rxjs/operator/last";
 
 @Injectable()
 export class ExerciceGenerator {
@@ -29,42 +30,56 @@ export class ExerciceGenerator {
 
   }
 
-  newExercice(typeId: number, difficulty :number = 0.5): Promise<Exercice> {
+  newExercice(typeId: number, difficulty :number = 0.5, opts: any): Promise<Exercice> {
     let _this = this;
 
     return new Promise(function(resolve, reject) {
 
       _this.exerciceRepository.getExerciceType(typeId).then(function(type) {
 
-        resolve(new Exercice([], new Date().getTime(), type,_this.reverse(_this.user.level,difficulty)))
+        resolve(new Exercice([], new Date().getTime(), type, opts, _this.rankByDifficulty(_this.user.level,difficulty)))
       }, (error) => reject(error));
     });
   }
 
-  newQuestion(exercice: Exercice): Promise<Question> {
+  newQuestion(exercice: Exercice, rank: number = exercice.rank): Promise<Question> {
     var question : Question;
-
-    let rank = exercice.rank;
 
     let properties = this.getQuestionProperties(rank);
     let range = properties[0];
     let nbChoix = properties[1];
 
-    // Begin generate exercice
+    let selectedRanges = exercice.opts.selectedIntervals;
+    var fixed = false;
+    var interval = null;
 
+    let isSelectedIntervalGoodAnswer = Math.random() >= 0.5;
+
+    // Begin generate exercice
     return new Promise((resolve, reject) => {
 
       (() : Promise<Array<Note>> => {
+
         // Generating good array of notes
         if (exercice.type.id == 0) {
 
-          return this.generateInterval(range)
+          if (selectedRanges) {
+            fixed = true;
+            interval = selectedRanges[Utils.generateRandomInteger(0, selectedRanges.length-1)]
+          }
+
+          if (isSelectedIntervalGoodAnswer) {
+            return this.generateInterval(range, fixed, interval);
+          } else {
+            return this.generateInterval(range);
+          }
 
         } else if (exercice.type.id == 1) {
 
           return this.generateNote();
 
         }
+
       })().then((notes) => {
         var goodAnswer: Note;
 
@@ -73,13 +88,22 @@ export class ExerciceGenerator {
           case 1: goodAnswer = notes[0]; break;
         }
 
-        question = new Question(nbChoix, range, goodAnswer, notes, false);
+        question = new Question(nbChoix, range, goodAnswer, notes, false, rank);
 
-        return this.answers(exercice.type, question);
+        console.log("ADDED", !isSelectedIntervalGoodAnswer ? [interval] : null);
+
+
+        return this.answers(exercice.type, question, !isSelectedIntervalGoodAnswer ? [interval] : null);
 
       }).then(function(answers) {
 
         question.answers = answers;
+
+        if (!isSelectedIntervalGoodAnswer) {
+          question.answers.push()
+        }
+
+        console.debug("Question", question, isSelectedIntervalGoodAnswer, interval);
 
         resolve(question)
 
@@ -137,7 +161,7 @@ export class ExerciceGenerator {
     })
   }
 
-  generateRefNote(oct: number): Promise<Array<Note>> {
+  generateRefNote(oct: number): Promise<Note> {
     let refNote = "C"+oct;
 
     let repo = this.noteRepository;
@@ -145,7 +169,7 @@ export class ExerciceGenerator {
     return new Promise(function(resolve,reject) {
       repo.getNotesByName([refNote]).then(function(notes) {
         if (!notes) reject("No note with this name: " + refNote);
-        resolve(notes)
+        resolve(notes[0])
       }, (error) => reject(error))
     })
   }
@@ -163,8 +187,10 @@ export class ExerciceGenerator {
       interval = interval < 0 ? 0 : interval;
       interval = interval > 9 ? 9 : interval;
 
-      secondNoteP = firstNoteP + interval;
+      secondNoteP = firstNoteP + +interval;
     }
+
+    console.log(firstNoteP, secondNoteP);
 
     let repo = this.noteRepository;
 
@@ -173,20 +199,28 @@ export class ExerciceGenerator {
 
         // Conserve order betwteen notes
         if (notes[0].position != firstNoteP) notes = notes.reverse();
-
         resolve(notes);
       }, (error) => reject(error));
     });
   }
 
-  answers(type: ExerciceType, question: Question): Promise<Array<Note>> {
+  answers(type: ExerciceType, question: Question, addeds: Array<number> = null): Promise<Array<Note>> {
     let goodP : number;
 
     goodP = question.correctAnswer.position;
 
     let positions = [goodP];
 
-    for (let i=0; i<question.nbChoix; i++) {
+    console.log(addeds);
+
+    if (addeds) addeds.forEach((added) => positions.push(+added + question.notes[0].position));
+
+    var nbAnswerToAdd = question.nbChoix-question.answers.length;
+
+    if(nbAnswerToAdd > 10) nbAnswerToAdd = 10;
+    if(nbAnswerToAdd < 2) nbAnswerToAdd = 2;
+
+    for (let i=0; i<nbAnswerToAdd ; i++) {
       var falseP = 0;
       var isContaining = true;
 
@@ -197,10 +231,8 @@ export class ExerciceGenerator {
         if (positions.indexOf(falseP)) {
           isContaining = false;
         }
-        console.log(!positions.indexOf(falseP), falseP)
       }
 
-      console.debug("pushed", falseP);
       positions.push(falseP);
     }
 
@@ -208,8 +240,8 @@ export class ExerciceGenerator {
     return this.noteRepository.getNotesByPosition(positions);
   }
 
-  reverse(userLevel : number ,level : number) {
-     return (userLevel * Math.log(10) + 400 * Math.log(-(level-1)/level))/Math.log(10)
-   }
+  rankByDifficulty(userLevel : number , difficulty : number) {
+     return (userLevel * Math.log(10) + 400 * Math.log(-(difficulty-1)/difficulty))/Math.log(10)
+  }
 
 }

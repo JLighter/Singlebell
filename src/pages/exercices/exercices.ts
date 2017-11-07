@@ -43,6 +43,7 @@ export class ExercicesPage {
       let alert = this.alertCtrl.create();
       let alertInterval= this.alertCtrl.create();
       alertInterval.setTitle('Selectionnez un ou plusieurs intervales à travailler');
+
       alertInterval.addInput({
         type: 'checkbox',
         label: 'Ton majeur (+2.0)',

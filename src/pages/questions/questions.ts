@@ -46,26 +46,76 @@ export class QuestionsPage {
   currentQuestion : Question = null;
   userOldRank : number;
   userName : string ;
+  isTest : boolean = false;
+  selectedIntervals : Array<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ,public elo: Elo, public userRepo : UserRepository) {
     this.type = this.navParams.get('exercice_type');
 
     this.difficulty = this.navParams.get('rank');
-
+    this.isTest = this.navParams.get('isTest');
+    this.selectedIntervals = this.navParams.get('selectedIntervals');
     this.userRepo.getUser().then((user)=>{
       this.userOldRank = user.level;
       this.userName = user.name;
     });
 
-    this.nbQuestionMax = this.difficulty <= 0.25 ? 7 :
-      this.difficulty <= 0.5 ? 10 : 15;
+    this.nbQuestionMax = this.difficulty <= 0.25 ? 7 : this.difficulty <= 0.5 ? 10 : 15;
 
     this.nbMaxUncorrectQuestion = this.difficulty <= 0.25 ? 7 : 5;
 
     this.generateNewExercice();
   }
 
-  checkAnswer(position: number, event){
+  generateNewExercice(){
+    let this_ = this;
+
+    let opts = {
+      selectedIntervals: this_.selectedIntervals,
+    };
+
+    this.exGen.newExercice(this.type.id,this.difficulty, opts).then((exercice)=>{
+      this.exo = exercice;
+      this.generateNewQuestion(this.exo);
+    })
+  }
+
+  generateNewQuestion(exercice: Exercice ){
+
+    this.nbQuestion = this.nbQuestion+1;
+
+    let this_ = this;
+
+    let rank = exercice.rank;
+    if (this.isTest) rank = this.userOldRank;
+
+    this_.exGen.newQuestion(exercice, rank).then((question)=> {
+      this_.currentQuestion = question;
+      this_.choices = question.answers;
+
+      let answer = question.correctAnswer;
+
+      let octave = parseInt(answer.name[answer.name.length-1]) + (Math.random()>= 0.25 ? + 1 : Math.random()>= 0.5 ? - 1 : 0);
+
+      this_.exGen.generateRefNote(octave).then(function(note) {
+
+        this_.refNote = note;
+
+        if(this_.type.id == 1 && this_.difficulty == 0.25){
+
+          this_.switchRefNote = true;
+        }
+        else if(this_.type.id == 1 && this_.difficulty == 0.5){
+
+          this_.switchRefNote = Math.random() >= 0.5;
+
+        }
+      })
+
+    })
+  }
+
+  checkAnswer(note: Note, event){
 
     if(this.hidden==true){
       event.stopPropagation();
@@ -74,7 +124,8 @@ export class QuestionsPage {
       this.btnSwitch=true;
       this.hidden = true;
 
-      this.currentQuestion.correct = position == this.currentQuestion.correctAnswer.position;
+      this.currentQuestion.correct = note.position == this.currentQuestion.correctAnswer.position;
+      this.currentQuestion.givenAnswer = note;
 
       this.exo.questions.push(this.currentQuestion);
     }
@@ -83,12 +134,7 @@ export class QuestionsPage {
   nextQuestion(){
 
     if(this.nbQuestion == this.nbQuestionMax || this.isLoosingGame()){
-      let expected = this.elo.expected(this.userOldRank,this.exo.rank);
-      let score = Exercice.getScore(this.exo.questions);
-      let newRank = this.elo.calculElo(this.userOldRank,expected,score);
-      this.userRepo.setNewLevel(newRank,this.userName);
-      this.exRepo.addDoneExercice(this.exo);
-      this.navCtrl.push(ResultatPage,{'exercice':this.exo});
+      this.finalizeParty();
     }
     else{
       this.btnSwitch = false;
@@ -112,45 +158,18 @@ export class QuestionsPage {
     return false
   }
 
-  generateNewExercice(){
-    this.exGen.newExercice(this.type.id,this.difficulty).then((exercice)=>{
-      this.exo = exercice;
-      this.generateNewQuestion(this.exo);
-    })
-  }
-
-  generateNewQuestion(exercice: Exercice ){
-
-    this.nbQuestion = this.nbQuestion+1;
-
-    let this_ = this;
-
-    this_.exGen.newQuestion(exercice).then((question)=> {
-      this_.currentQuestion = question;
-      this_.choices = question.answers;
-
-      let answer = question.correctAnswer;
-
-      this_.exGen.generateRefNote(parseInt(answer.name[answer.name.length-1])).then(function(notes) {
-        this_.refNote = notes[0];
-
-        if(this_.type.id == 1 && this_.difficulty == 0.25){
-
-          this_.switchRefNote = true;
-        }
-        else if(this_.type.id == 1 && this_.difficulty == 0.5){
-
-          this_.switchRefNote = Math.random() >= 0.5;
-
-        }
-      })
-
-    })
+  finalizeParty() {
+    let expected = this.elo.expected(this.userOldRank,this.exo.rank);
+    let score = Exercice.getScore(this.exo.questions);
+    let newRank = this.elo.calculElo(this.userOldRank,expected,score);
+    this.userRepo.setNewLevel(newRank,this.userName);
+    this.exRepo.addDoneExercice(this.exo);
+    this.navCtrl.push(ResultatPage,{'exercice':this.exo});
   }
 
   playSoundFromChoices(note:Note){
     if(this.type.id == 0){
-      this.speaker.playInterval([note,this.currentQuestion.notes[1]])
+      this.speaker.playInterval([this.currentQuestion.notes[0],note])
     }else{
       this.speaker.playNote(note);
     }
