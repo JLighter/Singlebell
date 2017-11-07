@@ -12,14 +12,14 @@ export class Speaker {
   }
 
   playNote(note: Note) {
-    this.synth.triggerAttackRelease(note.name, "0.8");
+    this.synth.triggerAttackRelease(note.name, "0.4");
   }
 
   playInterval(interval: Array<Note>, delay = 800) {
     if (interval.length != 2) return;
 
-    this.synth.triggerAttackRelease(interval[0].name, "0.8");
-    setTimeout(()=> this.synth.triggerAttackRelease(interval[1].name, "0.8"), delay);
+    this.synth.triggerAttackRelease(interval[0].name, "0.4");
+    setTimeout(()=> this.synth.triggerAttackRelease(interval[1].name, "0.4"), delay);
   }
 
   // Play an array of notes with a delay between each note
