@@ -3,6 +3,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { ExerciceType } from '../../models/exercice_type';
+import { QuestionsPage } from '../questions/questions';
+
+
 
 
 /**
@@ -20,12 +24,15 @@ import { HomePage } from '../home/home';
 export class SlidesPage {
 
   @ViewChild(Slides) slides: Slides;
+  exType : ExerciceType ;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.exType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
+
   }
 
   goToTest() {
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(QuestionsPage,{rank:0.5,exercice_type:this.exType,test:true});
   }
 
   ionViewDidLoad() {

@@ -50,8 +50,9 @@
     </ion-row>
 
     <ion-row>
-      <ion-col >
-        <button ion-button full (click)="popHome()">Accueil</button>
+      <ion-col [ngSwitch]="test">
+        <button *ngSwitchCase="false" ion-button full (click)="popHome()">Accueil</button>
+        <button *ngSwitchCase="true" ion-button full (click)="goTest()">Test Suivant</button>
       </ion-col>
     </ion-row>
   </ion-grid>

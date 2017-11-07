@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Question } from "../../models/question";
 import { Exercice } from "../../models/exercice";
 import {ExercicesPage} from "../exercices/exercices";
+import { QuestionsPage } from "../questions/questions";
+import { ExerciceType } from "../../models/exercice_type";
 import {Note} from "../../models/note";
 
 
@@ -21,11 +23,15 @@ import {Note} from "../../models/note";
 export class ResultatPage {
 
   exercice : Exercice;
+  exType : ExerciceType;
   score : number;
+  test: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
     this.exercice = this.navParams.get('exercice');
+    this.test = this.navParams.get('test');
+    this.exType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
     this.score = Exercice.getScore(this.exercice.questions);
 
     console.log(this.exercice)
@@ -41,6 +47,10 @@ export class ResultatPage {
 
   popHome() {
     this.navCtrl.popToRoot();
+  }
+
+  goTest() {
+    this.navCtrl.push(QuestionsPage,{rank:0.5,exercice_type:this.exType})
   }
 
   labelForAnswer(question: Question, answer: Note): string {

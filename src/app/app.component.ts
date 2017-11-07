@@ -59,29 +59,35 @@ export class MyApp {
 
   populateStorage() {
     let _this = this;
-
       //_this.storage.clear();
-      if (!_this.user) {
+
+
+
+      _this.userRepository.getUser().then(function(user) {
+        if (!user) {
          _this.user = new User('Julien', 500);
+         _this.rootPage = SlidesPage;
+
          _this.storage.set(Constant.db_user_key,_this.user);
+         _this.storage.set(Constant.db_done_exercice, []);
+
+
+         let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
+         let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
+
+         let types = [];
+
+         types.push(symphType);
+         types.push(absType);
+
+         _this.storage.set(Constant.db_exercice_type, types).catch((error) => console.error(error));
 
       } else {
 
-      _this.storage.set(Constant.db_user_key,_this.user);
-      _this.storage.set(Constant.db_done_exercice, []);
-
-
-      let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
-      let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
-
-      let types = [];
-
-      types.push(symphType);
-      types.push(absType);
-
-      _this.storage.set(Constant.db_exercice_type, types).catch((error) => console.error(error));
+      _this.rootPage = HomePage;
 
     }
+  });
   }
 
   populateStorageWithNotes() {

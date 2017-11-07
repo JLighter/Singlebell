@@ -46,11 +46,15 @@ export class QuestionsPage {
   currentQuestion : Question = null;
   userOldRank : number;
   userName : string ;
+  test: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public nativeAudio: NativeAudio,public exGen : ExerciceGenerator,public exRepo : ExerciceRepository ,public elo: Elo, public userRepo : UserRepository) {
     this.type = this.navParams.get('exercice_type');
 
     this.difficulty = this.navParams.get('rank');
+    if(this.navParams.get('test')){
+      this.test = this.navParams.get('test');
+    };
 
     this.userRepo.getUser().then((user)=>{
       this.userOldRank = user.level;
@@ -88,7 +92,7 @@ export class QuestionsPage {
       let newRank = this.elo.calculElo(this.userOldRank,expected,score);
       this.userRepo.setNewLevel(newRank,this.userName);
       this.exRepo.addDoneExercice(this.exo);
-      this.navCtrl.push(ResultatPage,{'exercice':this.exo});
+      this.navCtrl.push(ResultatPage,{'exercice':this.exo,test:this.test});
     }
     else{
       this.btnSwitch = false;
