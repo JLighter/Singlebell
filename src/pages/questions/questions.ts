@@ -45,13 +45,15 @@ export class QuestionsPage {
   userName : string ;
   isTest : boolean = false;
   selectedIntervals : Array<any>;
+  isProgram : boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams ,public exGen : ExerciceGenerator, public exRepo : ExerciceRepository, public userRepo : UserRepository, public speaker: Speaker) {
     this.type = this.navParams.get('exercice_type');
 
     this.difficulty = this.navParams.get('difficulty');
     this.isTest = this.navParams.get('isTest');
-    this.selectedIntervals = this.navParams.get('selectedIntervals');
+    this.selectedIntervals = this.navParams.get('selected_intervals');
+    this.isProgram = this.navParams.get('is_program');
 
     this.userRepo.getUser().then((user)=>{
       this.userOldRank = user.level;
@@ -59,6 +61,11 @@ export class QuestionsPage {
     });
 
     this.nbQuestionMax = this.difficulty >= Constant.difficulty_indice_easy ? 7 : this.difficulty >= Constant.difficulty_indice_normal ? 10 : 15;
+
+    if (this.isProgram) {
+      this.nbQuestionMax = 20;
+      this.nbMaxUncorrectQuestion = 20;
+    }
 
     this.nbMaxUncorrectQuestion = this.difficulty >= Constant.difficulty_indice_easy ? 7 : 5;
 
@@ -128,6 +135,12 @@ export class QuestionsPage {
       this.checkUserChoice = this.currentQuestion.correct;
 
       this.exo.questions.push(this.currentQuestion);
+
+      let expected = Elo.expected(this.userOldRank,this.exo.rank);
+      let score = this.currentQuestion.correct ? 1 : 0;
+      let newRank = Elo.calculElo(this.userOldRank,expected,score);
+
+      this.userRepo.setNewLevel(newRank);
     }
   }
 
@@ -159,11 +172,8 @@ export class QuestionsPage {
   }
 
   finalizeParty() {
-    let expected = Elo.expected(this.userOldRank,this.exo.rank);
-    let score = Exercice.getScore(this.exo.questions);
-    let newRank = Elo.calculElo(this.userOldRank,expected,score);
 
-    if (this.navParams.get('isProgram')) {
+    if (this.isProgram) {
 
       let tomorrow: Date = new Date();
       tomorrow.setDate(tomorrow.getDate()+1);
@@ -173,7 +183,6 @@ export class QuestionsPage {
     }
 
     this.exRepo.setLastDoneExercices(this.exo);
-    this.userRepo.setNewLevel(newRank,this.userName);
     this.exRepo.addDoneExercice(this.exo);
     this.navCtrl.push(ResultatPage,{'exercice':this.exo});
   }

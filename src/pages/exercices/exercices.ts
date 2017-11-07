@@ -95,7 +95,7 @@ export class ExercicesPage {
     alertInterval.addButton({
       text: 'OK',
       handler: data => {
-        this.navCtrl.push(QuestionsPage,{difficulty:this.difficulty,exercice_type:exTypeSelected,selectedIntervals:data})
+        this.navCtrl.push(QuestionsPage,{difficulty:this.difficulty,exercice_type:exTypeSelected,selected_intervals:data})
       }
     });
 

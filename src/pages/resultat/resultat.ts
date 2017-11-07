@@ -4,6 +4,7 @@ import { Question } from "../../models/question";
 import { Exercice } from "../../models/exercice";
 import {ExercicesPage} from "../exercices/exercices";
 import {Note} from "../../models/note";
+import {ExerciceRepository} from "../../repository/exercice_repository";
 
 
 /**
@@ -17,25 +18,39 @@ import {Note} from "../../models/note";
 @Component({
   selector: 'page-resultat',
   templateUrl: 'resultat.html',
+  providers: [ExerciceRepository]
 })
 export class ResultatPage {
 
   exercice : Exercice;
-  score : number;
+  score : number = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  scorePourcent = 0;
+  scoreLabel = "10/10";
+  typeLabel = "Type";
+  questions: Array<Question> = [];
+  numberLabel = "x0";
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public exorepo: ExerciceRepository) {
 
     this.exercice = this.navParams.get('exercice');
-    this.score = Exercice.getScore(this.exercice.questions);
 
-    console.log(this.exercice)
+
+    let score = Exercice.getScore(this.exercice.questions);
+
+    this.scoreLabel = score + "/" + this.exercice.questions.length;
+    this.typeLabel = this.exercice.type.name;
+    this.questions = this.exercice.questions;
+    this.numberLabel = "x" + this.exercice.questions.length;
+    this.scorePourcent = score/this.exercice.questions.length * 100;
+
   }
 
-  static progressLabel(exercice: Exercice) {
+  progressLabel(exercice: Exercice) {
     return Exercice.getScore(exercice.questions) + '/' + exercice.questions.length
   }
 
-  static progressPourcent(exercice: Exercice) {
+  progressPourcent(exercice: Exercice) {
     return Exercice.getScore(exercice.questions)/exercice.questions.length * 100
   }
 

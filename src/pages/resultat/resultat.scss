@@ -14,6 +14,13 @@ page-resultat {
     opacity: 1 !important;
   }
 
+  ion-label {
+    opacity: 1 !important;
+    font-size: 1.3em;
+    font-weight: 400 !important;
+  }
+
+
   @keyframes grow {
     0% {
       font-size: 0;

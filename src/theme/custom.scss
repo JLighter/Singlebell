@@ -37,9 +37,14 @@ ion-card {
 
   }
 
-  ion-title.#{nth($color, 1)} .toolbar-title,
-  h1.#{nth($color, 1)} {
+  ion-title.#{nth($color, 1)} .toolbar-title {
     color: #{nth($color, 2)} !important;
+  }
+
+  @for $i from 0 through 10 {
+    *.#{nth($color, 1)} {
+      color: #{nth($color, 2)} !important;
+    }
   }
 }
 

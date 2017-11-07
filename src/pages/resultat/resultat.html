@@ -13,11 +13,14 @@
       <ion-card>
 
         <ion-card-header>
-          <h2 float-start>{{ exercice.type.name }}</h2>
-          <h1 class="primary grow" float-end>{{ score }} / {{exercice.questions.length}}</h1>
+          <h2 float-start>{{ typeLabel }}</h2>
+          <h1 class="primary grow" float-end>{{ scoreLabel }}</h1>
         </ion-card-header>
 
         <ion-list>
+          <ion-item-divider color="light">
+            <progress-bar [progress]="scorePourcent" [label]="scoreLabel"></progress-bar>
+          </ion-item-divider>
 
           <ion-item-divider color="light">
             Questions
@@ -27,9 +30,9 @@
 
             <!-- Start listing exercices for current type -->
               <!-- Exercice start -->
-              <ion-item padding *ngFor="let question of exercice.questions; let i = index" justify-content-center="">
-                  <h2 item-start>{{labelForAnswer(question, question.correctAnswer)}}</h2>
-                <h3>{{labelForAnswer(question, question.givenAnswer)}}</h3>
+              <ion-item padding *ngFor="let question of questions; let i = index">
+                  <ion-label class="primary" item-start>Correct : {{labelForAnswer(question, question.correctAnswer)}}</ion-label>
+                  <ion-label [ngClass]="{'grey' : question.correct == false, 'primary' : question.correct == true}" item-start>Given : {{labelForAnswer(question, question.givenAnswer)}}</ion-label>
                   <ion-checkbox item-end [ngModel]="question.correct" color="primary" disabled></ion-checkbox>
               </ion-item>
               <!-- Exercice end -->
@@ -39,7 +42,7 @@
         </ion-list>
 
         <ion-item>
-          <h4 text-center>x{{ exercice.questions.length }}</h4>
+          <h4 text-center>{{ numberLabel }}</h4>
         </ion-item>
 
       </ion-card>
