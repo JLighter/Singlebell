@@ -48,7 +48,7 @@ export class HomePage {
   initCategories() {
 
     this.categories.push(new Categorie(
-      ExercicesPage,
+      null,
       'Programme',
       'easel',
       "Un exercice spécialement choisi pour vous !",
@@ -89,7 +89,7 @@ export class HomePage {
   }
 
   pushFor(categorie: Categorie) {
-    if (categorie.name == 'Au programme') {
+    if (categorie.name == 'Programme') {
       if (!this.programLocked) this.launchProgramme()
     } else {
       this.navCtrl.push(categorie.page);
