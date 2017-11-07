@@ -16,7 +16,8 @@ export class ToneUtilities {
     if (interval.length != 2) return;
 
     let synths = new Tone.Synth(interval.length, Tone.Synth).toMaster();
-
+    console.log('inter1: '+interval[0].name);
+    console.log('inter2: '+interval[1].name);
     synths.triggerAttackRelease(interval[0].name, "1n");
     setTimeout(()=> synths.triggerAttackRelease(interval[1].name, "1n"), delay);
   }
