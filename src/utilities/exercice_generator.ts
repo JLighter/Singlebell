@@ -65,6 +65,8 @@ export class ExerciceGenerator {
         // Generating good array of notes
         if (exercice.type.id == 0) {
 
+
+          // Good interval appear only 50% of time
           if (selectedRanges) {
             fixed = true;
             interval = selectedRanges[Utils.generateRandomInteger(0, selectedRanges.length-1)]
@@ -83,6 +85,8 @@ export class ExerciceGenerator {
         }
 
       })().then((notes) => {
+
+        // Selecting correct answer by type
         var goodAnswer: Note;
 
         switch(exercice.type.id) {
@@ -92,15 +96,12 @@ export class ExerciceGenerator {
 
         question = new Question(nbChoix, range, goodAnswer, notes, false, rank);
 
+        // Generating false questions
         return this.answers(exercice.type, question, !isSelectedIntervalGoodAnswer ? [interval] : null);
 
       }).then(function(answers) {
 
         question.answers = answers;
-
-        if (!isSelectedIntervalGoodAnswer) {
-          question.answers.push()
-        }
 
         resolve(question)
 
@@ -128,12 +129,12 @@ export class ExerciceGenerator {
     range = Utils.generateRandomInteger(rank / 100 + 1, rank / 100 + randRange);
 
     if (nbChoix > 8) nbChoix = 8;
-    if (range > 15) nbChoix = 15;
+    if (range > 15) range = 15;
 
     return [range, nbChoix];
   }
 
-  generateChord(minor: boolean): Promise<Array<Note>> {
+  /*generateChord(minor: boolean): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1, 64 - 7);
     let secondNoteP = minor ? firstNoteP + 3 : firstNoteP + 4;
     let thirdNoteP = firstNoteP + 7;
@@ -144,7 +145,7 @@ export class ExerciceGenerator {
         resolve(notes);
       }, (error) => reject(error));
     });
-  }
+  }*/
 
   generateNote(): Promise<Array<Note>> {
     let firstNoteP = Utils.generateRandomInteger(1, 64 - 7);
@@ -172,7 +173,7 @@ export class ExerciceGenerator {
   }
 
   generateInterval(range: number, fixed : boolean = false, interval: number = 0): Promise<Array<Note>> {
-    let firstNoteP = Utils.generateRandomInteger(1+range, 64-range);
+    let firstNoteP = Utils.generateRandomInteger(1+range, 48-range);
 
     var secondNoteP: number;
 
@@ -196,6 +197,9 @@ export class ExerciceGenerator {
 
         // Conserve order betwteen notes
         if (notes[0].position != firstNoteP) notes = notes.reverse();
+
+        console.log(notes);
+
         resolve(notes);
       }, (error) => reject(error));
     });
@@ -207,8 +211,6 @@ export class ExerciceGenerator {
     goodP = question.correctAnswer.position;
 
     let positions = [goodP];
-
-    console.log(addeds);
 
     if (addeds) addeds.forEach((added) => positions.push(+added + question.notes[0].position));
 
@@ -233,7 +235,6 @@ export class ExerciceGenerator {
       positions.push(falseP);
     }
 
-    console.debug("anserws", falseP);
     return this.noteRepository.getNotesByPosition(positions);
   }
 

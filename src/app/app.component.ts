@@ -27,6 +27,8 @@ export class MyApp {
 
     let this_ = this;
 
+    this.storage.clear();
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -104,29 +106,29 @@ export class MyApp {
       new Note("Bb3", 23),
       new Note("B3", 24),
       new Note("C4", 25),
-      new Note("Db4", 27),
-      new Note("D4", 28),
-      new Note("Eb4", 29),
-      new Note("E4", 30),
-      new Note("F4", 31),
-      new Note("Gb4", 32),
-      new Note("G4", 33),
-      new Note("Ab4", 34),
-      new Note("A4", 35),
-      new Note("Bb4", 36),
-      new Note("B4", 37),
-      new Note("C5", 38),
-      new Note("Db5", 39),
-      new Note("D5", 40),
-      new Note("Eb5", 41),
-      new Note("E5", 42),
-      new Note("F5", 43),
-      new Note("Gb5", 44),
-      new Note("G5", 45),
-      new Note("Ab5", 46),
-      new Note("A5", 47),
-      new Note("Bb5", 48),
-      new Note("B5", 49)
+      new Note("Db4", 26),
+      new Note("D4", 27),
+      new Note("Eb4", 28),
+      new Note("E4", 29),
+      new Note("F4", 30),
+      new Note("Gb4", 31),
+      new Note("G4", 32),
+      new Note("Ab4", 33),
+      new Note("A4", 34),
+      new Note("Bb4", 35),
+      new Note("B4", 36),
+      new Note("C5", 37),
+      new Note("Db5", 38),
+      new Note("D5", 39),
+      new Note("Eb5", 40),
+      new Note("E5", 41),
+      new Note("F5", 42),
+      new Note("Gb5", 43),
+      new Note("G5", 44),
+      new Note("Ab5", 45),
+      new Note("A5", 46),
+      new Note("Bb5", 47),
+      new Note("B5", 48)
     ]).catch((error) => console.error(error));
   }
 }

@@ -9,6 +9,7 @@ import {ExtraPage} from "../extra/extra";
 import {SettingsPage} from "../settings/settings";
 import {ExerciceRepository} from "../../repository/exercice_repository";
 import {Exercice} from "../../models/exercice";
+import {Utils} from "../../utilities/utils";
 
 @Component({
   selector: 'page-home',
@@ -47,8 +48,8 @@ export class HomePage {
   initCategories() {
 
     this.categories.push(new Categorie(
-      ExercicesPage,
-      'Au programme',
+      null,
+      'Programme',
       'easel',
       "Un exercice spécialement choisi pour vous !",
       this.programLocked ? 'grey' : 'primary'
@@ -88,7 +89,7 @@ export class HomePage {
   }
 
   pushFor(categorie: Categorie) {
-    if (categorie.name == 'Au programme') {
+    if (categorie.name == 'Programme') {
       if (!this.programLocked) this.launchProgramme()
     } else {
       this.navCtrl.push(categorie.page);
@@ -119,7 +120,12 @@ export class HomePage {
 
     }).then(type => {
 
-      this.navCtrl.push(QuestionsPage,{difficulty:rank,exercice_type:type,isProgram:true})
+      this.navCtrl.push(QuestionsPage,{
+        difficulty:rank,
+        exercice_type:type,
+        is_program:true,
+        selected_intervals:[Utils.generateRandomInteger(2,9)]
+      })
 
     })
   }
