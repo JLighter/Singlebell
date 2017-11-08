@@ -173,7 +173,7 @@ export class ExerciceGenerator {
   }
 
   generateInterval(range: number, fixed : boolean = false, interval: number = 0): Promise<Array<Note>> {
-    let firstNoteP = Utils.generateRandomInteger(1+range, 48-range);
+    let firstNoteP = Utils.generateRandomInteger(2+range, 47-range);
 
     var secondNoteP: number;
 

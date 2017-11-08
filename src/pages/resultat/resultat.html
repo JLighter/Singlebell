@@ -23,7 +23,8 @@
           </ion-item-divider>
 
           <ion-item-divider color="light">
-            Questions
+            <ion-label>Bon</ion-label>
+            <ion-label>Réponse</ion-label>
           </ion-item-divider>
 
           <div class="active list-item-container">
@@ -31,7 +32,7 @@
             <!-- Start listing exercices for current type -->
               <!-- Exercice start -->
               <ion-item padding *ngFor="let question of questions; let i = index">
-                  <ion-label class="primary" item-start>Bon : {{labelForAnswer(question, question.correctAnswer)}}</ion-label>
+                  <ion-label class="primary" item-start>{{labelForAnswer(question, question.correctAnswer)}}</ion-label>
                   <ion-label [ngClass]="{'grey' : question.correct == false, 'primary' : question.correct == true}" item-start>{{labelForAnswer(question, question.givenAnswer)}}</ion-label>
                   <ion-checkbox item-end [ngModel]="question.correct" color="primary" disabled></ion-checkbox>
               </ion-item>

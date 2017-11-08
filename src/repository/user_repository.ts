@@ -28,7 +28,6 @@ export class UserRepository {
       return this.storage.set(Constant.db_user_key, user)
     })
 
-
   }
 
 }

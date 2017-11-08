@@ -6,7 +6,7 @@
 
 
 <ion-content>
-    <ion-card *ngFor="let categorie of categories" ngClass="card-{{categorie.type}}" (click)="pushFor(categorie)">
+    <ion-card *ngFor="let categorie of categories" [ngClass]="{'card-grey': programLocked == true && categorie.name == 'Programme', 'card-primary' : programLocked == false && categorie.name == 'Programme', 'card-primary': true}" (click)="pushFor(categorie)">
       <ion-card-header>
         <h1>
           {{ categorie.name }}
@@ -18,8 +18,8 @@
           <ion-col col-12 col-md-6 no-padding text-center text-md-left>
             <span item-start>{{ categorie.description }}</span>
           </ion-col>
-          <ion-col col-12 col-md-6 no-padding text-center text-md-right>
-            <p item-end *ngIf="programLocked == true && categorie.name == 'Au programme'">
+          <ion-col col-12 col-md-6 no-padding text-center text-md-right *ngIf="programLocked == true && categorie.name == 'Programme'">
+            <p item-end >
               Prochain le {{ lockTimer | date : 'dd MMMM à HH:mm' }}
             </p>
           </ion-col>
