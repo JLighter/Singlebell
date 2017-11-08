@@ -27,8 +27,6 @@ export class MyApp {
 
     let this_ = this;
 
-    this.storage.clear();
-
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -68,8 +66,8 @@ export class MyApp {
   populateStorage(): Promise<any> {
     let _this = this;
 
-    let symphType = new ExerciceType(0, "Intervale", "musical-note", "Identifiez l'interval joué");
-    let absType = new ExerciceType(1, "Absolue", "eye-off", "Identifiez la note joué");
+    let symphType = new ExerciceType(0, "Intervalle", "musical-note", "Identifiez l'intervalle joué");
+    let absType = new ExerciceType(1, "Note", "eye-off", "Identifiez la note joué");
 
     let types = [];
 

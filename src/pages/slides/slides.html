@@ -14,25 +14,25 @@
   <ion-slides pager>
 
     <ion-slide>
-      <img class="logo" src="../../assets/logo/logohdpi.png">
+      <img class="logo" src="assets/logo/logohdpi.png">
       <h1 class="primary">Bienvenue sur SingleBell</h1>
     </ion-slide>
 
     <ion-slide>
-      <img class="ear" src="../../assets/icon/ear.png">
+      <img class="ear" src="assets/icon/ear.png">
       <p>Single Bell a pour objectif d'exercer quotidiennement votre oreille musicale par le biais de divers exercices.</p>
     </ion-slide>
 
     <ion-slide>
-      <img class="ear" src="../../assets/img/Music_Notes.png">
+      <img class="ear" src="assets/img/Music_Notes.png">
       <p>Avant d'utiliser Single Bell il est important de connaitre les bases de la théorie musicale.</p>
-      <p>Savoir ce qu'est une intervalle, un accord, une tierce majeure par exemple est primordiale.</p>
-      <p>Si vous n'avez aucune connaissance de ces notions nous vous conseillons vivement de vous documentez <br/>ou de vous renseignez auprs de votre enseignant de musique.</p>
+      <p>Savoir ce qu'est un intervalle, un accord, une tierce majeure par exemple est primordial.</p>
+      <p>Si vous n'avez aucune connaissance de ces notions nous vous conseillons vivement de vous documenter <br/>ou de vous renseigner auprès de votre enseignant de musique.</p>
     </ion-slide>
 
     <ion-slide justify-content-center>
       <h3>Quel est ton nom ?</h3>
-      <ion-input col-10 push-1 [(ngModel)]="userName" placeholder="e.g : Francis"></ion-input>
+      <ion-input style="position: initial" col-10 push-1 [(ngModel)]="userName" placeholder="e.g : Francis"></ion-input>
       <button ion-button (click)="exit()">Bienvenue {{userName}} !</button>
     </ion-slide>
 

@@ -6,7 +6,6 @@ import { ExercicesPage } from "../exercices/exercices";
 import { QuestionsPage } from "../questions/questions"
 import {ProgressPage} from "../progress/progress";
 import {ExtraPage} from "../extra/extra";
-import {SettingsPage} from "../settings/settings";
 import {ExerciceRepository} from "../../repository/exercice_repository";
 import {Exercice} from "../../models/exercice";
 import {Utils} from "../../utilities/utils";
@@ -67,7 +66,7 @@ export class HomePage {
       ProgressPage,
       'Progression',
       'podium',
-      'Les statistique sur votre progression.',
+      'Les statistiques de votre progression.',
       'primary'
     ));
 
@@ -75,15 +74,7 @@ export class HomePage {
       ExtraPage,
       'Extra',
       'game-controller-a',
-      'Des jeux à faire tout le temps !',
-      'primary'
-    ));
-
-    this.categories.push(new Categorie(
-      SettingsPage,
-      'Settings',
-      'settings',
-      'Parametrer votre application !',
+      'Des jeux bonus !',
       'primary'
     ));
   }

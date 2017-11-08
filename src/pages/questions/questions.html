@@ -8,7 +8,7 @@
   <ion-navbar hideBackButton="true" color="primary">
     <ion-title>{{type.name}}</ion-title>
     <ion-buttons end>
-      <button ion-button clear readonly>Level {{rank}}</button>
+      <button ion-button clear readonly>Niveau {{rank}}</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -16,12 +16,12 @@
     <ion-grid>
       <ion-row justify-content-center>
         <ion-col>
-          <p>Questions {{nbQuestion}}/{{nbQuestionMax}}</p>
+          <p>Question {{nbQuestion}}/{{nbQuestionMax}}</p>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
         <ion-col style="text-align:center">
-          <p>{{type.description}} ?</p>
+          <p>{{type.description}}</p>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
@@ -38,8 +38,8 @@
       </ion-row>
       <ion-row justify-content-center>
         <ion-col ng col-3 class="choices" *ngFor="let choice of choices" (click)="checkAnswer(choice,$event)" [ngSwitch]="choice.name == currentQuestion.correctAnswer.name">
-          <button *ngSwitchCase="true" class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
-          <button *ngSwitchCase="false"  class="text-transform" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
+          <button *ngSwitchCase="true" class="transform_note" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableGood':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
+          <button *ngSwitchCase="false"  class="transform_note" ion-button (click)="playSoundFromChoices(choice)" [ngClass]="{'disableFalse':btnSwitch,'enable':!btnSwitch}" >{{labelForAnswer(currentQuestion, choice)}}</button>
         </ion-col>
       </ion-row>
       <ion-row>

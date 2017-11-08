@@ -31,8 +31,8 @@
             <!-- Start listing exercices for current type -->
               <!-- Exercice start -->
               <ion-item padding *ngFor="let question of questions; let i = index">
-                  <ion-label class="primary" item-start>Correct : {{labelForAnswer(question, question.correctAnswer)}}</ion-label>
-                  <ion-label [ngClass]="{'grey' : question.correct == false, 'primary' : question.correct == true}" item-start>Given : {{labelForAnswer(question, question.givenAnswer)}}</ion-label>
+                  <ion-label class="primary" item-start>Bon : {{labelForAnswer(question, question.correctAnswer)}}</ion-label>
+                  <ion-label [ngClass]="{'grey' : question.correct == false, 'primary' : question.correct == true}" item-start>{{labelForAnswer(question, question.givenAnswer)}}</ion-label>
                   <ion-checkbox item-end [ngModel]="question.correct" color="primary" disabled></ion-checkbox>
               </ion-item>
               <!-- Exercice end -->

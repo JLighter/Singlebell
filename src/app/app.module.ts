@@ -7,7 +7,6 @@ import { HomePage } from '../pages/home/home';
 import { ExercicesPage } from "../pages/exercices/exercices";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { NativeAudio } from "@ionic-native/native-audio";
 import { IonicStorageModule } from "@ionic/storage";
 import { EloPage } from "../pages/elo/elo";
 import {FormsModule} from "@angular/forms";
@@ -25,7 +24,6 @@ import {ExerciceGenerator} from "../utilities/exercice_generator";
 import {ExerciceRepository} from "../repository/exercice_repository";
 import {NoteRepository} from "../repository/note_repository";
 import {UserRepository} from "../repository/user_repository";
-import {SettingsPage} from "../pages/settings/settings";
 
 @NgModule({
   declarations: [
@@ -41,7 +39,6 @@ import {SettingsPage} from "../pages/settings/settings";
     QuestionsPage,
     GeneratorPage,
     ResultatPage,
-    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -64,12 +61,10 @@ import {SettingsPage} from "../pages/settings/settings";
     ExtraPage,
     GeneratorPage,
     ResultatPage,
-    SettingsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    NativeAudio,
     ExerciceGenerator,
     ExerciceRepository,
     NoteRepository,
